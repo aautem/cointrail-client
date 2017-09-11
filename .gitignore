@@ -1,7 +1,7 @@
 # Logs
 logs
 *.log
-npm-debug.log*
+npm-debug.*
 yarn-debug.log*
 yarn-error.log*
 
@@ -31,6 +31,7 @@ bower_components
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
+.expo/
 
 # Dependency directories
 node_modules/
@@ -56,4 +57,3 @@ typings/
 
 # dotenv environment variables file
 .env
-
