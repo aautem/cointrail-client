@@ -6,9 +6,9 @@ export default class RowContainer extends React.Component {
   render() {
     return (
       <View style={styles.rowContainer}>
-        <Coin color='white' />
-        <Coin color='white' />
-        <Coin color='white' />
+        <Coin player={this.props.row[0]} />
+        <Coin player={this.props.row[1]} />
+        <Coin player={this.props.row[2]} />
       </View>
     );
   }
