@@ -1,14 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Coin from './coin';
+import DropButton from './drop-button';
 
 export default class DropZoneContainer extends React.Component {
   render() {
     return (
       <View style={styles.rowContainer}>
-        <Coin color='black' />
-        <Coin color='black' />
-        <Coin color='black' />
+        <DropButton column={0} dropCoin={this.props.dropCoin} />
+        <DropButton column={1} dropCoin={this.props.dropCoin} />
+        <DropButton column={2} dropCoin={this.props.dropCoin} />
       </View>
     );
   }
