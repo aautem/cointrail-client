@@ -57,8 +57,37 @@ export default class App extends React.Component {
     if (this.checkRows(board) || this.checkColumns(board) || this.checkDiagonals(board)) {
       setTimeout(() => {
         alert(`Player ${this.state.turn} wins!`);
+        this.resetGameBoard();
       }, 500);
     }
+    if (this.checkForTie(board)) {
+      setTimeout(() => {
+        alert(`Tie Game`);
+        this.resetGameBoard();
+      }, 500);
+    }
+  }
+
+  checkForTie(board) {
+    let tieGame = true;
+    board.forEach((row, rowIndex) => {
+      row.forEach((column, columnIndex) => {
+        if (!board[rowIndex][columnIndex]) {
+          tieGame = false;
+        }
+      });
+    });
+    return tieGame;
+  }
+
+  resetGameBoard() {
+    this.setState((state) => {
+      const board = state.board.map((row) => {
+        return [0, 0, 0];
+      });
+      state.board = board;
+      return state;
+    });
   }
 
   checkRows(board) {
