@@ -13,7 +13,7 @@ export default class Coin extends React.Component {
     const color = this.getColor();
 
     return (
-      <View style={[styles.coin, { backgroundColor: styles[color] }]} />
+      <View style={[styles.coin, styles[color]]} />
     );
   }
 }
@@ -25,12 +25,12 @@ const styles = StyleSheet.create({
     margin: '5%',
   },
   player1: {
-    color: 'blue',
+    backgroundColor: 'blue',
   },
   player2: {
-    color: 'red',
+    backgroundColor: 'red',
   },
   empty: {
-    color: 'white',
+    backgroundColor: 'white',
   },
 });

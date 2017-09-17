@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { DropZoneContainer } from './drop-zone-container';
+import DropZoneContainer from './drop-zone-container';
 import RowContainer from './row-container';
 
 export default class BoardContainer extends React.Component {
-  render() {
+  render() {    
     return (
       <View style={styles.boardContainer}>
         <DropZoneContainer dropCoin={this.props.dropCoin} />
