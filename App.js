@@ -9,7 +9,7 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      game: [
+      board: [
         [0, 0, 0],
         [0, 0, 0],
         [0, 0, 0]
@@ -19,34 +19,117 @@ export default class App extends React.Component {
     };
 
     this.dropCoin = this.dropCoin.bind(this);
-    this.checkForWinner = this.checkForWinner.bind(this);
-    this.checkRows = this.checkRows.bind(this);
-    this.checkColumns = this.checkColumns.bind(this);
-    this.checkDiagonals = this.checkDiagonals.bind(this);
-    this.switchTurn = this.switchTurn.bind(this);
   }
 
   dropCoin(column) {
-    // drop a coin
-
-    this.checkForWinner();
-    this.switchTurn();
+    const row = this.checkForEmptyRow(column);
+    if (typeof row === 'number') {
+      const updatedBoard = this.addCoin(row, column);
+      this.checkForWinner(updatedBoard);
+      this.switchTurn();
+    } else {
+      alert('No empty spaces, try another column.');
+    }
   }
 
-  checkForWinner() {
-    // null / 1 / 2
+  checkForEmptyRow(column) {
+    let lastRow = this.state.board.length - 1;
+    while(lastRow >= 0) {
+      if (this.state.board[lastRow][column] === 0) {
+        return lastRow;
+      }
+      lastRow --;
+    }
+    return null;
   }
 
-  checkRows() {
-    // check each row
+  addCoin(row, column) {
+    let board = this.state.board.slice();
+    board[row][column] = this.state.turn;
+    this.setState((state) => {
+      this.state.board = board;
+      return state;
+    });
+    return board;
   }
 
-  checkColumns() {
-    // check each column
+  checkForWinner(board) {
+    if (this.checkRows(board) || this.checkColumns(board) || this.checkDiagonals(board)) {
+      setTimeout(() => {
+        alert(`Player ${this.state.turn} wins!`);
+      }, 500);
+    }
   }
 
-  checkDiagonals() {
-    // check diagonals
+  checkRows(board) {
+    let winner = false;
+    board.forEach((row) => {
+      const rowWinner = row.reduce((prevPlayer, player) => {
+        if (prevPlayer && player === prevPlayer) {
+          return prevPlayer;
+        }
+        return null;
+      });
+      if (rowWinner) {
+        winner = true;
+      }
+    });
+    return winner;
+  }
+
+  getBoardColumns(board) {
+    let columns = [[], [], []];
+    columns.forEach((column, columnIndex) => {
+      board.forEach((row) => {
+        column.push(row[columnIndex]);
+      });
+    });
+    return columns;
+  }
+
+  checkColumns(board) {
+    let winner = false;
+    const columns = this.getBoardColumns(board);
+    columns.forEach((column) => {
+      const columnWinner = column.reduce((prevPlayer, player) => {
+        if (prevPlayer && player === prevPlayer) {
+          return prevPlayer;
+        }
+        return null;
+      });
+      if (columnWinner) {
+        winner = true;
+      }
+    });
+    return winner;
+  }
+
+  checkTopLeftDiagonal(board) {
+    // 00, 11, 22
+    let winner = false;
+    let prevPlayer = board[0][0];
+    if (prevPlayer !== 0 && board[1][1] === prevPlayer) {
+      if (board[2][2] === prevPlayer) {
+        winner = true;
+      }
+    }
+    return winner;
+  }
+
+  checkBottomLeftDiagonal(board) {
+    // 02, 11, 20
+    let winner = false;
+    let prevPlayer = board[0][2];
+    if (prevPlayer && board[1][1] === prevPlayer) {
+      if (board[2][0] === prevPlayer) {
+        winner = true;
+      }
+    }
+    return winner;
+  }
+
+  checkDiagonals(board) {
+    return this.checkTopLeftDiagonal(board) || this.checkBottomLeftDiagonal(board);
   }
 
   switchTurn() {
