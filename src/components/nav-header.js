@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     color: 'grey',
     fontWeight: 'bold',
     textAlign: 'center',
-    paddingTop: 26,
+    paddingTop: 28,
     fontSize: 20,
   },
 });
