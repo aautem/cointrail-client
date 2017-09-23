@@ -15,7 +15,9 @@ export default class Coin extends React.Component {
   }
 
   getPointsIcon() {
-    if (this.props.points === 10) {
+    if (this.props.points === 5) {
+      return (<Icon iconStyle={styles.icon} type='entypo' name='bell' color='steelblue' size={18} />);
+    } else if (this.props.points === 10) {
       return (<Icon iconStyle={styles.icon} type='entypo' name='bug' color='steelblue' size={18} />);
     } else if (this.props.points === 25) {
       return (<Icon iconStyle={styles.icon} type='entypo' name='flower' color='steelblue' size={18} />);
@@ -29,16 +31,16 @@ export default class Coin extends React.Component {
     return null;
   }
 
-  // {this.props.player === 0 &&
-  //   <Text style={styles.points}>{this.props.points}</Text>
-  // }
+  // {this.props.player === 0 && icon}
 
   render() {
     const color = this.getColor();
-    const icon = this.getPointsIcon();
+    // const icon = this.getPointsIcon();
     return (
       <View style={[styles.coin, styles[color]]}>
-        {this.props.player === 0 && this.getPointsIcon()}
+      {this.props.player === 0 &&
+        <Text style={styles.points}>{this.props.points}</Text>
+      }
       </View>
     );
   }
