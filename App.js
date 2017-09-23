@@ -10,14 +10,18 @@ export default class App extends React.Component {
 
     this.state = {
       board: this.buildGameboard(4),
+      boardPoints: this.getboardPoints(4),
       turn: 1, // p1 or p2
       winner: null, // null, 1, 2
-      size: 4 // board size
+      size: 4, // board size
+      player1Score: 0,
+      player2Score: 0,
     };
 
     this.dropCoin = this.dropCoin.bind(this);
   }
 
+  // TODO: combine build and get board points into single init function
   buildGameboard(size) {
     let gameboard = [];
     for (let row = 0; row < size; row ++) {
@@ -29,15 +33,48 @@ export default class App extends React.Component {
     return gameboard;
   }
 
-  dropCoin(column) {
-    const row = this.checkForEmptyRow(column);
+  // TODO: make work for any board size
+  getboardPoints(size) {
+    // 10: 8 // 25: 4 // 50: 2 // 100: 1 // 150: 1
+    let pointValues = [10, 25, 50, 100, 150];
+    let valuesLeft = [8, 4, 2, 1, 1];
+    let boardPoints = [];
+    for (let row = 0; row < size; row ++) {
+      boardPoints[row] = [];
+      for (let col = 0; col < size; col ++) {
+        const index = Math.floor(Math.random() * pointValues.length);
+        boardPoints[row].push(pointValues[index]);
+        valuesLeft[index] --;
+        if (!valuesLeft[index]) {
+          pointValues = pointValues.slice(0, index).concat(pointValues.slice(index + 1));
+          valuesLeft = valuesLeft.slice(0, index).concat(valuesLeft.slice(index + 1));
+        }
+      }
+    }
+    return boardPoints;
+  }
+
+  dropCoin(col) {
+    const row = this.checkForEmptyRow(col);
     if (typeof row === 'number') {
-      const updatedBoard = this.addCoin(row, column);
-      this.checkForWinner(updatedBoard);
-      this.switchTurn();
+      this.collectPoints(row, col);
+      const updatedBoard = this.addCoin(row, col);
+      setTimeout(() => {
+        this.checkForWinner(updatedBoard);
+        this.switchTurn();
+      }, 0);
     } else {
       alert('No empty spaces, try another column.');
     }
+  }
+
+  collectPoints(row, col) {
+    const points = this.state.boardPoints[row][col];
+    const playerScoreKey = `player${this.state.turn}Score`;
+    this.setState((state) => {
+      state[playerScoreKey] = state[playerScoreKey] += points;
+      return state;
+    });
   }
 
   checkForEmptyRow(column) {
@@ -89,16 +126,25 @@ export default class App extends React.Component {
     const winner = this.checkWinPossibilities(winPossibilities);
     if (winner) {
       setTimeout(() => {
-        alert(`Player ${this.state.turn} wins!`);
+        alert(`.~::  C O N T R A I L  ::~.`);
+        this.resetScoreboard();
         this.resetGameboard();
       }, 500);
     }
     if (this.checkForTie(board)) {
+      let winningPlayer = this.getWinnerByPoints();
+      let firstScore = winningPlayer === 1 ? this.state.player1Score : this.state.player2Score;
+      let secondScore = winningPlayer === 1 ? this.state.player2Score : this.state.player1Score;
       setTimeout(() => {
-        alert(`Tie Game`);
+        alert(`Player ${winningPlayer} (${firstScore} - ${secondScore})`);
+        this.resetScoreboard();
         this.resetGameboard();
       }, 500);
     }
+  }
+
+  getWinnerByPoints() {
+    return this.state.player1Score >= this.state.player2Score ? 1 : 2;
   }
 
   // TODO: use for loops instead of forEach to return at first zero found (0, 0 most likely to be empty)
@@ -118,6 +164,14 @@ export default class App extends React.Component {
     const newGameboard = this.buildGameboard(this.state.size);
     this.setState((state) => {
       state.board = newGameboard;
+      return state;
+    });
+  }
+
+  resetScoreboard() {
+    this.setState((state) => {
+      state.player1Score = 0;
+      state.player2Score = 0;
       return state;
     });
   }
@@ -166,9 +220,10 @@ export default class App extends React.Component {
         <NavContainer />
         <BoardContainer
           board={this.state.board}
+          boardPoints={this.state.boardPoints}
           dropCoin={this.dropCoin}
         />
-        <GutterContainer />
+        <GutterContainer player1Score={this.state.player1Score} player2Score={this.state.player2Score} />
       </View>
     );
   }
