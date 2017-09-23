@@ -1,5 +1,9 @@
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+
+// key: React string
+// column: number
+// dropCoin: method
 
 export default class DropButton extends React.Component {
   drop() {
@@ -8,14 +12,9 @@ export default class DropButton extends React.Component {
 
   render() {
     return (
-      <View style={styles.button}>
-        <Button
-          onPress={this.drop.bind(this)}
-          title="Drop"
-          color='white'
-          accessibilityLabel={`Drop column ${this.props.column} coin`}
-        />
-      </View>
+      <TouchableOpacity style={styles.button} onPress={this.drop.bind(this)}>
+        <Text style={styles.label}>DROP</Text>
+      </TouchableOpacity>
     );
   }
 }
@@ -23,8 +22,19 @@ export default class DropButton extends React.Component {
 const styles = StyleSheet.create({
   button: {
     flex: 1,
-    backgroundColor: 'grey',
+    backgroundColor: 'transparent',
     borderRadius: 100,
+    borderWidth: 2,
+    borderColor: 'white',
+    borderStyle: 'dashed',
     margin: '5%',
+  },
+  label: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    lineHeight: 65,
+    fontSize: 12,
+    backgroundColor: 'transparent',
   },
 });
