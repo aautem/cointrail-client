@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { Icon } from 'react-native-elements';
 
 // key: React string
 // column: number
@@ -13,7 +14,13 @@ export default class DropButton extends React.Component {
   render() {
     return (
       <TouchableOpacity style={styles.button} onPress={this.drop.bind(this)}>
-        <Text style={styles.label}>drop</Text>
+        <Icon
+          iconStyle={styles.icon}
+          type='entypo'
+          name='chevron-with-circle-down'
+          color='white'
+          size={48}
+        />
       </TouchableOpacity>
     );
   }
@@ -24,16 +31,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'transparent',
     borderRadius: 100,
-    borderWidth: 2,
-    borderColor: 'white',
-    borderStyle: 'dashed',
     margin: '5%',
   },
-  label: {
-    color: 'white',
-    textAlign: 'center',
-    paddingTop: 15,
-    fontSize: 12,
+  icon: {
     backgroundColor: 'transparent',
   },
 });
