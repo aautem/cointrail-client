@@ -2,11 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-export default class MenuButton extends React.Component {
-  handleButtonPress() {
-    console.log('Menu Button Pressed');
-  }
-  
+export default class MenuButton extends React.Component {  
   render() {
     return (
       <View style={styles.menuBtnContainer}>
@@ -16,7 +12,7 @@ export default class MenuButton extends React.Component {
           name='menu'
           color='grey'
           size={24}
-          onPress={this.handleButtonPress}
+          onPress={this.props.quitGame}
         />
       </View>
     );
@@ -29,7 +25,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   icon: {
-    paddingTop: 27,
+    paddingTop: 30,
     paddingLeft: 10,
     backgroundColor: 'transparent',
   },
