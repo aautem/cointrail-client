@@ -1,15 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-// import MenuBtn from 'menu-btn';
-// import AccountBtn from 'account-btn';
+import MenuButton from './menu-btn';
+import SettingsButton from './settings-btn';
+import NavHeader from './nav-header';
 
 export default class NavContainer extends React.Component {
   render() {
     return (
       <View style={styles.navContainer}>
-        {/* <MenuBtn /> */}
-        <Text style={styles.titleText}>{'.~::  C O N T R A I L  ::~.'}</Text>
-        {/* <AccountBtn /> */}
+        <MenuButton />
+        <NavHeader />
+        <SettingsButton />
       </View>
     );
   }
@@ -19,12 +20,6 @@ const styles = StyleSheet.create({
   navContainer: {
     flex: 1,
     backgroundColor: 'white',
-  },
-  titleText: {
-    color: 'grey',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    paddingTop: 26,
-    fontSize: 20,
+    flexDirection: 'row',
   },
 });
