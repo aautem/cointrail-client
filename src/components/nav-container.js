@@ -8,7 +8,7 @@ export default class NavContainer extends React.Component {
   render() {
     return (
       <View style={styles.navContainer}>
-        <MenuButton />
+        <MenuButton quitGame={this.props.quitGame} />
         <NavHeader />
         <SettingsButton />
       </View>
