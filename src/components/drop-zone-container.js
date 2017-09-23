@@ -23,5 +23,6 @@ const styles = StyleSheet.create({
   rowContainer: {
     flex: 1,
     flexDirection: 'row',
+    paddingTop: '2%',
   },
 });
