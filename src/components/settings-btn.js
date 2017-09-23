@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   icon: {
-    paddingTop: 28,
+    paddingTop: 30,
     paddingRight: 5,
     backgroundColor: 'transparent',
   },
