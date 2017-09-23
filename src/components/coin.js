@@ -1,6 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+// key: React string
+// player: number
+
 export default class Coin extends React.Component {
   getColor() {
     if (this.props.player === 0) {
@@ -22,7 +25,7 @@ const styles = StyleSheet.create({
   coin: {
     flex: 1,
     borderRadius: 100,
-    margin: '5%',
+    margin: '3%',
   },
   player1: {
     backgroundColor: 'blue',
