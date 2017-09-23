@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import NavContainer from './nav-container';
 import BoardContainer from './board-container';
 import GutterContainer from './gutter-container';
 
@@ -8,7 +7,7 @@ import GutterContainer from './gutter-container';
 // theme: Gameboard Theme (default | light | dark)
 // series: number
 
-export default class Game extends React.Component {
+export default class GameContainer extends React.Component {
   constructor(props) {
     super(props);
 
@@ -236,7 +235,6 @@ export default class Game extends React.Component {
   render() {
     return (
       <View style={styles.gameContainer}>
-        <NavContainer />
         <BoardContainer
           board={this.state.board}
           boardPoints={this.state.boardPoints}
@@ -250,6 +248,6 @@ export default class Game extends React.Component {
 
 const styles = StyleSheet.create({
   gameContainer: {
-    flex: 1,
+    flex: 9,
   },
 });
