@@ -2,13 +2,18 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Coin from './coin';
 
+// key: React string
+// row: Gameboard Row
+
 export default class RowContainer extends React.Component {
   render() {
     return (
       <View style={styles.rowContainer}>
-        <Coin player={this.props.row[0]} />
-        <Coin player={this.props.row[1]} />
-        <Coin player={this.props.row[2]} />
+        {this.props.row.map((player, index) => {
+          return (
+            <Coin key={`col-${index}`} player={player} />
+          );
+        })}
       </View>
     );
   }
