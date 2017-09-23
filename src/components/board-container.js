@@ -3,14 +3,19 @@ import { StyleSheet, Text, View } from 'react-native';
 import DropZoneContainer from './drop-zone-container';
 import RowContainer from './row-container';
 
+// board: Gameboard
+// dropCoin: method
+
 export default class BoardContainer extends React.Component {
-  render() {    
+  render() {
     return (
       <View style={styles.boardContainer}>
-        <DropZoneContainer dropCoin={this.props.dropCoin} />
-        <RowContainer row={this.props.board[0]} />
-        <RowContainer row={this.props.board[1]} />
-        <RowContainer row={this.props.board[2]} />
+        <DropZoneContainer board={this.props.board} dropCoin={this.props.dropCoin} />
+        {this.props.board.map((row, index) => {
+          return (
+            <RowContainer key={`row-${index}`} row={row} />
+          );
+        })}
       </View>
     );
   }
@@ -18,7 +23,9 @@ export default class BoardContainer extends React.Component {
 
 const styles = StyleSheet.create({
   boardContainer: {
-    flex: 7,
+    flex: 8,
+    paddingLeft: '3%',
+    paddingRight: '3%',
     backgroundColor: 'steelblue',
   },
 });
