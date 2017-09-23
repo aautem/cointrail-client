@@ -13,7 +13,7 @@ export default class DropButton extends React.Component {
   render() {
     return (
       <TouchableOpacity style={styles.button} onPress={this.drop.bind(this)}>
-        <Text style={styles.label}>DROP</Text>
+        <Text style={styles.label}>drop</Text>
       </TouchableOpacity>
     );
   }
@@ -31,9 +31,8 @@ const styles = StyleSheet.create({
   },
   label: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
-    lineHeight: 65,
+    paddingTop: 15,
     fontSize: 12,
     backgroundColor: 'transparent',
   },
