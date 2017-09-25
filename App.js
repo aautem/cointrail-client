@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import NavContainer from './src/components/nav-container';
 import MainMenuContainer from './src/components/main-menu-container';
+import GameOptionsModal from './src/components/game-options-modal';
 import GameContainer from './src/components/game-container';
 // import Auth0 from 'react-native-auth0';
 
@@ -18,9 +19,15 @@ export default class App extends React.Component {
       user: 'aautem',
       gameInProgress: false,
       stats: null,
+      gameOptionsModalVisible: false,
+      boardSize: null,
+      seriesLength: null,
+      timeLimit: null,
     };
 
-    this.startNewGame = this.startNewGame.bind(this);
+    this.openGameOptionsModal = this.openGameOptionsModal.bind(this);
+    this.closeGameOptionsModal = this.closeGameOptionsModal.bind(this);
+    this.startGame = this.startGame.bind(this);
     this.quitGame = this.quitGame.bind(this);
   }
 
@@ -38,8 +45,26 @@ export default class App extends React.Component {
     //   });
   }
 
-  startNewGame() {
+  openGameOptionsModal() {
     this.setState((state) => {
+      state.gameOptionsModalVisible = true;
+      return state;
+    });
+  }
+
+  closeGameOptionsModal() {
+    this.setState((state) => {
+      state.gameOptionsModalVisible = false;
+      return state;
+    });
+  }
+
+  startGame(boardSize, seriesLength, timeLimit) {
+    this.setState((state) => {
+      state.boardSize = boardSize;
+      state.seriesLength = seriesLength;
+      state.timeLimit = timeLimit;
+      state.gameOptionsModalVisible = false;
       state.gameInProgress = true;
       return state;
     });
@@ -55,11 +80,21 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.appContainer}>
+        <GameOptionsModal
+          visible={this.state.gameOptionsModalVisible}
+          closeGameOptionsModal={this.closeGameOptionsModal}
+          startGame={this.startGame}
+        />
         <NavContainer quitGame={this.quitGame} />
         {!this.state.gameInProgress &&
-        <MainMenuContainer startNewGame={this.startNewGame} />}
+        <MainMenuContainer openGameOptionsModal={this.openGameOptionsModal} />}
         {this.state.gameInProgress &&
-        <GameContainer size={4} theme={'default'} series={3} />}
+        <GameContainer
+          size={this.state.boardSize}
+          series={this.state.seriesLength}
+          time={this.state.timeLimit}
+          theme={'default'}
+        />}
       </View>
     );
   }
