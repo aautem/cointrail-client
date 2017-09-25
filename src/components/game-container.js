@@ -7,6 +7,14 @@ import GutterContainer from './gutter-container';
 // theme: Gameboard Theme (default | light | dark)
 // series: number
 
+const POINT_VALUES = [5, 10, 25, 50, 100, 150];
+
+const VALUES_LEFT = {
+  4: [4, 4, 4, 2, 1, 1], // 16 spaces
+  5: [6, 6, 6, 4, 2, 1], // 25 spaces
+  6: [10, 8, 8, 6, 2, 2], // 36 spaces
+};
+
 export default class GameContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -43,9 +51,8 @@ export default class GameContainer extends React.Component {
 
   // TODO: make work for any board size
   getBoardPoints(size) {
-    // 5: 4 // 10: 4 // 25: 4 // 50: 2 // 100: 1 // 150: 1
-    let pointValues = [5, 10, 25, 50, 100, 150];
-    let valuesLeft = [4, 4, 4, 2, 1, 1];
+    let pointValues = POINT_VALUES.slice();
+    let valuesLeft = VALUES_LEFT[size].slice();
     let boardPoints = [];
     for (let row = 0; row < size; row ++) {
       boardPoints[row] = [];
