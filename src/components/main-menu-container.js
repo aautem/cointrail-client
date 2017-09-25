@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+// OPEN MODAL WITH GAME OPTIONS ON NEW GAME SELECTION
+
 export default class MainMenuContainer extends React.Component {
   render() {
     return (
