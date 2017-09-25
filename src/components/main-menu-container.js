@@ -7,7 +7,7 @@ export default class MainMenuContainer extends React.Component {
   render() {
     return (
       <View style={styles.mainMenuContainer}>
-        <Text style={styles.text} onPress={this.props.startNewGame}>NEW GAME</Text>
+        <Text style={styles.text} onPress={this.props.openGameOptionsModal}>NEW GAME</Text>
         <Text style={styles.text}>HOW TO PLAY</Text>
       </View>
     );
