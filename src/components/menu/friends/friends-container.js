@@ -3,9 +3,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Grid, Col, Row } from 'react-native-easy-grid';
-import { Text } from 'react-native';
+import { View, Text, Dimensions } from 'react-native';
 import { Header, Button } from 'react-native-elements';
 import Carousel from 'react-native-snap-carousel';
+import FriendComponent from './friend';
+
+const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
 function mapStateToProps(state) {
   return {
@@ -28,14 +31,14 @@ class FriendsContainer extends React.Component {
 
     this.state = {
       friends: [
-        {name: 'aautem'},
-        {name: 'cdturner'},
-        {name: 'kaitheguy'},
-        {name: 'billybob'},
-        {name: 'chocolaterain'},
-        {name: 'timmytwoshoes'},
-        {name: 'kipperdom'},
-        {name: 'hazyhank'},
+        {name: 'aautem', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583},
+        {name: 'cdturner', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583},
+        {name: 'kaitheguy', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583},
+        {name: 'billybob', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583},
+        {name: 'chocolaterain', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583},
+        {name: 'timmytwoshoes', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583},
+        {name: 'kipperdom', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583},
+        {name: 'hazyhank', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583},
       ],
     };
   }
@@ -44,11 +47,9 @@ class FriendsContainer extends React.Component {
 
   componentWillUnmount() {}
 
-  _renderItem ({item, index}) {
+  renderItem ({item, index}) {
     return (
-      <View style={styles.slide}>
-        <Text style={styles.title}>{ item.title }</Text>
-      </View>
+      <FriendComponent title={item.name} image={item.avatar} text={item.points} />
     );
   }
 
@@ -57,9 +58,9 @@ class FriendsContainer extends React.Component {
       <Carousel
         ref={(c) => { this._carousel = c }}
         data={this.state.friends}
-        renderItem={this._renderItem}
-        sliderWidth={100}
-        itemWidth={20}
+        renderItem={this.renderItem}
+        sliderWidth={viewportWidth}
+        itemWidth={viewportWidth}
       />
     );
   }
@@ -72,4 +73,4 @@ FriendsContainer.propTypes = {
   error: PropTypes.string,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MenuContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(FriendsContainer);
