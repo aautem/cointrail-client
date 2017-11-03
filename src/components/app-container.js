@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { getUser } from '../store/actions/auth';
-import styles from '../styles/styles';
 import { Text } from 'react-native';
 // Auth Component
-// Menu Component
+import MenuContainer from './menu/menu-container';
 // Game Component
+
+const styles = require('../styles/containers');
 
 function mapStateToProps(state) {
   return {
@@ -31,19 +32,6 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 };
 
-AppContainer.propTypes = {
-  auth: PropTypes.object,
-  user: PropTypes.object,
-  stats: PropTypes.object,
-  series: PropTypes.object,
-  game: PropTypes.object,
-  opponent: PropTypes.object,
-  leaderboard: PropTypes.object,
-  messages: PropTypes.object,
-  friends: PropTypes.object,
-  history: PropTypes.object,
-};
-
 class AppContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -62,13 +50,25 @@ class AppContainer extends React.Component {
       <Grid>
         <Col style={styles.appContainer}>
 
-          {/* Components go here! */}
-          <Text>Hello World!</Text>
+          <MenuContainer />
 
         </Col>
       </Grid>
     );
   }
 }
+
+AppContainer.propTypes = {
+  auth: PropTypes.object,
+  user: PropTypes.object,
+  stats: PropTypes.object,
+  series: PropTypes.object,
+  game: PropTypes.object,
+  opponent: PropTypes.object,
+  leaderboard: PropTypes.object,
+  messages: PropTypes.object,
+  friends: PropTypes.object,
+  history: PropTypes.object,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);

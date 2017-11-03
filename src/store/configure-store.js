@@ -5,4 +5,4 @@ import reducer from './reducers';
 
 const middleware = applyMiddleware(thunk, createLogger());
 
-export default createStore(reducers, middleware);
+export default createStore(reducer, middleware);
