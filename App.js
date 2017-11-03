@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+// import { Grid, Col, Row } from 'react-native-easy-grid';
 import NavContainer from './src/components/nav-container';
 import MainMenuContainer from './src/components/main-menu-container';
 import GameOptionsModal from './src/components/game-options-modal';
