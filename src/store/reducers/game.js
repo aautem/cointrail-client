@@ -12,6 +12,10 @@ export default function reducer(state = initialState, action) {
     return Object.assign({}, state, { turn: turn });
   }
 
+  if (action.type === actions.SET_BOARD) {
+    return Object.assign({}, state, { board: action.payload });
+  }
+
   if (action.type === actions.UPDATE_BOARD) {
     rowId = action.payload.rowId;
     colId = action.payload.colId;

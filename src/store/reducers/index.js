@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import app from './app';
 import auth from './auth';
 import user from './user';
 import stats from './stats';
@@ -12,6 +13,7 @@ import history from './history';
 import settings from './settings';
 
 export default combineReducers({
+  app,
   auth,
   user,
   stats,

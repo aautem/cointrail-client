@@ -8,22 +8,13 @@ import { Text } from 'react-native';
 // Auth Component
 import MenuContainer from './menu/menu-container';
 import GameContainer from './game/game-container';
+import { pages } from '../utilities/const';
 
 const styles = require('../styles/containers');
 
 function mapStateToProps(state) {
   return {
-    auth: state.auth,
-    user: state.user,
-    stats: state.stats,
-    series: state.series,
-    game: state.game,
-    opponent: state.opponent,
-    leaderboard: state.leaderboard,
-    messages: state.messages,
-    friends: state.friends,
-    history: state.history,
-    settings: state.settings,
+    page: state.app.page,
   };
 };
 
@@ -40,9 +31,7 @@ class AppContainer extends React.Component {
     this.state = {};
   }
 
-  componentWillMount() {
-    console.log('*** APP PROPS ***', this.props);
-  }
+  componentWillMount() {}
 
   componentWillUnmount() {}
 
@@ -50,10 +39,9 @@ class AppContainer extends React.Component {
     return (
       <Grid>
         <Col>
-
-          {/* <MenuContainer /> */}
-          <GameContainer />
-
+          {this.props.page === pages.AUTH && null}
+          {this.props.page === pages.MENU && <MenuContainer />}
+          {this.props.page === pages.GAME && <GameContainer />}
         </Col>
       </Grid>
     );
@@ -61,17 +49,7 @@ class AppContainer extends React.Component {
 }
 
 AppContainer.propTypes = {
-  auth: PropTypes.object,
-  user: PropTypes.object,
-  stats: PropTypes.object,
-  series: PropTypes.object,
-  game: PropTypes.object,
-  opponent: PropTypes.object,
-  leaderboard: PropTypes.object,
-  messages: PropTypes.object,
-  friends: PropTypes.object,
-  history: PropTypes.object,
-  settings: PropTypes.object,
+  page: PropTypes.string,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);

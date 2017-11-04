@@ -7,6 +7,7 @@ import Dropzone from './board/dropzone';
 import BoardContainer from './board/board-container';
 import BottomDrawer from './bottom-drawer';
 import Drawer from 'react-native-drawer';
+import * as game from '../../store/actions/game';
 
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Text } from 'react-native';
@@ -14,23 +15,16 @@ import { Header, Button } from 'react-native-elements';
 
 const styles = require('../../styles/containers');
 
-const POINT_VALUES = [5, 10, 25, 50, 100, 150];
-
-const VALUES_LEFT = {
-  4: [4, 4, 4, 2, 1, 1], // 16 spaces
-  5: [6, 6, 6, 4, 2, 1], // 25 spaces
-  6: [10, 8, 8, 6, 2, 2], // 36 spaces
-};
-
 function mapStateToProps(state) {
   return {
     series: state.series,
+    size: state.series.settings.size,
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    //
+    initializeBoard: game.initializeBoard,
   }, dispatch);
 };
 
@@ -39,7 +33,10 @@ class GameContainer extends React.Component {
     super(props);
   }
 
-  componentWillMount() {}
+  componentWillMount() {
+    this.props.initializeBoard(this.props.size);
+    // set up series and game states
+  }
 
   componentWillUnmount() {}
 
