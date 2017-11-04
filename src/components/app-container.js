@@ -7,7 +7,7 @@ import { getUser } from '../store/actions/auth';
 import { Text } from 'react-native';
 // Auth Component
 import MenuContainer from './menu/menu-container';
-// Game Component
+import GameContainer from './game/game-container';
 
 const styles = require('../styles/containers');
 
@@ -51,7 +51,8 @@ class AppContainer extends React.Component {
       <Grid>
         <Col style={styles.appContainer}>
 
-          <MenuContainer />
+          {/* <MenuContainer /> */}
+          <GameContainer />
 
         </Col>
       </Grid>
