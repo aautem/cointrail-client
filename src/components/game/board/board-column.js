@@ -2,6 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Coin from './coin';
 
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Text, View, Dimensions } from 'react-native';
@@ -35,27 +36,16 @@ class BoardColumn extends React.Component {
 
   render() {
     const { board, rowId, colId, players } = this.props;
-    const playerId = board[rowId][colId];
-    let coinColor = 'lightgrey';
+    const playerId = board[rowId][colId] || null;
+    let color = 'lightgrey';
 
     if (playerId) {
-      coinColor = players[playerId].color;
+      color = players[playerId].color;
     }
 
     return (
       <Col style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <View
-          style={{
-            backgroundColor: coinColor,
-            borderRadius: 100,
-            height: (viewportWidth / 4) - 25,
-            width: (viewportWidth / 4) - 25,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          {!playerId && <Text style={{ color: 'steelblue' }}>35</Text>}
-        </View>
+        <Coin playerId={playerId} color={color} rowId={rowId} colId={colId} />
       </Col>
     );
   }

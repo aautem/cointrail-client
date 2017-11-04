@@ -114,7 +114,7 @@ class GameContainer extends React.Component {
         type='overlay'
         content={<BottomDrawer />}
         side='bottom'
-        openDrawerOffset={100}
+        openDrawerOffset={115}
         closedDrawerOffset={100}
         tapToClose={true}
       >

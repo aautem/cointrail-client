@@ -1,0 +1,96 @@
+import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import * as Animatable from 'react-native-animatable';
+
+import { Grid, Col, Row } from 'react-native-easy-grid';
+import { Text, View, Dimensions } from 'react-native';
+import { Header, Button } from 'react-native-elements';
+
+const styles = require('../../../styles/containers');
+const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
+const animateDrop = {
+  from: {
+    translateY: -500,
+    opacity: 0.25,
+  },
+  to: {
+    translateY: 0,
+    opacity: 1,
+  }
+};
+
+function mapStateToProps(state) {
+  return {
+    size: state.series.settings.size,
+  };
+};
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    //
+  }, dispatch);
+};
+
+class Coin extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentWillMount() {}
+
+  componentWillUnmount() {}
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.playerId && nextProps.playerId) {
+      const ref = `coin-${nextProps.rowId}-${nextProps.colId}`;
+      this.refs[ref].transition(animateDrop.from, animateDrop.to, 800, 'ease-out-expo');
+    }
+  }
+
+  render() {
+    const { playerId, color, rowId, colId, size } = this.props;
+    const hw = (viewportWidth / size) - 25;
+
+    return (
+      <Animatable.View
+        ref={`coin-${rowId}-${colId}`}
+        style={{
+          backgroundColor: color,
+          borderRadius: 100,
+          height: hw,
+          width: hw,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        {!playerId && <Text style={{ color: 'steelblue' }}>35</Text>}
+      </Animatable.View>
+    );
+
+    // return (
+    //   <View
+    //     style={{
+    //       backgroundColor: this.props.color,
+    //       borderRadius: 100,
+    //       height: hw,
+    //       width: hw,
+    //       alignItems: 'center',
+    //       justifyContent: 'center',
+    //     }}
+    //   >
+    //     {!this.props.playerId && <Text style={{ color: 'steelblue' }}>35</Text>}
+    //   </View>
+    // );
+  }
+}
+
+Coin.propTypes = {
+  playerId: PropTypes.string,
+  color: PropTypes.string,
+  rowId: PropTypes.number,
+  colId: PropTypes.number,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Coin);
