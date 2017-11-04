@@ -1,10 +1,12 @@
 import { createAction } from 'redux-actions';
 import * as util from '../../utilities/game-board';
+import { POINTS, POINT_COUNTS } from '../../utilities/const';
 
 export const actions = {
   DROP_COIN: 'game/DROP_COIN',
   TOGGLE_TURN: 'game/TOGGLE_TURN',
   SET_BOARD: 'game/SET_BOARD',
+  SET_BOARD_POINTS: 'game/SET_BOARD_POINTS',
   UPDATE_BOARD: 'game/UPDATE_BOARD',
   COLLECT_POINTS: 'game/COLLECT_POINTS',
   WINNER: 'game/WINNER',
@@ -16,6 +18,7 @@ export const actions = {
 
 const toggleTurn = createAction(actions.TOGGLE_TURN);
 const setBoard = createAction(actions.SET_BOARD, (payload) => payload);
+const setBoardPoints = createAction(actions.SET_BOARD_POINTS, (payload) => payload);
 const updateBoard = createAction(actions.UPDATE_BOARD, (payload) => payload);
 const collectPoints = createAction(actions.COLLECT_POINTS, (payload) => payload);
 const coinDropError = createAction(actions.COIN_DROP_ERROR);
@@ -23,14 +26,10 @@ const declareWinner = createAction(actions.WINNER, (payload) => payload);
 
 export function initializeBoard(size) {
   return function(dispatch, getState) {
-    let gameboard = [];
-    for (let rowId = 0; rowId < size; rowId ++) {
-      gameboard[rowId] = [];
-      for (colId = 0; colId < size; colId ++) {
-        gameboard[rowId][colId] = 0;
-      }
-    }
+    const gameboard = createBoard(size);
+    const boardPoints = createBoardPoints(size);
     dispatch(setBoard(gameboard));
+    dispatch(setBoardPoints(boardPoints));
   }
 }
 
@@ -57,6 +56,7 @@ export function dropCoin(colId, playerId) {
         // reset score
         // reset gameboard
         // reset gameboard points
+
       } else {
         const tie = util.checkForTie(getState().game.board);
         
@@ -76,4 +76,34 @@ export function dropCoin(colId, playerId) {
       dispatch(coinDropError());
     }
   }
+}
+
+function createBoard(size) {
+  const gameboard = [];
+  for (let rowId = 0; rowId < size; rowId ++) {
+    gameboard[rowId] = [];
+    for (colId = 0; colId < size; colId ++) {
+      gameboard[rowId][colId] = 0;
+    }
+  }
+  return gameboard;
+}
+
+function createBoardPoints(size) {
+  const boardPoints = [];
+  let points = POINTS.slice();
+  let pointCounts = POINT_COUNTS[size].slice();
+  for (let rowId = 0; rowId < size; rowId ++) {
+    boardPoints[rowId] = [];
+    for (let colId = 0; colId < size; colId ++) {
+      let i = Math.floor(Math.random() * points.length);
+      boardPoints[rowId].push(points[i]);
+      pointCounts[i] --;
+      if (!pointCounts[i]) {
+        points = points.slice(0, i).concat(points.slice(i + 1));
+        pointCounts = pointCounts.slice(0, i).concat(pointCounts.slice(i + 1));
+      }
+    }
+  }
+  return boardPoints;
 }

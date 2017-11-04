@@ -21,9 +21,10 @@ const animateDrop = {
   }
 };
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
-    size: state.series.settings.size,
+    size: state.series.size,
+    points: state.game.boardPoints[ownProps.rowId][ownProps.colId],
   };
 };
 
@@ -65,24 +66,9 @@ class Coin extends React.Component {
           justifyContent: 'center',
         }}
       >
-        {!playerId && <Text style={{ color: 'steelblue' }}>35</Text>}
+        {!playerId && <Text style={{ color: 'steelblue' }}>{this.props.points}</Text>}
       </Animatable.View>
     );
-
-    // return (
-    //   <View
-    //     style={{
-    //       backgroundColor: this.props.color,
-    //       borderRadius: 100,
-    //       height: hw,
-    //       width: hw,
-    //       alignItems: 'center',
-    //       justifyContent: 'center',
-    //     }}
-    //   >
-    //     {!this.props.playerId && <Text style={{ color: 'steelblue' }}>35</Text>}
-    //   </View>
-    // );
   }
 }
 

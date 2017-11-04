@@ -10,7 +10,7 @@ import { Header, Button, Icon } from 'react-native-elements';
 
 function mapStateToProps(state) {
   return {
-    size: state.series.settings.size,
+    size: state.series.size,
   };
 };
 

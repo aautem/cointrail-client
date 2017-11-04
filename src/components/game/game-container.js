@@ -17,8 +17,7 @@ const styles = require('../../styles/containers');
 
 function mapStateToProps(state) {
   return {
-    series: state.series,
-    size: state.series.settings.size,
+    size: state.series.size,
   };
 };
 
@@ -34,43 +33,14 @@ class GameContainer extends React.Component {
   }
 
   componentWillMount() {
+    // this.props.initializeSettings(this.props.settings);
+
     this.props.initializeBoard(this.props.size);
+
     // set up series and game states
   }
 
   componentWillUnmount() {}
-
-  // TODO: combine build and get board points into single init function
-  initializeBoard(size) {
-    let gameboard = [];
-    for (let row = 0; row < size; row ++) {
-      gameboard[row] = [];
-      for (col = 0; col < size; col ++) {
-        gameboard[row][col] = 0;
-      }
-    }
-    return gameboard;
-  }
-
-  // TODO: make work for any board size
-  getBoardPoints(size) {
-    let pointValues = POINT_VALUES.slice();
-    let valuesLeft = VALUES_LEFT[size].slice();
-    let boardPoints = [];
-    for (let row = 0; row < size; row ++) {
-      boardPoints[row] = [];
-      for (let col = 0; col < size; col ++) {
-        const index = Math.floor(Math.random() * pointValues.length);
-        boardPoints[row].push(pointValues[index]);
-        valuesLeft[index] --;
-        if (!valuesLeft[index]) {
-          pointValues = pointValues.slice(0, index).concat(pointValues.slice(index + 1));
-          valuesLeft = valuesLeft.slice(0, index).concat(valuesLeft.slice(index + 1));
-        }
-      }
-    }
-    return boardPoints;
-  }
 
   resetGameboard() {
     const newGameboard = this.initializeBoard(this.state.size);
