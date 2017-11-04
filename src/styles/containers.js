@@ -13,6 +13,9 @@ module.exports = StyleSheet.create({
     backgroundColor: '#fff',
   },
   gameContainer: {
-    //
+    backgroundColor: 'lightgrey',
+  },
+  boardContainer: {
+    backgroundColor: 'lightgrey',
   },
 });

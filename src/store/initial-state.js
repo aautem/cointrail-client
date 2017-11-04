@@ -41,6 +41,18 @@ export default function getInitialState() {
       error: null,
     },
     game: {
+      board: [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0]
+      ],
+      boardPoints: [
+        [35, 35, 35, 35],
+        [35, 35, 35, 35],
+        [35, 35, 35, 35],
+        [35, 35, 35, 35]
+      ],
       timer: null,
       turn: null,
       loading: false,
