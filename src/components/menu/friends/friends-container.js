@@ -32,13 +32,13 @@ class FriendsContainer extends React.Component {
     this.state = {
       friends: [
         {name: 'aautem', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583},
-        {name: 'cdturner', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583},
+        {name: 'cdturner', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg', points: 583},
         {name: 'kaitheguy', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583},
-        {name: 'billybob', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583},
+        {name: 'billybob', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg', points: 583},
         {name: 'chocolaterain', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583},
-        {name: 'timmytwoshoes', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583},
+        {name: 'timmytwoshoes', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg', points: 583},
         {name: 'kipperdom', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583},
-        {name: 'hazyhank', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583},
+        {name: 'hazyhank', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg', points: 583},
       ],
     };
   }
@@ -60,7 +60,10 @@ class FriendsContainer extends React.Component {
         data={this.state.friends}
         renderItem={this.renderItem}
         sliderWidth={viewportWidth}
-        itemWidth={viewportWidth}
+        itemWidth={130}
+        activeSlideAlignment='start'
+        inactiveSlideOpacity={0.6}
+        inactiveSlideScale={0.8}
       />
     );
   }
