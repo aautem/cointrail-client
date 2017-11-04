@@ -1,7 +1,7 @@
 // import axios from 'axios';
 
 export const actions = {
-  OPEN_MOADL: 'settings/OPEN_MODAL',
+  OPEN_MODAL: 'settings/OPEN_MODAL',
   CLOSE_MODAL: 'settings/CLOSE_MODAL',
   CHANGE_SIZE: 'settings/CHANGE_SIZE',
   CHANGE_LENGTH: 'settings/CHANGE_LENGTH',
@@ -14,7 +14,7 @@ export const actions = {
 export function openModal() {
   return function(dispatch) {
     dispatch({
-      type: actions.OPEN_MOADL,
+      type: actions.OPEN_MODAL,
     });
   }
 }

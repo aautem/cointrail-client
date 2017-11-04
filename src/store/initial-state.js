@@ -12,6 +12,7 @@ export default function getInitialState() {
       username: 'aautem',
       socketId: 'fc6da34f-7bf6-6bc6-9900-049803978289',
       inGame: false,
+      showModal: false,
       loading: false,
       loaded: true,
       error: null,
@@ -48,7 +49,7 @@ export default function getInitialState() {
     },
     settings: {
       size: 4,
-      length: 3,
+      length: 7,
       timer: false,
       showModal: false,
       loading: false,

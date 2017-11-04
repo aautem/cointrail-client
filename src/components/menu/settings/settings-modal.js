@@ -1,4 +1,6 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal, Text, Slider, Switch } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
@@ -98,20 +100,12 @@ class SettingsModal extends React.Component {
                   </Col>
                 </Row>
                 <Row>
-                  <Col style={styles.column}>
                   <Button
                     title='Save'
                     backgroundColor='steelblue'
-                    onPress={() => { console.log('Saving settings...') }}
+                    onPress={this.props.closeModal}
+                    buttonStyle={{ width: '100%' }}
                   />
-                  </Col>
-                  <Col style={styles.column}>
-                    <Button
-                      title='Cancel'
-                      backgroundColor='steelblue'
-                      onPress={this.props.closeModal}
-                    />
-                  </Col>
                 </Row>
               </Col>
             </Row>
