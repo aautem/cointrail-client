@@ -1,49 +1,64 @@
 import { createAction } from 'redux-actions';
+import * as util from '../../utilities/game-board';
 
 export const actions = {
   DROP_COIN: 'game/DROP_COIN',
   TOGGLE_TURN: 'game/TOGGLE_TURN',
+  UPDATE_BOARD: 'game/UPDATE_BOARD',
+  COLLECT_POINTS: 'game/COLLECT_POINTS',
+  WINNER: 'game/WINNER',
   LOADING: 'game/LOADING',
   LOADED: 'game/LOADED',
+  COIN_DROP_ERROR: 'game/COIN_DROP_ERROR',
   ERROR: 'game/ERROR',
 };
 
 const toggleTurn = createAction(actions.TOGGLE_TURN);
-// const toggleTurn = createAction(actions.TOGGLE_TURN, (payload) => payload);
+const updateBoard = createAction(actions.UPDATE_BOARD, (payload) => payload);
+const collectPoints = createAction(actions.COLLECT_POINTS, (payload) => payload);
+const coinDropError = createAction(actions.COIN_DROP_ERROR);
+const declareWinner = createAction(actions.WINNER, (payload) => payload);
 
 export function dropCoin(colId, playerId) {
   return function(dispatch, getState) {
-    const board = getState().game.board.slice();
-    const rowId = findEmptyRowId(board, colId);
+    const rowId = util.findEmptyRowId(getState().game.board, colId);
+
     if (typeof rowId === 'number') {
-      // switch turn
-      // collect points
-      // add coin / update board
-      // check for winner
-
       dispatch(toggleTurn());
+      dispatch(updateBoard({ rowId, colId, playerId }));
+      dispatch(collectPoints({ rowId, colId, playerId }));
 
-      dispatch({
-        type: actions.COLLECT_POINTS,
-      });
+      const winner = util.getWinner(getState().game.board);
 
+      if (winner) {
+        dispatch(declareWinner(winner));
+
+        // game over modal
+        // 'results' button to check series overview
+        // countdown to next round
+        // 'next' button to start next round
+        
+        // add results to series history // dispatch(series.postResults(gameData))
+        // reset score
+        // reset gameboard
+        // reset gameboard points
+      } else {
+        const tie = util.checkForTie(getState().game.board);
+        
+        if (tie) {
+          const players = getState().game.players;
+          const playerIds = Object.keys(players);
+          const winner = getWinnerByPoints(players[playerIds[0]], players[playerIds[1]]);
+
+          if (winner) {
+            dispatch(declareWinner(winner));
+          } else {
+            // endGameInDraw();
+          }
+        }
+      }
     } else {
-      console.log('No empty spaces...');
-    }
-
-    dispatch({
-      type: actions.DROP_COIN,
-      payload: colId,
-    });
-  }
-}
-
-function findEmptyRowId(board, colId) {
-  let emptyRowId = null;
-  for (let rowId = board.length - 1; rowId >= 0; rowId --) {
-    if (typeof emptyRowId !== 'number' && board[rowId][colId] === 0) {
-      emptyRowId = rowId;
+      dispatch(coinDropError());
     }
   }
-  return emptyRowId;
 }
