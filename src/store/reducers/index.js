@@ -9,6 +9,7 @@ import leaderboard from './leaderboard';
 import messages from './messages';
 import friends from './friends';
 import history from './history';
+import settings from './settings';
 
 export default combineReducers({
   auth,
@@ -21,4 +22,5 @@ export default combineReducers({
   messages,
   friends,
   history,
+  settings,
 });

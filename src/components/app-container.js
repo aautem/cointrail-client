@@ -23,6 +23,7 @@ function mapStateToProps(state) {
     messages: state.messages,
     friends: state.friends,
     history: state.history,
+    settings: state.settings,
   };
 };
 
@@ -69,6 +70,7 @@ AppContainer.propTypes = {
   messages: PropTypes.object,
   friends: PropTypes.object,
   history: PropTypes.object,
+  settings: PropTypes.object,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);

@@ -46,6 +46,15 @@ export default function getInitialState() {
       loaded: false,
       error: null,
     },
+    settings: {
+      size: 4,
+      length: 3,
+      timer: false,
+      showModal: false,
+      loading: false,
+      loaded: false,
+      error: null,
+    },
     opponent: {
       profile: {},
       stats: {},
