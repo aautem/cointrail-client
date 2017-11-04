@@ -48,11 +48,15 @@ export default function getInitialState() {
       players: {
         'abc-def-ghi-jkl': {
           id: 'abc-def-ghi-jkl',
+          username: 'aautem',
+          avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
           score: 0,
           color: 'powderblue',
         },
         'zyx-wvu-tsr-qpo': {
           id: 'zyx-wvu-tsr-qpo',
+          username: 'cdturner',
+          avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg',
           score: 0,
           color: 'steelblue',
         }

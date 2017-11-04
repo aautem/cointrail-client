@@ -12,6 +12,7 @@ function mapStateToProps(state) {
   return {
     size: state.series.settings.size,
     turn: state.game.turn,
+    board: state.game.board,
   };
 };
 
@@ -31,13 +32,15 @@ class DropButton extends React.Component {
   componentWillUnmount() {}
 
   render() {
+    const color = !this.props.board[0][this.props.colId] ? 'steelblue' : 'lightgrey';
+
     return (
       <Col style={{ justifyContent: 'center', alignItems: 'center' }}>
         <Icon
           size={32}
           name='ios-arrow-dropdown-outline'
           type='ionicon'
-          color='steelblue'
+          color={color}
           onPress={() => { this.props.dropCoin(this.props.colId, this.props.turn) }}
         />
       </Col>
@@ -48,6 +51,7 @@ class DropButton extends React.Component {
 DropButton.propTypes = {
   key: PropTypes.string,
   colId: PropTypes.number,
+  board: PropTypes.array,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DropButton);

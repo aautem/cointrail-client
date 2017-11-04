@@ -6,7 +6,7 @@ module.exports = StyleSheet.create({
   transparent: {
     backgroundColor: 'rgba(60, 60, 60, 0.6)',
   },
-  column: {
+  center: {
     alignItems: 'center',
     justifyContent: 'center',
   },
