@@ -57,9 +57,9 @@ class ScoreTally extends React.Component {
             <Col size={1} style={styles.center}>
               <Icon
                 size={10}
-                name='circle-o'
+                name='circle'
                 type='font-awesome'
-                color='#fff'
+                color='yellow'
               />
             </Col>
             <Col size={1} style={styles.center}>

@@ -12,7 +12,7 @@ const styles = require('../../../styles/containers');
 
 function mapStateToProps(state) {
   return {
-    size: state.series.settings.size,
+    size: state.series.size,
   };
 };
 

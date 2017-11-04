@@ -33,21 +33,23 @@ export default function getInitialState() {
       gamesPlayed: 0,
     },
     series: {
-      '$PLAYER ID': {
-        currentScore: 0,
-      },
       players: {}, // Two player ID keys
-      settings: {
-        length: 3,
-        timer: false,
-        size: 4,
+      '$PLAYER ID': {
+        id: 'abc-def-ghi-jkl',
+        username: 'aautem',
+        avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+        color: 'powderblue',
+        wins: 0,
+        losses: 0,
+        ties: 0,
+        totalScore: 0,
       },
-      results: {
-        showModal: false,
-        gamesPlayed: 0,
-        gamesLeft: 3,
-        games: [], // Array of game objects { gameId: 1, winner: $PID, $PID: { score }, $PID: { score } }
-      },
+      length: 7,
+      size: 4,
+      timer: false,
+      showModal: false,
+      gamesPlayed: 0,
+      games: [], // Array of game objects { gameId: 1, winner: $PID, $PID: { score }, $PID: { score } }
       loading: false,
       loaded: false,
       error: null,
@@ -71,12 +73,7 @@ export default function getInitialState() {
       },
       turn: 'abc-def-ghi-jkl',
       board: [],
-      boardPoints: [
-        [35, 35, 35, 35],
-        [35, 35, 35, 35],
-        [35, 35, 35, 35],
-        [35, 35, 35, 35]
-      ],
+      boardPoints: [],
       timer: null,
       winner: null,
       loading: false,
