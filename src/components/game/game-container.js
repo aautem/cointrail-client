@@ -2,7 +2,11 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Scoreboard from './scoreboard';
+import Dropzone from './board/dropzone';
 import BoardContainer from './board/board-container';
+import BottomDrawer from './bottom-drawer';
+import Drawer from 'react-native-drawer';
 
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Text } from 'react-native';
@@ -241,13 +245,29 @@ class GameContainer extends React.Component {
     });
   }
 
-  render() {
+  openControlPanel() {
+    this._drawer.open();
+  };
+
+  closeControlPanel() {
+    this._drawer.close();
+  };
+
+  render () {
     return (
-      <Grid>
-        <Col style={styles.gameContainer}>
-          <BoardContainer />
-        </Col>
-      </Grid>
+      <Drawer
+        ref={(ref) => { this._drawer = ref }}
+        type='overlay'
+        content={<BottomDrawer />}
+        side='bottom'
+        openDrawerOffset={100}
+        closedDrawerOffset={100}
+        tapToClose={true}
+      >
+        <Scoreboard />
+        <Dropzone />
+        <BoardContainer />
+      </Drawer>
     );
   }
 }

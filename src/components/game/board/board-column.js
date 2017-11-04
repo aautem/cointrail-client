@@ -34,19 +34,19 @@ class BoardColumn extends React.Component {
 
   render() {
     return (
-      <Col style={{ backgroundColor: this.props.color, justifyContent: 'center', alignItems: 'center' }}>
+      <Col style={{ justifyContent: 'center', alignItems: 'center' }}>
         <View
           style={{
-            backgroundColor: 'green',
+            backgroundColor: 'lightgrey',
             borderRadius: 100,
-            height: (viewportWidth / 4) - 10,
-            width: (viewportWidth / 4) - 10,
+            height: (viewportWidth / 4) - 25,
+            width: (viewportWidth / 4) - 25,
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          <Text style={{ color: '#fff' }}>35</Text>
-        </View> 
+          <Text style={{ color: 'steelblue' }}>35</Text>
+        </View>
       </Col>
     );
   }

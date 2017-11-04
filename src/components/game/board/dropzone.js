@@ -2,13 +2,11 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import BoardRow from './board-row';
+import DropButton from './drop-button';
 
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Text } from 'react-native';
-import { Header, Button } from 'react-native-elements';
-
-const styles = require('../../../styles/containers');
+import { Header, Button, Icon } from 'react-native-elements';
 
 function mapStateToProps(state) {
   return {
@@ -22,7 +20,7 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 };
 
-class BoardContainer extends React.Component {
+class Dropzone extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -34,25 +32,23 @@ class BoardContainer extends React.Component {
   componentWillUnmount() {}
 
   render() {
-    const rows = [];
+    const dropButtons = [];
 
     for (let i = 0; i < this.props.size; i ++) {
-      rows.push(<BoardRow key={`row-${i + 1}`} rowId={i} />);
+      dropButtons.push(<DropButton key={`drop-btn-${i + 1}`} colId={i} />);
     }
 
     return (
-      <Row size={6} style={{ paddingLeft: 5, paddingRight: 5, paddingBottom: 5 }}>
-        <Col>
-          {rows}
-        </Col>
+      <Row size={1.25} style={{ paddingLeft: 5, paddingRight: 5, paddingTop: 5, backgroundColor: '#fff' }}>
+        { dropButtons }
       </Row>
     );
   }
 }
 
-BoardContainer.propTypes = {
-  board: PropTypes.array,
-  boardPoints: PropTypes.array,
-};
+// Dropzone.propTypes = {
+//   board: PropTypes.array,
+//   boardPoints: PropTypes.array,
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BoardContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(Dropzone);

@@ -2,17 +2,14 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import BoardColumn from './board-column';
 
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Text } from 'react-native';
 import { Header, Button } from 'react-native-elements';
 
-const styles = require('../../../styles/containers');
-
 function mapStateToProps(state) {
   return {
-    size: state.series.settings.size,
+    //
   };
 };
 
@@ -22,7 +19,7 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 };
 
-class BoardRow extends React.Component {
+class BottomDrawer extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -31,24 +28,17 @@ class BoardRow extends React.Component {
 
   componentWillUnmount() {}
 
-  render() {
-    const columns = [];
-    
-    for (let i = 0; i < this.props.size; i ++) {
-      columns.push(<BoardColumn key={`col-${i + 1}`} rowId={this.props.rowId} colId={i} />);
-    }
-
+  render () {
     return (
-      <Row>
-        {columns}
-      </Row>
+      <Col style={{ backgroundColor: 'steelblue' }}>
+      </Col>
     );
   }
 }
 
-BoardRow.propTypes = {
-  rowId: PropTypes.number,
-  key: PropTypes.string,
-};
+// BottomDrawer.propTypes = {
+//   board: PropTypes.array,
+//   boardPoints: PropTypes.array,
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BoardRow);
+export default connect(mapStateToProps, mapDispatchToProps)(BottomDrawer);
