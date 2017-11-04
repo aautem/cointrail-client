@@ -4,6 +4,7 @@ import * as util from '../../utilities/game-board';
 export const actions = {
   DROP_COIN: 'game/DROP_COIN',
   TOGGLE_TURN: 'game/TOGGLE_TURN',
+  SET_BOARD: 'game/SET_BOARD',
   UPDATE_BOARD: 'game/UPDATE_BOARD',
   COLLECT_POINTS: 'game/COLLECT_POINTS',
   WINNER: 'game/WINNER',
@@ -14,10 +15,24 @@ export const actions = {
 };
 
 const toggleTurn = createAction(actions.TOGGLE_TURN);
+const setBoard = createAction(actions.SET_BOARD, (payload) => payload);
 const updateBoard = createAction(actions.UPDATE_BOARD, (payload) => payload);
 const collectPoints = createAction(actions.COLLECT_POINTS, (payload) => payload);
 const coinDropError = createAction(actions.COIN_DROP_ERROR);
 const declareWinner = createAction(actions.WINNER, (payload) => payload);
+
+export function initializeBoard(size) {
+  return function(dispatch, getState) {
+    let gameboard = [];
+    for (let rowId = 0; rowId < size; rowId ++) {
+      gameboard[rowId] = [];
+      for (colId = 0; colId < size; colId ++) {
+        gameboard[rowId][colId] = 0;
+      }
+    }
+    dispatch(setBoard(gameboard));
+  }
+}
 
 export function dropCoin(colId, playerId) {
   return function(dispatch, getState) {

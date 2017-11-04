@@ -8,9 +8,17 @@ export default function getInitialState() {
       loaded: true,
       error: null,
     },
+    app: {
+      page: 'menu',
+      loading: false,
+      loaded: false,
+      error: null,
+    },
     user: {
+      id: 'abc-def-ghi-jkl',
       username: 'aautem',
-      socketId: 'fc6da34f-7bf6-6bc6-9900-049803978289',
+      avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+      color: 'powderblue',
       inGame: false,
       showModal: false,
       loading: false,
@@ -62,12 +70,7 @@ export default function getInitialState() {
         }
       },
       turn: 'abc-def-ghi-jkl',
-      board: [
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0]
-      ],
+      board: [],
       boardPoints: [
         [35, 35, 35, 35],
         [35, 35, 35, 35],

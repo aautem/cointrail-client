@@ -11,6 +11,8 @@ import ProfileModal from './profile/profile-modal';
 import FriendsContainer from './friends/friends-container';
 import * as settings from '../../store/actions/settings';
 import * as user from '../../store/actions/user';
+import * as app from '../../store/actions/app';
+import { pages } from '../../utilities/const';
 
 const styles = require('../../styles/containers');
 
@@ -24,6 +26,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     openSettingsModal: settings.openModal,
     openProfileModal: user.openModal,
+    changePage: app.changePage,
   }, dispatch);
 };
 
@@ -43,7 +46,7 @@ class MenuContainer extends React.Component {
           <Row size={1.5}>
             <Header
               leftComponent={<HeaderIcon name='settings' type='material-community' color='#fff' onPress={this.props.openSettingsModal} />}
-              centerComponent={{ text: '.~::  C O N T R A I L  ::~.', style: { color: '#fff' } }}
+              centerComponent={{ text: '.~::  C O N T R A I L  ::~.', style: { color: '#fff', fontWeight: 'bold' } }}
               rightComponent={<HeaderIcon name='account-circle' type='material-community' color='#fff' onPress={this.props.openProfileModal} />}
               outerContainerStyles={{ backgroundColor: 'steelblue' }}
             />
@@ -58,7 +61,7 @@ class MenuContainer extends React.Component {
               icon={{ type: 'font-awesome', name: 'play-circle' }}
               title='PLAY NOW'
               backgroundColor='steelblue'
-              onPress={() => { console.log('Finding oppenent...') }}
+              onPress={() => { this.props.changePage(pages.GAME) }}
               loading={false}
               buttonStyle={{ width: '100%' }}
             />
