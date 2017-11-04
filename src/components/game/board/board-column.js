@@ -13,7 +13,8 @@ const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window'
 
 function mapStateToProps(state) {
   return {
-    //
+    board: state.game.board,
+    players: state.game.players,
   };
 };
 
@@ -33,11 +34,19 @@ class BoardColumn extends React.Component {
   componentWillUnmount() {}
 
   render() {
+    const { board, rowId, colId, players } = this.props;
+    const playerId = board[rowId][colId];
+    let coinColor = 'lightgrey';
+
+    if (playerId) {
+      coinColor = players[playerId].color;
+    }
+
     return (
       <Col style={{ justifyContent: 'center', alignItems: 'center' }}>
         <View
           style={{
-            backgroundColor: 'lightgrey',
+            backgroundColor: coinColor,
             borderRadius: 100,
             height: (viewportWidth / 4) - 25,
             width: (viewportWidth / 4) - 25,
@@ -45,15 +54,17 @@ class BoardColumn extends React.Component {
             justifyContent: 'center',
           }}
         >
-          <Text style={{ color: 'steelblue' }}>35</Text>
+          {!playerId && <Text style={{ color: 'steelblue' }}>35</Text>}
         </View>
       </Col>
     );
   }
 }
 
-// BoardColumn.propTypes = {
-//   //
-// };
+BoardColumn.propTypes = {
+  key: PropTypes.string,
+  rowId: PropTypes.number,
+  colId: PropTypes.number,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(BoardColumn);

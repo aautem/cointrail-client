@@ -11,6 +11,7 @@ import { Header, Button, Icon } from 'react-native-elements';
 function mapStateToProps(state) {
   return {
     size: state.series.settings.size,
+    turn: state.game.turn,
   };
 };
 
@@ -37,7 +38,7 @@ class DropButton extends React.Component {
           name='ios-arrow-dropdown-outline'
           type='ionicon'
           color='steelblue'
-          onPress={() => { this.props.dropCoin(this.props.index) }}
+          onPress={() => { this.props.dropCoin(this.props.colId, this.props.turn) }}
         />
       </Col>
     );

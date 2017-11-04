@@ -25,22 +25,39 @@ export default function getInitialState() {
       gamesPlayed: 0,
     },
     series: {
+      '$PLAYER ID': {
+        currentScore: 0,
+      },
+      players: {}, // Two player ID keys
       settings: {
         length: 3,
         timer: false,
         size: 4,
       },
-      player1: {},
-      player2: {},
       results: {
+        showModal: false,
         gamesPlayed: 0,
         gamesLeft: 3,
+        games: [], // Array of game objects { gameId: 1, winner: $PID, $PID: { score }, $PID: { score } }
       },
       loading: false,
       loaded: false,
       error: null,
     },
     game: {
+      players: {
+        'abc-def-ghi-jkl': {
+          id: 'abc-def-ghi-jkl',
+          score: 0,
+          color: 'powderblue',
+        },
+        'zyx-wvu-tsr-qpo': {
+          id: 'zyx-wvu-tsr-qpo',
+          score: 0,
+          color: 'steelblue',
+        }
+      },
+      turn: 'abc-def-ghi-jkl',
       board: [
         [0, 0, 0, 0],
         [0, 0, 0, 0],
@@ -54,7 +71,7 @@ export default function getInitialState() {
         [35, 35, 35, 35]
       ],
       timer: null,
-      turn: null,
+      winner: null,
       loading: false,
       loaded: false,
       error: null,
