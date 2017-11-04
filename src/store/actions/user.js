@@ -1,19 +1,25 @@
-import axios from 'axios';
+// import axios from 'axios';
 
-export function getUser(userId) {
+export const actions = {
+  OPEN_MODAL: 'user/OPEN_MODAL',
+  CLOSE_MODAL: 'user/CLOSE_MODAL',
+  LOADING: 'user/LOADING',
+  LOADED: 'user/LOADED',
+  ERROR: 'user/ERROR',
+};
+
+export function openModal() {
   return function(dispatch) {
-    axios.get('/api/users/' + userId)
-      .then((res) => {
-        if (!res.data) {
-          throw new Error('User does not exist.');
-        } else {
-          dispatch({
-            type: 'LOAD_PROFILE',
-            payload: res.data,
-          });
-        }
-      }).catch((e) => {
-        console.warn(e);
-      });
+    dispatch({
+      type: actions.OPEN_MODAL,
+    });
+  }
+}
+
+export function closeModal() {
+  return function(dispatch) {
+    dispatch({
+      type: actions.CLOSE_MODAL,
+    });
   }
 }
