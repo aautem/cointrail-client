@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import app from './app';
 import auth from './auth';
 import user from './user';
-import stats from './stats';
 import series from './series';
 import game from './game';
 import opponent from './opponent';
@@ -16,7 +15,6 @@ export default combineReducers({
   app,
   auth,
   user,
-  stats,
   series,
   game,
   opponent,

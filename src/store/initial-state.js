@@ -1,15 +1,13 @@
 export default function getInitialState() {
   return {
     auth: {
-      authenticated: true,
-      email: null,
-      password: null,
       loading: false,
-      loaded: true,
+      authenticated: false,
       error: null,
     },
     app: {
-      page: 'menu',
+      socket: null,
+      page: 'auth',
       loading: false,
       loaded: false,
       error: null,
@@ -19,18 +17,19 @@ export default function getInitialState() {
       username: 'aautem',
       avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
       color: 'powderblue',
+      altColor: 'steelblue',
       inGame: false,
       showModal: false,
+      stats: {
+        wins: 0,
+        losses: 0,
+        ties: 0,
+        totalPoints: 0,
+        gamesPlayed: 0,
+      },
       loading: false,
-      loaded: true,
+      loaded: false,
       error: null,
-    },
-    stats: {
-      wins: 0,
-      losses: 0,
-      ties: 0,
-      totalPoints: 0,
-      gamesPlayed: 0,
     },
     series: {
       players: {}, // Two player ID keys
