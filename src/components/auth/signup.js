@@ -5,13 +5,12 @@ import PropTypes from 'prop-types';
 import { View, StyleSheet, Text } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
-import Auth0 from 'react-native-auth0';
 
 const styles = require('../../styles/app');
 
 function mapStateToProps(state) {
   return {
-    //
+    loading: state.auth.loading,
   };
 };
 
@@ -26,6 +25,10 @@ class Signup extends React.Component {
     super(props);
 
     this.state = {
+      email: null,
+      username: null,
+      password: null,
+      confirmPassword: null,
       emailError: null,
       usernameError: null,
       passwordError: null,
@@ -39,32 +42,51 @@ class Signup extends React.Component {
   componentWillUnmount() {}
 
   createUser() {
-    // const valid = this.validInput();
-    console.log('*** THIS ***', this);
+    if (this.validInput()) {
+      // const params = {
+      //   email: this.state.email,
+      //   username: this.state.username,
+      //   password: this.state.password,
+      //   connection: 'Username-Password-Authentication',
+      // };
 
-    if (valid) {
-      // sign up
+      // this.props.auth0.auth.createUser(params).then((user) => {
+      //   console.log('*** USER CREATED ***', user);
+
+      //   // user = {
+      //   //   "Id": "59fe8c96b84acc463c6e9713",
+      //   //   "email": "aautem@trifinlabs.com",
+      //   //   "emailVerified": false,
+      //   //   "username": "aa",
+      //   // };
+
+      //   // login user and route to menu
+        
+      // }).catch((e) => {
+      //   console.log(e);
+      //   this.setState({ auth0Error: e });
+      // });
     }
   }
 
   validInput() {
     let valid = true;
 
-    if (!this.state.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) {
+    if (!this.state.email || !this.state.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) {
       valid = false;
       this.setState({ emailError: 'invalid email address' });
     }
-    if (this.state.username.length < 1 || this.state.username.length > 15) {
+    if (!this.state.username || this.state.username.length < 1 || this.state.username.length > 15) {
       valid = false;
-      this.setState({ usernameError: 'username must be less than 15 characters' });
+      this.setState({ usernameError: 'username must be between 1 and 15 characters' });
     }
-    if (this.state.password.length < 6) {
+    if (!this.state.password || this.state.password.length < 6) {
       valid = false;
       this.setState({ passwordError: 'password must be at least 6 characters' });
     }
-    if (this.state.password !== this.state.confirmPassword) {
+    if (!this.state.confirmPassword || this.state.password !== this.state.confirmPassword) {
       valid = false;
-      this.setState({ passwordError: 'passwords don\'t match' });
+      this.setState({ confirmPasswordError: 'passwords don\'t match' });
     }
 
     return valid;
@@ -73,32 +95,35 @@ class Signup extends React.Component {
   render() {
     return (
       <Row size={4}>
-      <Col>
+        <Col>
         <FormLabel>Email</FormLabel>
           <FormInput
             onChangeText={(value) => {
-              this.setState({ email: value });
+              this.setState({ email: value, emailError: null });
             }}
           />
           {this.state.emailError && <FormValidationMessage>{this.state.emailError}</FormValidationMessage>}
           <FormLabel>Username</FormLabel>
           <FormInput
+            maxLength={15}
             onChangeText={(value) => {
-              this.setState({ username: value });
+              this.setState({ username: value, usernameError: null });
             }}
           />
           {this.state.usernameError && <FormValidationMessage>{this.state.usernameError}</FormValidationMessage>}
           <FormLabel>Password</FormLabel>
           <FormInput
+            secureTextEntry={true}
             onChangeText={(value) => {
-              this.setState({ password: value });
+              this.setState({ password: value, passwordError: null });
             }}
           />
           {this.state.passwordError && <FormValidationMessage>{this.state.passwordError}</FormValidationMessage>}
           <FormLabel>Confirm Password</FormLabel>
           <FormInput
+            secureTextEntry={true}
             onChangeText={(value) => {
-              this.setState({ confirmPassword: value });
+              this.setState({ confirmPassword: value, confirmPasswordError: null });
             }}
           />
           {this.state.confirmPasswordError && <FormValidationMessage>{this.state.confirmPasswordError}</FormValidationMessage>}
@@ -107,7 +132,7 @@ class Signup extends React.Component {
             large
             title='SIGN UP'
             backgroundColor='steelblue'
-            onPress={() => { console.log('*** THIS ***') }}
+            onPress={this.createUser.bind(this)}
             loading={this.props.loading}
             disabled={this.props.loading}
           />
@@ -118,7 +143,7 @@ class Signup extends React.Component {
 }
 
 Signup.propTypes = {
-  auth0: PropTypes.object,
+  loading: PropTypes.bool,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);
