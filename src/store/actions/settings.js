@@ -1,6 +1,9 @@
+import axios from 'axios';
 import { createAction } from 'redux-actions';
+import { API_URL } from '../../utilities/const';
 
 export const actions = {
+  SET_SETTINGS: 'settings/SET_SETTINGS',
   OPEN_MODAL: 'settings/OPEN_MODAL',
   CLOSE_MODAL: 'settings/CLOSE_MODAL',
   CHANGE_SIZE: 'settings/CHANGE_SIZE',
@@ -11,15 +14,48 @@ export const actions = {
   ERROR: 'settings/ERROR',
 };
 
-// export const openModal = createAction(actions.OPEN_MODAL);
-// export const closeModal = createAction(actions.CLOSE_MODAL);
-// export const changeSize = createAction(actions.CHANGE_SIZE, (payload) => payload);
-// export const changeLength = createAction(actions.CHANGE_LENGTH, (payload) => payload);
-// export const toggleTimer = createAction(actions.TOGGLE_TIMER);
-
+const setSettings = createAction(actions.SET_SETTINGS, (payload) => payload);
 const loading = createAction(actions.LOADING);
 const loaded = createAction(actions.LOADED);
 const error = createAction(actions.ERROR, (payload) => payload);
+
+export function loadSettings(username) {
+  return function(dispatch) {
+    dispatch(loading());
+    axios.get(`${API_URL}/api/settings/${username}`).then((res) => {
+      dispatch(setSettings(res.data));
+      dispatch(loaded());
+    }).catch((err) => {
+      console.warn('Error loading settings:', err);
+      dispatch(error('Error loading settings'));
+    });
+  }
+}
+
+export function updateSettings(username, settings) {
+  return function(dispatch) {
+    dispatch(loading());
+    axios.put(`${API_URL}/api/settings/${username}`, {
+      settings: settings
+    })
+    .then((res) => {
+      console.log('*** SETTINGS UPDATE RES ***', res);
+
+      dispatch(setSettings(res.data));
+      dispatch(loaded());
+      dispatch({
+        type: actions.CLOSE_MODAL,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch(error('Error updating settings'));
+      dispatch({
+        type: actions.CLOSE_MODAL,
+      });
+    });
+  }
+}
 
 export function openModal() {
   return function(dispatch) {

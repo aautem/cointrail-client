@@ -5,6 +5,10 @@ const initialState = getInitialState().settings;
 
 export default function reducer(state = initialState, action) {
 
+  if (action.type === actions.SET_SETTINGS) {
+    return Object.assign({}, state, action.payload);
+  }
+
   if (action.type === actions.OPEN_MODAL) {
     return Object.assign({}, state, { showModal: true });
   }
@@ -22,8 +26,20 @@ export default function reducer(state = initialState, action) {
   }
 
   if (action.type === actions.TOGGLE_TIMER) {
-    const timer = !state.timer;
-    return Object.assign({}, state, { timer: timer });
+    const timeLimit = !state.timeLimit;
+    return Object.assign({}, state, { timeLimit: timeLimit });
+  }
+
+  if (action.type === actions.LOADING) {
+    return Object.assign({}, state, { loading: true, loaded: false });
+  }
+
+  if (action.type === actions.LOADED) {
+    return Object.assign({}, state, { loading: false, loaded: true });
+  }
+
+  if (action.type === actions.ERROR) {
+    return Object.assign({}, state, { loading: false, error: action.payload });
   }
 
   return state;

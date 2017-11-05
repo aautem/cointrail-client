@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as settingsActions from '../../../store/actions/settings';
-import { Modal, Text, Slider, Switch } from 'react-native';
+import { Modal, Text, Slider, Switch, ActivityIndicator } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Button } from 'react-native-elements';
 
@@ -12,9 +12,10 @@ const styles = require('../../../styles/modals');
 function mapStateToProps(state) {
   return {
     showModal: state.settings.showModal,
+    username: state.user.username,
     size: state.settings.size,
     length: state.settings.length,
-    timer: state.settings.timer,
+    timeLimit: state.settings.timeLimit,
     loading: state.settings.loading,
     loaded: state.settings.loaded,
     error: state.settings.error,
@@ -24,6 +25,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     closeModal: settingsActions.closeModal,
+    loadSettings: settingsActions.loadSettings,
+    updateSettings: settingsActions.updateSettings,
     changeSize: settingsActions.changeSize,
     changeLength: settingsActions.changeLength,
     toggleTimer: settingsActions.toggleTimer,
@@ -31,6 +34,25 @@ function mapDispatchToProps(dispatch) {
 };
 
 class SettingsModal extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.showModal && nextProps.showModal && !nextProps.loaded) {
+      this.props.loadSettings(this.props.username);
+    }
+  }
+
+  saveSettings() {
+    const settings = {
+      size: this.props.size,
+      length: this.props.length,
+      timeLimit: this.props.timeLimit,
+    }
+    this.props.updateSettings(this.props.username, settings);
+  }
+
   render() {
     return (
       <Modal
@@ -40,74 +62,82 @@ class SettingsModal extends React.Component {
         onRequestClose={this.props.closeModal}
       >
         <Grid>
-          <Col size={1} style={styles.transparent}></Col>
-          <Col size={4}>
-            <Row size={1} style={styles.transparent}></Row>
+          {this.props.loading &&
+          <Col style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator animating={true} color='steelblue' size='large' />
+          </Col>}
+
+          {!this.props.loading &&
+          <Col>
             <Row size={3} style={{ backgroundColor: '#fff' }}>
               <Col style={styles.column}>
-                <Row>
-                  <Text>Default Settings</Text>
+                <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
+                  <Text style={{ color: 'steelblue', fontWeight: 'bold' }}>DEFAULT SETTINGS</Text>
                 </Row>
                 <Row>
                   <Col style={styles.column}>
-                    <Row>
-                      <Text>Board Size: {this.props.size}</Text>
+                    <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
+                      <Text>{this.props.size} x {this.props.size} Board</Text>
                     </Row>
-                    <Row>
-                      <Slider
-                        minimumValue={4}
-                        maximumValue={6}
-                        value={this.props.size}
-                        step={1}
-                        onSlidingComplete={(size) => { this.props.changeSize(size) }}
-                        style={styles.fullWidth}
-                      />
+                    <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
+                      <Col></Col>
+                      <Col size={3}>
+                        <Slider
+                          minimumValue={4}
+                          maximumValue={6}
+                          value={this.props.size}
+                          step={1}
+                          onSlidingComplete={(size) => { this.props.changeSize(size) }}
+                          style={styles.fullWidth}
+                        />
+                      </Col>
+                      <Col></Col>
                     </Row>
                   </Col>
                 </Row>
                 <Row>
                   <Col style={styles.column}>
-                    <Row>
-                      <Text>Series Length: {this.props.length}</Text>
+                    <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
+                      <Text>{this.props.length} Game Series</Text>
                     </Row>
-                    <Row>
-                      <Slider
-                        minimumValue={3}
-                        maximumValue={11}
-                        value={this.props.length}
-                        step={4}
-                        onSlidingComplete={(length) => { this.props.changeLength(length) }}
-                        style={styles.fullWidth}
-                      />
+                    <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
+                      <Col></Col>
+                      <Col size={3}>
+                        <Slider
+                          minimumValue={3}
+                          maximumValue={11}
+                          value={this.props.length}
+                          step={4}
+                          onSlidingComplete={(length) => { this.props.changeLength(length) }}
+                          style={styles.fullWidth}
+                        />
+                      </Col>
+                      <Col></Col>
                     </Row>
                   </Col>
                 </Row>
                 <Row>
                   <Col style={styles.column}>
-                    <Row>
-                      <Text>Timer: {this.props.timer ? 'On' : 'Off'}</Text>
-                    </Row>
-                    <Row>
+                    <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
+                      <Text>Time Limit</Text>
                       <Switch
-                        value={this.props.timer}
+                        value={this.props.timeLimit}
                         onValueChange={() => { this.props.toggleTimer() }}
                       />
                     </Row>
                   </Col>
                 </Row>
-                <Row>
+                <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
                   <Button
                     title='Save'
                     backgroundColor='steelblue'
-                    onPress={this.props.closeModal}
+                    onPress={this.saveSettings.bind(this)}
                     buttonStyle={{ width: '100%' }}
                   />
                 </Row>
               </Col>
             </Row>
-            <Row size={1} style={styles.transparent}></Row>
-          </Col>
-          <Col size={1} style={styles.transparent}></Col>
+          </Col>}
         </Grid>
       </Modal>
     );
@@ -116,9 +146,10 @@ class SettingsModal extends React.Component {
 
 SettingsModal.propTypes = {
   showModal: PropTypes.bool,
+  username: PropTypes.string,
   size: PropTypes.number,
   length: PropTypes.number,
-  timer: PropTypes.bool,
+  timeLimit: PropTypes.bool,
   loading: PropTypes.bool,
   loaded: PropTypes.bool,
   error: PropTypes.string,
@@ -126,6 +157,8 @@ SettingsModal.propTypes = {
   changeLength: PropTypes.func,
   toggleTimer: PropTypes.func,
   closeModal: PropTypes.func,
+  loadSettings: PropTypes.func,
+  updateSettings: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsModal);
