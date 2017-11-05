@@ -2,10 +2,10 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import * as settingsActions from '../../../store/actions/settings';
 import { Modal, Text, Slider, Switch } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Button } from 'react-native-elements';
-import * as actions from '../../../store/actions/settings';
 
 const styles = require('../../../styles/modals');
 
@@ -23,18 +23,14 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    closeModal: actions.closeModal,
-    changeSize: actions.changeSize,
-    changeLength: actions.changeLength,
-    toggleTimer: actions.toggleTimer,
+    closeModal: settingsActions.closeModal,
+    changeSize: settingsActions.changeSize,
+    changeLength: settingsActions.changeLength,
+    toggleTimer: settingsActions.toggleTimer,
   }, dispatch);
 };
 
 class SettingsModal extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <Modal

@@ -1,4 +1,4 @@
-// import axios from 'axios';
+import { createAction } from 'redux-actions';
 
 export const actions = {
   OPEN_MODAL: 'settings/OPEN_MODAL',
@@ -10,6 +10,16 @@ export const actions = {
   LOADED: 'settings/LOADED',
   ERROR: 'settings/ERROR',
 };
+
+// export const openModal = createAction(actions.OPEN_MODAL);
+// export const closeModal = createAction(actions.CLOSE_MODAL);
+// export const changeSize = createAction(actions.CHANGE_SIZE, (payload) => payload);
+// export const changeLength = createAction(actions.CHANGE_LENGTH, (payload) => payload);
+// export const toggleTimer = createAction(actions.TOGGLE_TIMER);
+
+const loading = createAction(actions.LOADING);
+const loaded = createAction(actions.LOADED);
+const error = createAction(actions.ERROR, (payload) => payload);
 
 export function openModal() {
   return function(dispatch) {

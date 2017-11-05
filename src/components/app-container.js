@@ -33,6 +33,10 @@ function mapDispatchToProps(dispatch) {
 };
 
 class AppContainer extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  
   componentWillMount() {
     this.props.loadConfig();
   }

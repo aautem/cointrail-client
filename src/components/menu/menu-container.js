@@ -25,8 +25,6 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     openSettingsModal: settingsActions.openModal,
     openProfileModal: userActions.openModal,
-    openMessagesModal: null,
-    openHelpModal: null,
     changePage: appActions.changePage,
   }, dispatch);
 };
@@ -46,9 +44,24 @@ class MenuContainer extends React.Component {
         <Col style={{ backgroundColor: '#fff' }}>
           <Row size={1.5}>
             <Header
-              leftComponent={<HeaderIcon name='settings' type='material-community' color='#fff' onPress={this.props.openSettingsModal} />}
-              centerComponent={{ text: constants.APP_TITLE, style: { color: '#fff', fontWeight: 'bold' } }}
-              rightComponent={<HeaderIcon name='account-circle' type='material-community' color='#fff' onPress={this.props.openProfileModal} />}
+              leftComponent={
+                <HeaderIcon
+                  name='settings'
+                  type='material-community'
+                  color='#fff'
+                  onPress={this.props.openSettingsModal}
+                />}
+              centerComponent={{
+                text: constants.APP_TITLE,
+                style: { color: '#fff', fontWeight: 'bold' },
+              }}
+              rightComponent={
+                <HeaderIcon
+                  name='account-circle'
+                  type='material-community'
+                  color='#fff'
+                  onPress={this.props.openProfileModal}
+                />}
               outerContainerStyles={{ backgroundColor: 'steelblue' }}
             />
           </Row>
