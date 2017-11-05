@@ -2,18 +2,14 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import * as gameActions from '../../store/actions/game';
+import Drawer from 'react-native-drawer';
+import BottomDrawer from './bottom-drawer';
 import Scoreboard from './scoreboard';
 import Dropzone from './board/dropzone';
 import BoardContainer from './board/board-container';
-import BottomDrawer from './bottom-drawer';
-import Drawer from 'react-native-drawer';
-import * as game from '../../store/actions/game';
 
-import { Grid, Col, Row } from 'react-native-easy-grid';
-import { Text } from 'react-native';
-import { Header, Button } from 'react-native-elements';
-
-const styles = require('../../styles/containers');
+const styles = require('../../styles/app');
 
 function mapStateToProps(state) {
   return {
@@ -23,7 +19,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    initializeBoard: game.initializeBoard,
+    initializeBoard: gameActions.initializeBoard,
   }, dispatch);
 };
 
@@ -33,38 +29,35 @@ class GameContainer extends React.Component {
   }
 
   componentWillMount() {
-    // this.props.initializeSettings(this.props.settings);
-
     this.props.initializeBoard(this.props.size);
-
     // set up series and game states
   }
 
   componentWillUnmount() {}
 
-  resetGameboard() {
-    const newGameboard = this.initializeBoard(this.state.size);
-    this.setState((state) => {
-      state.board = newGameboard;
-      return state;
-    });
-  }
+  // resetGameboard() {
+  //   const newGameboard = this.initializeBoard(this.state.size);
+  //   this.setState((state) => {
+  //     state.board = newGameboard;
+  //     return state;
+  //   });
+  // }
 
-  resetBoardPoints() {
-    const newBoardPoints = this.getBoardPoints(this.state.size);
-    this.setState((state) => {
-      state.boardPoints = newBoardPoints;
-      return state;
-    });
-  }
+  // resetBoardPoints() {
+  //   const newBoardPoints = this.getBoardPoints(this.state.size);
+  //   this.setState((state) => {
+  //     state.boardPoints = newBoardPoints;
+  //     return state;
+  //   });
+  // }
 
-  resetScoreboard() {
-    this.setState((state) => {
-      state.player1Score = 0;
-      state.player2Score = 0;
-      return state;
-    });
-  }
+  // resetScoreboard() {
+  //   this.setState((state) => {
+  //     state.player1Score = 0;
+  //     state.player2Score = 0;
+  //     return state;
+  //   });
+  // }
 
   openDrawer() {
     this._drawer.open();
@@ -93,8 +86,9 @@ class GameContainer extends React.Component {
   }
 }
 
-// GameContainer.propTypes = {
-//   //
-// };
+GameContainer.propTypes = {
+  initializeBoard: PropTypes.func,
+  size: PropTypes.number,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameContainer);

@@ -2,6 +2,8 @@ import { createAction } from 'redux-actions';
 import * as appActions from './app';
 import * as userActions from './user';
 import Auth0 from 'react-native-auth0';
+import io from 'socket.io-client';
+import { API_URL } from '../../utilities/const';
 
 const auth0 = new Auth0({ domain: 'app77626749.auth0.com', clientId: 'z2xIFUI0P4OLA4S_uJ2CADCe3A2AKsH5' });
 
@@ -45,22 +47,31 @@ export function login(username, password) {
         //   "updatedAt": "2017-11-05T02:19:16.652Z",
         // };
 
-        const player = {
-          id: null,
-          username: user.nickname,
-          avatar: user.picture,
-        };
+        // LOAD USER PREFERENCES & SETTINGS
 
-        dispatch(userActions.setUser(player));
+        // open Socket.IO connection
+        const socket = io(API_URL);
+
+        // configureSocketConnection(socket);
+        socket.on('user-request', (socketId, makeUserOnline) => {
+          const player = {
+            id: socketId,
+            username: user.nickname,
+            avatar: user.picture,
+            inGame: false,
+          };
+          dispatch(userActions.setUser(player));
+          makeUserOnline(player);
+        });
+
+        dispatch(appActions.storeSocketConnection(socket));
         dispatch(appActions.changePage('menu'));
         dispatch(authenticated());
       });
     }).catch((err) => {
       const errString = JSON.stringify(err);
       const errMsg = JSON.parse(errString).message || 'login error';
-
       console.warn('Login Error:', errMsg);
-
       dispatch(error(errMsg));
     });
   }
@@ -91,9 +102,7 @@ export function createUser(email, username, password) {
     }).catch((err) => {
       const errString = JSON.stringify(err);
       const errMsg = JSON.parse(errString).message || 'signup error';
-
       console.warn('Signup Error:', errMsg);
-
       dispatch(error(errMsg));
     });
   }

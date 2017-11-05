@@ -8,7 +8,7 @@ import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Text } from 'react-native';
 import { Header, Button } from 'react-native-elements';
 
-const styles = require('../../../styles/containers');
+const styles = require('../../../styles/app');
 
 function mapStateToProps(state) {
   return {

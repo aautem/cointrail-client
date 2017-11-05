@@ -87,7 +87,6 @@ class Login extends React.Component {
             title='LOGIN'
             backgroundColor='steelblue'
             onPress={this.login.bind(this)}
-            loading={this.props.loading}
             disabled={this.props.loading}
           />
           <TouchableHighlight onPress={() => { this.props.changePage('signup') }}>

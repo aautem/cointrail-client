@@ -1,21 +1,21 @@
 export default function getInitialState() {
   return {
     auth: {
-      page: 'login', // login // signup // forgot-password //
+      page: 'login', // login | signup | forgot-password
       loading: false,
       authenticated: false,
       error: null,
     },
     app: {
+      config: null,
       socket: null,
-      page: 'auth', // auth // menu // game //
+      page: 'auth', // auth | menu | game
       loading: false,
       loaded: false,
       error: null,
     },
     user: {
       id: null,
-      socketId: null,
       username: null,
       avatar: null,
       color: 'steelblue',
