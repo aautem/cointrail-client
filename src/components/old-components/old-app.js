@@ -32,20 +32,6 @@ export default class App extends React.Component {
     this.quitGame = this.quitGame.bind(this);
   }
 
-  componentWillMount() {
-    // const auth0 = new Auth0({ domain: 'aautem.auth0.com', clientId: 'CXuCytj2Wgf5Om6M2sEfB80001Vd5N9j' });
-    // auth0
-    //   .webAuth
-    //   .authorize({scope: 'openid email', audience: 'https://aautem.auth0.com/userinfo'})
-    //   .then((credentials) => {
-    //     console.log(credentials);
-    //     // Successfully authenticated
-    //     // Store the accessToken
-    //   }).catch((error) => {
-    //     console.log(error);
-    //   });
-  }
-
   openGameOptionsModal() {
     this.setState((state) => {
       state.gameOptionsModalVisible = true;

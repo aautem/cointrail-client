@@ -2,21 +2,25 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, TouchableHighlight } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
+import * as auth from '../../store/actions/auth';
 
 const styles = require('../../styles/app');
 
 function mapStateToProps(state) {
   return {
     loading: state.auth.loading,
+    authenticated: state.auth.authenticated,
+    error: state.auth.error,
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    //
+    createUser: auth.createUser,
+    changePage: auth.changePage,
   }, dispatch);
 };
 
@@ -33,7 +37,6 @@ class Signup extends React.Component {
       usernameError: null,
       passwordError: null,
       confirmPasswordError: null,
-      auth0Error: null,
     };
   }
 
@@ -43,29 +46,7 @@ class Signup extends React.Component {
 
   createUser() {
     if (this.validInput()) {
-      // const params = {
-      //   email: this.state.email,
-      //   username: this.state.username,
-      //   password: this.state.password,
-      //   connection: 'Username-Password-Authentication',
-      // };
-
-      // this.props.auth0.auth.createUser(params).then((user) => {
-      //   console.log('*** USER CREATED ***', user);
-
-      //   // user = {
-      //   //   "Id": "59fe8c96b84acc463c6e9713",
-      //   //   "email": "aautem@trifinlabs.com",
-      //   //   "emailVerified": false,
-      //   //   "username": "aa",
-      //   // };
-
-      //   // login user and route to menu
-        
-      // }).catch((e) => {
-      //   console.log(e);
-      //   this.setState({ auth0Error: e });
-      // });
+      this.props.createUser(this.state.email, this.state.username, this.state.password);
     }
   }
 
@@ -127,7 +108,7 @@ class Signup extends React.Component {
             }}
           />
           {this.state.confirmPasswordError && <FormValidationMessage>{this.state.confirmPasswordError}</FormValidationMessage>}
-          {this.state.auth0Error && <FormValidationMessage>{this.state.auth0Error}</FormValidationMessage>}
+          {this.props.error && <FormValidationMessage>{this.props.error}</FormValidationMessage>}
           <Button
             large
             title='SIGN UP'
@@ -136,6 +117,9 @@ class Signup extends React.Component {
             loading={this.props.loading}
             disabled={this.props.loading}
           />
+          <TouchableHighlight onPress={() => { this.props.changePage('login') }}>
+            <Text style={{ textAlign: 'center' }}>Login</Text>
+          </TouchableHighlight>
         </Col>
       </Row>
     );
@@ -143,7 +127,11 @@ class Signup extends React.Component {
 }
 
 Signup.propTypes = {
+  createUser: PropTypes.func,
+  changePage: PropTypes.func,
   loading: PropTypes.bool,
+  authenticated: PropTypes.bool,
+  error: PropTypes.string,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);

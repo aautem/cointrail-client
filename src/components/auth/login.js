@@ -2,7 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, TouchableHighlight } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
 import * as auth from '../../store/actions/auth';
@@ -20,6 +20,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     login: auth.login,
+    changePage: auth.changePage,
   }, dispatch);
 };
 
@@ -89,6 +90,10 @@ class Login extends React.Component {
             loading={this.props.loading}
             disabled={this.props.loading}
           />
+          <TouchableHighlight onPress={() => { this.props.changePage('signup') }}>
+            <Text>Signup</Text>
+          </TouchableHighlight>
+          <Text>Forgot Password</Text>
           <Text>Google</Text>
           <Text>Facebook</Text>
         </Col>
@@ -99,6 +104,7 @@ class Login extends React.Component {
 
 Login.propTypes = {
   login: PropTypes.func,
+  changePage: PropTypes.func,
   loading: PropTypes.bool,
   authenticated: PropTypes.bool,
   error: PropTypes.string,

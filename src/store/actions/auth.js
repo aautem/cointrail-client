@@ -30,15 +30,17 @@ export function login(username, password) {
 
     // returns an auth token
     auth0.auth.passwordRealm(params).then((token) => {
-      auth0.auth.userInfo({ token: token.accessToken }).then((user) => {
-        console.log('*** USER ***', user);
+      console.log('*** TOKEN ***', token);
 
-        // response = {
+      auth0.auth.userInfo({ token: token.accessToken }).then((user) => {
+        console.log('*** USER FOUND ***', user);
+
+        // EXAMPLE RESPONSE: {
         //   "email": "autem.alex@gmail.com",
         //   "emailVerified": true,
         //   "name": "autem.alex@gmail.com",
         //   "nickname": "aautem",
-        //   "picture": "https://s.gravatar.com/avatar/ed70ccead677f6d59ba3edac7d3acb64?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fau.png",
+        //   "picture": "https://s.gravatar.com/avatar/auth0.png",
         //   "sub": "auth0|59fe6a116be939112c29137d",
         //   "updatedAt": "2017-11-05T02:19:16.652Z",
         // };
@@ -55,9 +57,42 @@ export function login(username, password) {
       });
     }).catch((err) => {
       const errString = JSON.stringify(err);
-      const errMsg = JSON.parse(errString).message || 'Login error';
+      const errMsg = JSON.parse(errString).message || 'login error';
 
-      console.warn('Login error:', errMsg);
+      console.warn('Login Error:', errMsg);
+
+      dispatch(error(errMsg));
+    });
+  }
+}
+
+export function createUser(email, username, password) {
+  return function(dispatch) {
+    dispatch(loading());
+
+    const params = {
+      email: email,
+      username: username,
+      password: password,
+      connection: 'Username-Password-Authentication',
+    };
+
+    auth0.auth.createUser(params).then((user) => {
+      console.log('*** USER CREATED ***', user);
+
+      // EXAMPLE RESPONSE: {
+      //   "Id": "59fe8c96b84acc463c6e9713",
+      //   "email": "aautem@trifinlabs.com",
+      //   "emailVerified": false,
+      //   "username": "aautem",
+      // };
+
+      dispatch(login(username, password));
+    }).catch((err) => {
+      const errString = JSON.stringify(err);
+      const errMsg = JSON.parse(errString).message || 'signup error';
+
+      console.warn('Signup Error:', errMsg);
 
       dispatch(error(errMsg));
     });

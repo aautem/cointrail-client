@@ -15,6 +15,7 @@ export default function getInitialState() {
     },
     user: {
       id: null,
+      socketId: null,
       username: null,
       avatar: null,
       color: 'steelblue',
