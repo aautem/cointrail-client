@@ -2,23 +2,19 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import * as game from '../../../store/actions/game';
-
-import { Grid, Col, Row } from 'react-native-easy-grid';
-import { Text } from 'react-native';
-import { Header, Button, Icon } from 'react-native-elements';
+import * as gameActions from '../../../store/actions/game';
+import { Col } from 'react-native-easy-grid';
+import { Icon } from 'react-native-elements';
 
 function mapStateToProps(state) {
   return {
-    boardSize: state.series.boardSize,
-    turn: state.game.turn,
-    board: state.game.board,
+    //
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    dropCoin: game.dropCoin,
+    dropCoin: gameActions.dropCoin,
   }, dispatch);
 };
 
@@ -27,13 +23,15 @@ class DropButton extends React.Component {
     super(props);
   }
 
-  componentWillMount() {}
-
-  componentWillUnmount() {}
+  dropCoin() {
+    // only drop coin if column has room
+    if (!this.props.game.board[0][this.props.colId]) {
+      this.props.dropCoin(this.props.game, this.props.colId);
+    }
+  }
 
   render() {
-    const color = !this.props.board[0][this.props.colId] ? 'steelblue' : 'lightgrey';
-
+    const color = !this.props.game.board[0][this.props.colId] ? 'steelblue' : 'lightgrey';
     return (
       <Col style={{ justifyContent: 'center', alignItems: 'center' }}>
         <Icon
@@ -41,7 +39,7 @@ class DropButton extends React.Component {
           name='ios-arrow-dropdown-outline'
           type='ionicon'
           color={color}
-          onPress={() => { this.props.dropCoin(this.props.colId, this.props.turn) }}
+          onPress={this.dropCoin.bind(this)}
         />
       </Col>
     );
@@ -51,7 +49,8 @@ class DropButton extends React.Component {
 DropButton.propTypes = {
   key: PropTypes.string,
   colId: PropTypes.number,
-  board: PropTypes.array,
+  game: PropTypes.object,
+  dropCoin: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DropButton);

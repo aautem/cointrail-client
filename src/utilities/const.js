@@ -4,7 +4,7 @@ export const API_URL = 'https://contrail-api.herokuapp.com';
 export const APP_PAGES = {
   AUTH: 'auth',
   MENU: 'menu',
-  GAME: 'game',
+  SERIES: 'series',
 };
 
 export const AUTH_PAGES = {

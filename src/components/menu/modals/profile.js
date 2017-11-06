@@ -62,7 +62,7 @@ class ProfileModal extends React.Component {
             <Row><Text style={{ color: 'steelblue', fontSize: 20, fontWeight: 'bold' }}>{this.props.username}</Text></Row>
             <Row><Text>Wins: {this.props.stats.wins}</Text></Row>
             <Row><Text>Losses: {this.props.stats.losses}</Text></Row>
-            <Row><Text>Ties: {this.props.stats.ties}</Text></Row>
+            <Row><Text>Draws: {this.props.stats.draws}</Text></Row>
             <Row><Text>Total Points: {this.props.stats.totalPoints}</Text></Row>
             <Row><Text>Wins by Default: {this.props.stats.winsByDefault}</Text></Row>
             <Row><Text>Games Played: {this.props.stats.gamesPlayed}</Text></Row>

@@ -1,17 +1,22 @@
 import { createAction } from 'redux-actions';
+import { APP_PAGES } from '../../utilities/const';
 import socketUtility from '../../utilities/socket';
-import * as settingsActions from './settings';
+import * as appActions from './app';
 
 export const actions = {
-  JOIN_GAME: 'series/JOIN_GAME',
+  INITIALIZE_SERIES: 'series/INITIALIZE_SERIES',
+  UPSERT_GAME: 'series/UPSERT_GAME',
   LOADING: 'series/LOADING',
   LOADED: 'series/LOADED',
   ERROR: 'series/ERROR',
 };
 
+const initializeSeries = createAction(actions.INITIALIZE_SERIES, (payload) => payload);
 const loading = createAction(actions.LOADING);
 const loaded = createAction(actions.LOADED);
 const error = createAction(actions.ERROR, (payload) => payload);
+
+export const upsertGame = createAction(actions.UPSERT_GAME, (payload) => payload);
 
 export function joinGame() {
   return function(dispatch, getState) {
@@ -22,35 +27,59 @@ export function joinGame() {
     const player = Object.assign({}, user, { settings: settings });
     console.log('*** PLAYER ***', player);
 
-    // emit game request event
-    socketUtility.socket().emit('join-game', player, (res) => {
-      // Set series and game objects in state
-      console.log('*** JOINING GAME ***', res);
+    const socket = socketUtility.socket();
+    socket.emit('join-game', player, (response) => {
+      console.log('*** JOINING GAME ***', response);
 
-      let newGame = {};
+      // players{}
+      // roomName
+      // seriesLength
+      // boardSize
+      // timeLimit
+      // gamesPlayed
+      // games[]
+      // winner
+      // draw
+      // seriesOver
+      // winByPoints
 
-      if (res === 'waiting') {
-        socketUtility.socket().on('opponent-found', (opponent) => {
-          console.log('*** OPPONENT FOUND ***', opponent);
-          newGame.opponent = opponent;
+      if (response === 'waiting') {
+        let joined = false;
+
+        socket.on('series-created', (series) => {
+          console.log('*** SERIES CREATED ***', series);
+
+          joined = true;
+          dispatch(initializeSeries(series));
+          dispatch(appActions.changePage(APP_PAGES.SERIES));
+          dispatch(loaded());
         });
 
         // wait up to 20 seconds for opponent
         setTimeout(() => {
-          if (!newGame.opponent) {
-            socketUtility.socket().emit('cancel-game-request', player.id, (res) => {
-              console.log('*** GAME REQUEST CANCELLED ***', res);
+          if (!joined) {
+            socket.emit('cancel-game-request', player.id, (ack) => {
+              console.log('*** GAME REQUEST CANCELLED ***', ack);
+
+              dispatch(error(ack));
             });
           }
         }, 20000);
 
-          // try again later alert to return to menu
-          // socket emit remove socket from waiting room
+        // try again later alert to return to menu
+        // socket emit remove socket from waiting room
         // else configure series and settings from new response
+
       } else {
-        // configure series and series settings with response data
-        newGame.opponent = res;
+        dispatch(initializeSeries(response));
+        dispatch(appActions.changePage(APP_PAGES.SERIES));
+        dispatch(loaded());
       }
+    });
+
+    socket.on('game-update', (updatedGame, ack) => {
+      dispatch(upsertGame(updatedGame));
+      ack(200);
     });
     
     // SERVER:

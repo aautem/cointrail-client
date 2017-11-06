@@ -8,7 +8,7 @@ import { Grid, Col } from 'react-native-easy-grid';
 import { ActivityIndicator } from 'react-native';
 import AuthContainer from './auth/auth-container';
 import MenuContainer from './menu/menu-container';
-import GameContainer from './game/game-container';
+import SeriesContainer from './series/series-container';
 
 const styles = require('../styles/app');
 
@@ -57,7 +57,7 @@ class AppContainer extends React.Component {
         <Col>
           {this.props.page === constants.APP_PAGES.AUTH && <AuthContainer />}
           {this.props.page === constants.APP_PAGES.MENU && <MenuContainer />}
-          {this.props.page === constants.APP_PAGES.GAME && <GameContainer />}
+          {this.props.page === constants.APP_PAGES.SERIES && <SeriesContainer />}
         </Col>
       </Grid>
     );

@@ -11,16 +11,16 @@ import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Header, Button } from 'react-native-elements';
 import TopNav from './top-nav';
 import HeaderIcon from './header-icon';
-import SettingsModal from './settings/settings-modal';
-import ProfileModal from './profile/profile-modal';
+import SettingsModal from './modals/settings';
+import ProfileModal from './modals/profile';
 import FriendsContainer from './friends/friends-container';
 import MenuButton from './menu-button';
-
-const styles = require('../../styles/app');
+import GameRequestModal from './modals/game-request';
+const _appSS = require('../../styles/app');
 
 function mapStateToProps(state) {
   return {
-    //
+    seriesLoading: state.series.loading,
   };
 };
 
@@ -50,7 +50,7 @@ class MenuContainer extends React.Component {
           <Row size={3}>
             <FriendsContainer />
           </Row>
-          <Row size={2} style={styles.center}>
+          <Row size={2} style={_appSS.center}>
             <MenuButton
               icon={{ type: 'font-awesome', name: 'play-circle' }}
               title='PLAY NOW'
@@ -58,7 +58,7 @@ class MenuContainer extends React.Component {
               loading={false}
             />
           </Row>
-          <Row size={2} style={styles.center}>
+          <Row size={2} style={_appSS.center}>
             <MenuButton
               icon={{ type: 'material-community', name: 'message-text-outline' }}
               title='MESSAGES'
@@ -66,7 +66,7 @@ class MenuContainer extends React.Component {
               loading={false}
             />
           </Row>
-          <Row size={2} style={styles.center}>
+          <Row size={2} style={_appSS.center}>
             <MenuButton
               icon={{ type: 'ionicon', name: 'md-stats' }}
               title='LEADERBOARD'
@@ -74,7 +74,7 @@ class MenuContainer extends React.Component {
               loading={false}
             />
           </Row>
-          <Row size={2} style={styles.center}>
+          <Row size={2} style={_appSS.center}>
             <MenuButton
               icon={{ type: 'material', name: 'help' }}
               title='HOW TO PLAY'
@@ -84,6 +84,9 @@ class MenuContainer extends React.Component {
           </Row>
           <SettingsModal />
           <ProfileModal />
+          <GameRequestModal
+            showModal={this.props.seriesLoading}
+          />
         </Col>
       </Grid>
     );
@@ -93,6 +96,7 @@ class MenuContainer extends React.Component {
 MenuContainer.propTypes = {
   changePage: PropTypes.func,
   joinGame: PropTypes.func,
+  seriesLoading: PropTypes.bool,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuContainer);
