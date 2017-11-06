@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import TurnArrow from './turn-arrow';
 import ScoreCard from './score-card';
 import { Col, Row } from 'react-native-easy-grid';
-const _appSS = require('../../styles/app');
+const _appSS = require('../../../styles/app');
 
 export default class ScoreBoard extends React.Component {
   render() {

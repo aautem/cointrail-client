@@ -87,7 +87,7 @@ class SettingsModal extends React.Component {
                           maximumValue={6}
                           value={this.props.boardSize}
                           step={1}
-                          onSlidingComplete={(boardSize) => { this.props.changeSize(size) }}
+                          onSlidingComplete={(boardSize) => { this.props.changeSize(boardSize) }}
                           style={styles.fullWidth}
                         />
                       </Col>

@@ -20,12 +20,10 @@ const error = createAction(actions.ERROR, (payload) => payload);
 export const upsertGame = createAction(actions.UPSERT_GAME, (payload) => payload);
 export const upsertSeries = createAction(actions.UPSERT_SERIES, (payload) => payload);
 
-export function joinGame() {
-  return function(dispatch, getState) {
+export function joinGame(user, settings) {
+  return function(dispatch) {
     dispatch(loading());
 
-    const user = getState().user;
-    const settings = getState().settings;
     const player = Object.assign({}, user, { settings: settings });
     console.log('*** PLAYER ***', player);
 
@@ -48,26 +46,36 @@ export function joinGame() {
       if (response === 'waiting') {
         let joined = false;
 
-        socket.on('series-created', (series, ack) => {
+        socket.on('series-created', (series) => {
           console.log('*** SERIES CREATED ***', series);
 
           joined = true;
+          socket.join(series.roomName);
           dispatch(initializeSeries(series));
           dispatch(appActions.changePage(APP_PAGES.SERIES));
           dispatch(loaded());
-          ack(200);
+
+          // MOVE THESE INTO THE SOCKET UTILITY CLASS!!!
+          socket.on('game-update', (updatedGame) => {
+            dispatch(upsertGame(updatedGame));
+          });
+      
+          socket.on('series-update', (updatedSeries) => {
+            dispatch(upsertSeries(updatedSeries));
+          });
         });
 
-        // wait up to 20 seconds for opponent
-        setTimeout(() => {
+        // // wait up to 20 seconds for opponent
+        window.setTimeout(() => {
           if (!joined) {
+            dispatch(error('Game request timeout.'));
             socket.emit('game-request-timeout', player.id, (ack) => {
               console.log('*** GAME REQUEST CANCELLED ***', ack);
-
-              dispatch(error(ack));
             });
           }
         }, 20000);
+
+        console.log('*** TIMEOUT SET ***');
 
         // try again later alert to return to menu
         // socket emit remove socket from waiting room
@@ -77,28 +85,16 @@ export function joinGame() {
         dispatch(initializeSeries(response));
         dispatch(appActions.changePage(APP_PAGES.SERIES));
         dispatch(loaded());
+
+        // MOVE THESE INTO THE SOCKET UTILITY CLASS!!!
+        socket.on('game-update', (updatedGame) => {
+          dispatch(upsertGame(updatedGame));
+        });
+    
+        socket.on('series-update', (updatedSeries) => {
+          dispatch(upsertSeries(updatedSeries));
+        });
       }
     });
-
-    socket.on('game-update', (updatedGame, ack) => {
-      dispatch(upsertGame(updatedGame));
-      ack(200);
-    });
-
-    socket.on('series-update', (updatedSeries, ack) => {
-      dispatch(upsertSeries(updatedSeries));
-      ack(200);
-    });
-    
-    // SERVER:
-      // check waiting room array (holds one player at a time -- next player creates game and empties waiting room)
-        // if player already waiting
-          // create new game room and configure series
-        // if no player waiting
-          // add to waiting room
-
-    // CLIENT:
-      // listen for new game event and game details
-      // navigate to game page with these settings
   }
 }

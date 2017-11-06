@@ -11,21 +11,21 @@ const _appSS = require('../../styles/app');
 
 function mapStateToProps(state) {
   return {
-    seriesPlayers: state.series.players,
+    // seriesPlayers: state.series.players,
     mySeriesPlayer: state.series.players[state.user.username],
-    roomName: state.series.roomName,
-    seriesLength: state.series.seriesLength,
-    boardSize: state.series.boardSize,
-    timeLimit: state.series.timeLimit,
-    gamesPlayed: state.series.gamesPlayed,
-    games: state.series.games,
-    winner: state.series.winner,
-    draw: state.series.draw,
-    seriesOver: state.series.seriesOver,
-    winByPoints: state.series.winByPoints,
-    loading: state.series.loading,
-    loaded: state.series.loaded,
-    error: state.series.error,
+    // roomName: state.series.roomName,
+    // seriesLength: state.series.seriesLength,
+    // boardSize: state.series.boardSize,
+    // timeLimit: state.series.timeLimit,
+    // gamesPlayed: state.series.gamesPlayed,
+    // games: state.series.games,
+    // winner: state.series.winner,
+    // draw: state.series.draw,
+    // seriesOver: state.series.seriesOver,
+    // winByPoints: state.series.winByPoints,
+    // loading: state.series.loading,
+    // loaded: state.series.loaded,
+    // error: state.series.error,
     currentGame: state.series.games[state.series.games.length - 1],
   };
 };
@@ -73,7 +73,8 @@ class SeriesContainer extends React.Component {
 }
 
 SeriesContainer.propTypes = {
-  //
+  currentGame: PropTypes.object,
+  mySeriesPlayer: PropTypes.object,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SeriesContainer);

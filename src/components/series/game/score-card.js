@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Row } from 'react-native-easy';
+import { Col, Row } from 'react-native-easy-grid';
 import { Text } from 'react-native';
 import { Avatar } from 'react-native-elements';
-const _appSS = require('../../styles/app');
+const _appSS = require('../../../styles/app');
 
 export default class ScoreCard extends React.Component {
   render() {

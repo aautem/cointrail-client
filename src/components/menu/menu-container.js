@@ -20,14 +20,17 @@ const _appSS = require('../../styles/app');
 
 function mapStateToProps(state) {
   return {
+    user: state.user,
+    settings: state.settings,
     seriesLoading: state.series.loading,
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    changePage: appActions.changePage,
     joinGame: seriesActions.joinGame,
+    // changePage: appActions.changePage,
+    // logout: authActions.logout,
   }, dispatch);
 };
 
@@ -36,9 +39,9 @@ class MenuContainer extends React.Component {
     super(props);
   }
 
-  componentWillMount() {}
-
-  componentWillUnmount() {}
+  joinGame() {
+    this.props.joinGame(this.props.user, this.props.settings);
+  }
 
   render() {
     return (
@@ -54,7 +57,7 @@ class MenuContainer extends React.Component {
             <MenuButton
               icon={{ type: 'font-awesome', name: 'play-circle' }}
               title='PLAY NOW'
-              onPress={this.props.joinGame}
+              onPress={this.joinGame.bind(this)}
               loading={false}
             />
           </Row>
@@ -94,8 +97,9 @@ class MenuContainer extends React.Component {
 }
 
 MenuContainer.propTypes = {
-  changePage: PropTypes.func,
   joinGame: PropTypes.func,
+  user: PropTypes.object,
+  settings: PropTypes.object,
   seriesLoading: PropTypes.bool,
 };
 

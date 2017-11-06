@@ -15,7 +15,6 @@ const styles = require('../styles/app');
 function mapStateToProps(state) {
   return {
     config: state.app.config,
-    socket: state.app.socket,
     page: state.app.page,
     authLoading: state.auth.loading,
     authAuthenticated: state.auth.authenticated,
@@ -67,7 +66,6 @@ class AppContainer extends React.Component {
 AppContainer.propTypes = {
   loadConfig: PropTypes.func,
   config: PropTypes.object,
-  socket: PropTypes.object,
   page: PropTypes.string,
   authLoading: PropTypes.bool,
   authAuthenticated: PropTypes.bool,

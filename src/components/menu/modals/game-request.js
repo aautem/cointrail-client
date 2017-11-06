@@ -6,38 +6,23 @@ import { Modal, Text, ActivityIndicator } from 'react-native';
 import { Grid, Col } from 'react-native-easy-grid';
 const _appSS = require('../../../styles/app');
 
-function mapStateToProps(state) {
-  return {
-    //
-  };
-};
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    //
-  }, dispatch);
-};
-
-class GameRequestModal extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
+export default class GameRequestModal extends React.Component {
   render() {
     return (
       <Modal
         animationType='fade'
         transparent={true}
         visible={this.props.showModal}
+        onRequestClose={() => { }}
       >
         <Grid>
-          <Col style={[_appSS.center, { paddingTop: 20, paddingBottom: 20 }]}>
+          <Col style={[_appSS.center, { backgroundColor: '#fff', paddingTop: 20, paddingBottom: 20 }]}>
             <ActivityIndicator
               animating={this.props.showModal}
               size='large'
               color='steelblue'
             />
-            <Text>Finding Opponent...</Text>
+            <Text>Finding Opponent</Text>
           </Col>
         </Grid>
       </Modal>
@@ -46,7 +31,5 @@ class GameRequestModal extends React.Component {
 }
 
 GameRequestModal.propTypes = {
-  //
+  showModal: PropTypes.bool,
 };
-
-export default connect(mapStateToProps, mapDispatchToProps)(GameRequestModal);

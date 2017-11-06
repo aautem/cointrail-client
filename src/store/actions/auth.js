@@ -35,7 +35,12 @@ export function login(username, password) {
     };
 
     authUtility.auth0().auth.passwordRealm(params).then((token) => {
-      console.log('*** TOKEN ***', token);
+
+      // {"accessToken": "_Wi99268xpsS36Zya02BWGOQQy-cIkBi",
+      //   "expiresIn": 86400,
+      //   "idToken": "7OmGU8aN5uejTB-XCUc9X0Ro7b4L0TjPBcpWK6fl6ySUT6H-sSacAQ",
+      //   "scope": "openid profile email address phone",
+      //   "tokenType": "Bearer"}
 
       authUtility.auth0().auth.userInfo({ token: token.accessToken }).then((user) => {
 
@@ -54,7 +59,7 @@ export function login(username, password) {
 
         // start socket connection
         socketUtility.createSocketConnection();
-        socketUtility.socket().on('user-request', (socketId, ack) => {
+        socketUtility.socket().on('user-request', (socketId, respond) => {
           const player = {
             id: socketId,
             username: user.nickname,
@@ -62,7 +67,7 @@ export function login(username, password) {
             inGame: false,
           };
           dispatch(userActions.setUser(player));
-          ack(player);
+          respond(player);
         });
 
         dispatch(appActions.changePage('menu'));
