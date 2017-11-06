@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Drawer from 'react-native-drawer';
 import BottomDrawer from './bottom-drawer';
-import Scoreboard from './scoreboard';
-import DropZone from './board/drop-zone';
-import BoardContainer from './board/board-container';
+import ScoreBoard from './game/score-board';
+import DropZone from './game/drop-zone';
+import GameContainer from './game/game-container';
 const _appSS = require('../../styles/app');
 
 function mapStateToProps(state) {
@@ -65,8 +65,8 @@ class SeriesContainer extends React.Component {
         tapToClose={true}
       >
         <Scoreboard game={this.props.currentGame} />
-        <DropZone game={this.props.currentGame} />
-        <BoardContainer game={this.props.currentGame} />
+        <DropZone game={this.props.currentGame} username={this.props.mySeriesPlayer.username} />
+        <GameContainer game={this.props.currentGame} />
       </Drawer>
     );
   }

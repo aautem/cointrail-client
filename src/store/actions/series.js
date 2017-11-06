@@ -6,6 +6,7 @@ import * as appActions from './app';
 export const actions = {
   INITIALIZE_SERIES: 'series/INITIALIZE_SERIES',
   UPSERT_GAME: 'series/UPSERT_GAME',
+  UPSERT_SERIES: 'series/UPSERT_SERIES',
   LOADING: 'series/LOADING',
   LOADED: 'series/LOADED',
   ERROR: 'series/ERROR',
@@ -17,6 +18,7 @@ const loaded = createAction(actions.LOADED);
 const error = createAction(actions.ERROR, (payload) => payload);
 
 export const upsertGame = createAction(actions.UPSERT_GAME, (payload) => payload);
+export const upsertSeries = createAction(actions.UPSERT_SERIES, (payload) => payload);
 
 export function joinGame() {
   return function(dispatch, getState) {
@@ -29,7 +31,7 @@ export function joinGame() {
 
     const socket = socketUtility.socket();
     socket.emit('join-game', player, (response) => {
-      console.log('*** JOINING GAME ***', response);
+      console.log('*** JOIN GAME RESPONSE ***', response);
 
       // players{}
       // roomName
@@ -46,19 +48,20 @@ export function joinGame() {
       if (response === 'waiting') {
         let joined = false;
 
-        socket.on('series-created', (series) => {
+        socket.on('series-created', (series, ack) => {
           console.log('*** SERIES CREATED ***', series);
 
           joined = true;
           dispatch(initializeSeries(series));
           dispatch(appActions.changePage(APP_PAGES.SERIES));
           dispatch(loaded());
+          ack(200);
         });
 
         // wait up to 20 seconds for opponent
         setTimeout(() => {
           if (!joined) {
-            socket.emit('cancel-game-request', player.id, (ack) => {
+            socket.emit('game-request-timeout', player.id, (ack) => {
               console.log('*** GAME REQUEST CANCELLED ***', ack);
 
               dispatch(error(ack));
@@ -79,6 +82,11 @@ export function joinGame() {
 
     socket.on('game-update', (updatedGame, ack) => {
       dispatch(upsertGame(updatedGame));
+      ack(200);
+    });
+
+    socket.on('series-update', (updatedSeries, ack) => {
+      dispatch(upsertSeries(updatedSeries));
       ack(200);
     });
     

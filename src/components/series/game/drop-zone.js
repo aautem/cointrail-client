@@ -9,9 +9,10 @@ class DropZone extends React.Component {
     for (let count = 0; count < this.props.game.boardSize; count ++) {
       dropButtons.push(
         <DropButton
-          key={`drop-btn-${count + 1}`}
+          key={`drop-btn-${count}`}
           colId={count}
           game={this.props.game}
+          username={this.props.username}
         />
       );
     }
@@ -26,4 +27,5 @@ class DropZone extends React.Component {
 
 DropZone.propTypes = {
   game: PropTypes.object,
+  username: PropTypes.string,
 };

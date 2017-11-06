@@ -5,7 +5,7 @@ import ScoreCard from './score-card';
 import { Col, Row } from 'react-native-easy-grid';
 const _appSS = require('../../styles/app');
 
-export default class Scoreboard extends React.Component {
+export default class ScoreBoard extends React.Component {
   render() {
     const players = this.props.game.players;
     const usernames = Object.keys(players);
@@ -36,6 +36,6 @@ export default class Scoreboard extends React.Component {
   }
 }
 
-Scoreboard.propTypes = {
+ScoreBoard.propTypes = {
   game: PropTypes.object,
 };

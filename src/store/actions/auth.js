@@ -54,7 +54,7 @@ export function login(username, password) {
 
         // start socket connection
         socketUtility.createSocketConnection();
-        socketUtility.socket().on('user-request', (socketId, makeUserOnline) => {
+        socketUtility.socket().on('user-request', (socketId, ack) => {
           const player = {
             id: socketId,
             username: user.nickname,
@@ -62,7 +62,7 @@ export function login(username, password) {
             inGame: false,
           };
           dispatch(userActions.setUser(player));
-          makeUserOnline(player);
+          ack(player);
         });
 
         dispatch(appActions.changePage('menu'));
