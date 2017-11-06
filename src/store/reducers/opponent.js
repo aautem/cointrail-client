@@ -5,7 +5,7 @@ const initialState = getInitialState().opponent;
 export default function reducer(state = initialState, action) {
   
   if (action.type === 'GET_OPPONENT') {
-    return { socketId: action.payload };
+    return { id: action.payload };
   }
 
   return state;

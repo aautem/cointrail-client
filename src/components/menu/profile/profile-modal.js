@@ -6,6 +6,7 @@ import { Modal, Text, Slider, Switch, ActivityIndicator } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Button, Avatar } from 'react-native-elements';
 import * as userActions from '../../../store/actions/user';
+import * as statsActions from '../../../store/actions/stats';
 
 const styles = require('../../../styles/modals');
 
@@ -15,7 +16,7 @@ function mapStateToProps(state) {
     id: state.user.id,
     username: state.user.username,
     avatar: state.user.avatar,
-    stats: state.user.stats,
+    stats: state.stats,
     loading: state.user.loading,
     loaded: state.user.loaded,
     error: state.user.error,
@@ -25,7 +26,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     closeModal: userActions.closeModal,
-    loadStats: userActions.loadStats,
+    loadStats: statsActions.loadStats,
   }, dispatch);
 };
 

@@ -5,13 +5,16 @@ import PropTypes from 'prop-types';
 import * as settingsActions from '../../store/actions/settings';
 import * as userActions from '../../store/actions/user';
 import * as appActions from '../../store/actions/app';
+import * as seriesActions from '../../store/actions/series';
 import * as constants from '../../utilities/const';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Header, Button } from 'react-native-elements';
-import HeaderIcon from './header/header-icon';
+import TopNav from './top-nav';
+import HeaderIcon from './header-icon';
 import SettingsModal from './settings/settings-modal';
 import ProfileModal from './profile/profile-modal';
 import FriendsContainer from './friends/friends-container';
+import MenuButton from './menu-button';
 
 const styles = require('../../styles/app');
 
@@ -23,9 +26,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    openSettingsModal: settingsActions.openModal,
-    openProfileModal: userActions.openModal,
     changePage: appActions.changePage,
+    joinGame: seriesActions.joinGame,
   }, dispatch);
 };
 
@@ -41,79 +43,43 @@ class MenuContainer extends React.Component {
   render() {
     return (
       <Grid>
-        <Col style={{ backgroundColor: '#fff' }}>
+        <Col style={{ backgroundColor: 'skyblue' }}>
           <Row size={1.5}>
-            <Header
-              leftComponent={
-                <HeaderIcon
-                  name='settings'
-                  type='material-community'
-                  color='#fff'
-                  onPress={this.props.openSettingsModal}
-                />}
-              centerComponent={{
-                text: constants.APP_TITLE,
-                style: { color: '#fff', fontWeight: 'bold' },
-              }}
-              rightComponent={
-                <HeaderIcon
-                  name='account-circle'
-                  type='material-community'
-                  color='#fff'
-                  onPress={this.props.openProfileModal}
-                />}
-              outerContainerStyles={{ backgroundColor: 'steelblue' }}
-            />
+            <TopNav />
           </Row>
-          <Row size={3} style={{ backgroundColor: 'skyblue' }}>
+          <Row size={3}>
             <FriendsContainer />
           </Row>
-          <Row size={2} style={{ backgroundColor: 'skyblue', alignItems: 'center', justifyContent: 'center' }}>
-            <Button
-              large
-              raised
+          <Row size={2} style={styles.center}>
+            <MenuButton
               icon={{ type: 'font-awesome', name: 'play-circle' }}
               title='PLAY NOW'
-              backgroundColor='steelblue'
-              onPress={() => { this.props.changePage(constants.APP_PAGES.GAME) }}
+              onPress={this.props.joinGame}
               loading={false}
-              buttonStyle={{ width: '100%' }}
             />
           </Row>
-          <Row size={2} style={{ backgroundColor: 'skyblue', alignItems: 'center', justifyContent: 'center' }}>
-            <Button
-              large
-              raised
+          <Row size={2} style={styles.center}>
+            <MenuButton
               icon={{ type: 'material-community', name: 'message-text-outline' }}
               title='MESSAGES'
-              backgroundColor='steelblue'
               onPress={() => { console.log('Opening inbox...') }}
               loading={false}
-              buttonStyle={{ width: '100%' }}
             />
           </Row>
-          <Row size={2} style={{ backgroundColor: 'skyblue', alignItems: 'center', justifyContent: 'center' }}>
-            <Button
-              large
-              raised
+          <Row size={2} style={styles.center}>
+            <MenuButton
               icon={{ type: 'ionicon', name: 'md-stats' }}
               title='LEADERBOARD'
-              backgroundColor='steelblue'
               onPress={() => { console.log('Loading leaderboard...') }}
               loading={false}
-              buttonStyle={{ width: '100%' }}
             />
           </Row>
-          <Row size={2} style={{ backgroundColor: 'skyblue', alignItems: 'center', justifyContent: 'center' }}>
-            <Button
-              large
-              raised
+          <Row size={2} style={styles.center}>
+            <MenuButton
               icon={{ type: 'material', name: 'help' }}
               title='HOW TO PLAY'
-              backgroundColor='steelblue'
               onPress={() => { console.log('Loading help...') }}
               loading={false}
-              buttonStyle={{ width: '100%' }}
             />
           </Row>
           <SettingsModal />
@@ -125,11 +91,8 @@ class MenuContainer extends React.Component {
 }
 
 MenuContainer.propTypes = {
-  openSettingsModal: PropTypes.func,
-  openProfileModal: PropTypes.func,
-  openMessagesModal: PropTypes.func,
-  openHelpModal: PropTypes.func,
   changePage: PropTypes.func,
+  joinGame: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuContainer);

@@ -10,6 +10,7 @@ import messages from './messages';
 import friends from './friends';
 import history from './history';
 import settings from './settings';
+import stats from './stats';
 
 export default combineReducers({
   app,
@@ -23,4 +24,5 @@ export default combineReducers({
   friends,
   history,
   settings,
+  stats,
 });

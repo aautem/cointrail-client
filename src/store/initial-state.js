@@ -1,17 +1,17 @@
 export default function getInitialState() {
   return {
-    auth: {
-      page: 'login', // login | signup | forgot-password
-      loading: false,
-      authenticated: false,
-      error: null,
-    },
     app: {
       config: null,
       socket: null,
       page: 'auth', // auth | menu | game
       loading: false,
       loaded: false,
+      error: null,
+    },
+    auth: {
+      page: 'login', // login | signup | forgot-password
+      loading: false,
+      authenticated: false,
       error: null,
     },
     user: {
@@ -22,17 +22,28 @@ export default function getInitialState() {
       altColor: 'powderblue',
       inGame: false,
       showModal: false,
-      stats: {
-        wins: null,
-        losses: null,
-        ties: null,
-        totalPoints: null,
-        winsByDefault: null,
-        gamesPlayed: null,
-        loading: false,
-        loaded: false,
-        error: null,
-      },
+      loading: false,
+      loaded: false,
+      error: null,
+    },
+    stats: {
+      wins: 0,
+      losses: 0,
+      ties: 0,
+      totalPoints: 0,
+      winsByDefault: 0,
+      gamesPlayed: 0,
+      loading: false,
+      loaded: false,
+      error: null,
+    },
+    settings: {
+      size: 4,
+      length: 7,
+      timeLimit: false,
+      priColor: 'steelblue',
+      altColor: 'powderblue',
+      showModal: false,
       loading: false,
       loaded: false,
       error: null,
@@ -85,21 +96,10 @@ export default function getInitialState() {
       loaded: false,
       error: null,
     },
-    settings: {
-      size: 4,
-      length: 7,
-      timeLimit: false,
-      priColor: 'steelblue',
-      altColor: 'powderblue',
-      showModal: false,
-      loading: false,
-      loaded: false,
-      error: null,
-    },
     opponent: {
       profile: {},
       stats: {},
-      socketId: null,
+      id: null,
       inGame: false,
       loading: false,
       loaded: false,

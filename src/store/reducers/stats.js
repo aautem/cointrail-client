@@ -1,20 +1,12 @@
 import getInitialState from '../initial-state';
-import { actions } from '../actions/user';
+import { actions } from '../actions/stats';
 
-const initialState = getInitialState().user;
+const initialState = getInitialState().stats;
 
 export default function reducer(state = initialState, action) {
 
-  if (action.type === actions.SET_USER) {
+  if (action.type === actions.SET_STATS) {
     return Object.assign({}, state, action.payload);
-  }
-
-  if (action.type === actions.OPEN_MODAL) {
-    return Object.assign({}, state, { showModal: true });
-  }
-
-  if (action.type === actions.CLOSE_MODAL) {
-    return Object.assign({}, state, { showModal: false });
   }
 
   if (action.type === actions.LOADING) {
