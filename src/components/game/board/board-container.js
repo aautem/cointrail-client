@@ -12,7 +12,7 @@ const styles = require('../../../styles/app');
 
 function mapStateToProps(state) {
   return {
-    size: state.series.size,
+    boardSize: state.series.boardSize,
   };
 };
 
@@ -28,7 +28,7 @@ class BoardContainer extends React.Component {
   }
 
   componentWillMount() {
-    // this.props.initializeBoard(this.props.size);
+    // this.props.initializeBoard(this.props.boardSize);
   }
 
   componentWillUnmount() {}
@@ -36,7 +36,7 @@ class BoardContainer extends React.Component {
   render() {
     const rows = [];
 
-    for (let i = 0; i < this.props.size; i ++) {
+    for (let i = 0; i < this.props.boardSize; i ++) {
       rows.push(<BoardRow key={`row-${i + 1}`} rowId={i} />);
     }
 

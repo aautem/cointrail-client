@@ -12,7 +12,7 @@ const styles = require('../../../styles/app');
 
 function mapStateToProps(state) {
   return {
-    size: state.series.size,
+    boardSize: state.series.boardSize,
   };
 };
 
@@ -34,7 +34,7 @@ class BoardRow extends React.Component {
   render() {
     const columns = [];
     
-    for (let i = 0; i < this.props.size; i ++) {
+    for (let i = 0; i < this.props.boardSize; i ++) {
       columns.push(<BoardColumn key={`col-${i + 1}`} rowId={this.props.rowId} colId={i} />);
     }
 

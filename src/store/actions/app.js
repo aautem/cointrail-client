@@ -4,7 +4,6 @@ import { API_URL } from '../../utilities/const';
 
 export const actions = {
   SET_CONFIG: 'app/SET_CONFIG',
-  STORE_SOCKET: 'app/STORE_SOCKET',
   CHANGE_PAGE: 'app/CHANGE_PAGE',
   LOADING: 'app/LOADING',
   LOADED: 'app/LOADED',
@@ -16,13 +15,11 @@ const loading = createAction(actions.LOADING);
 const loaded = createAction(actions.LOADED);
 const error = createAction(actions.ERROR, (payload) => payload);
 
-export const storeSocketConnection = createAction(actions.STORE_SOCKET, (payload) => payload);
 export const changePage = createAction(actions.CHANGE_PAGE, (payload) => payload);
 
 export function loadConfig() {
   return function(dispatch) {
     dispatch(loading());
-
     axios.get(`${API_URL}/config/client`).then((res) => {
       dispatch(setConfig(res.data));
       dispatch(loaded());

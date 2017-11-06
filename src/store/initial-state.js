@@ -17,9 +17,9 @@ export default function getInitialState() {
     user: {
       id: null,
       username: null,
-      avatar: null,
-      color: 'steelblue',
-      altColor: 'powderblue',
+      avatarUrl: null,
+      color: '#3780B6',
+      altColor: '#71CFEE',
       inGame: false,
       showModal: false,
       loading: false,
@@ -38,11 +38,11 @@ export default function getInitialState() {
       error: null,
     },
     settings: {
-      size: 4,
-      length: 7,
+      boardSize: 4,
+      seriesLength: 7,
       timeLimit: false,
-      priColor: 'steelblue',
-      altColor: 'powderblue',
+      color: '#3780B6',
+      altColor: '#71CFEE',
       showModal: false,
       loading: false,
       loaded: false,
@@ -53,15 +53,15 @@ export default function getInitialState() {
       '$PLAYER ID': {
         id: 'abc-def-ghi-jkl',
         username: 'aautem',
-        avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-        color: 'powderblue',
+        avatarUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+        color: '#71CFEE',
         wins: 0,
         losses: 0,
         ties: 0,
         totalScore: 0,
       },
-      length: 7,
-      size: 4,
+      seriesLength: 7,
+      boardSize: 4,
       timeLimit: false,
       showModal: false,
       gamesPlayed: 0,
@@ -75,16 +75,16 @@ export default function getInitialState() {
         'abc-def-ghi-jkl': {
           id: 'abc-def-ghi-jkl',
           username: 'aautem',
-          avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+          avatarUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
           score: 0,
-          color: 'powderblue',
+          color: '#71CFEE',
         },
         'zyx-wvu-tsr-qpo': {
           id: 'zyx-wvu-tsr-qpo',
           username: 'cdturner',
-          avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg',
+          avatarUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg',
           score: 0,
-          color: 'steelblue',
+          color: '#3780B6',
         }
       },
       turn: 'abc-def-ghi-jkl',
@@ -131,3 +131,40 @@ export default function getInitialState() {
     },
   };
 }
+
+// SERIES:
+//   players: OBJECT
+//   seriesLength: NUMBER
+//   boardSize: NUMBER
+//   timeLimit: BOOLEAN
+//   gamesPlayed: NUMBER
+//   games: ARRAY [ OBJECT ]
+//   winner: BOOLEAN
+//   draw: BOOLEAN
+//   seriesOver: BOOLEAN
+//   winByPoints: BOOLEAN
+
+// GAME:
+//   players: OBJECT
+//   boardSize: NUMBER
+//   turn?: STRING
+//   board: ARRAY [[ STRING ]]
+//   boardPoints: ARRAY [[ NUMBER ]]
+//   timeLimit: BOOLEAN
+//   gameOver: BOOLEAN
+//   winner?: STRING
+//   draw: BOOLEAN
+//   winByPoints: BOOLEAN
+
+// GAME PLAYER:
+//   id: NUMBER
+//   username: STRING
+//   avatarUrl: STRING
+//   gamePieceColor: STRING #fff
+//   points: NUMBER
+//   winner: BOOLEAN
+
+// SERIES PLAYER EXTENDS GAME PLAYER
+//   wins: NUMBER
+//   losses: NUMBER
+//   draws: NUMBER

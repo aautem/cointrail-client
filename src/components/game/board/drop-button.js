@@ -10,7 +10,7 @@ import { Header, Button, Icon } from 'react-native-elements';
 
 function mapStateToProps(state) {
   return {
-    size: state.series.size,
+    boardSize: state.series.boardSize,
     turn: state.game.turn,
     board: state.game.board,
   };

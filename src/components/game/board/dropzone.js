@@ -10,7 +10,7 @@ import { Header, Button, Icon } from 'react-native-elements';
 
 function mapStateToProps(state) {
   return {
-    size: state.series.size,
+    boardSize: state.series.boardSize,
   };
 };
 
@@ -26,7 +26,7 @@ class Dropzone extends React.Component {
   }
 
   componentWillMount() {
-    // this.props.initializeBoard(this.props.size);
+    // this.props.initializeBoard(this.props.boardSize);
   }
 
   componentWillUnmount() {}
@@ -34,7 +34,7 @@ class Dropzone extends React.Component {
   render() {
     const dropButtons = [];
 
-    for (let i = 0; i < this.props.size; i ++) {
+    for (let i = 0; i < this.props.boardSize; i ++) {
       dropButtons.push(<DropButton key={`drop-btn-${i + 1}`} colId={i} />);
     }
 

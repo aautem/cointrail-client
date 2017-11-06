@@ -23,7 +23,7 @@ const animateDrop = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    size: state.series.size,
+    boardSize: state.series.boardSize,
     points: state.game.boardPoints[ownProps.rowId][ownProps.colId],
   };
 };
@@ -51,8 +51,8 @@ class Coin extends React.Component {
   }
 
   render() {
-    const { playerId, color, rowId, colId, size } = this.props;
-    const hw = (viewportWidth / size) - 25;
+    const { playerId, color, rowId, colId, boardSize } = this.props;
+    const hw = (viewportWidth / boardSize) - 25;
 
     return (
       <Animatable.View

@@ -15,7 +15,7 @@ function mapStateToProps(state) {
     showModal: state.user.showModal,
     id: state.user.id,
     username: state.user.username,
-    avatar: state.user.avatar,
+    avatarUrl: state.user.avatarUrl,
     stats: state.stats,
     loading: state.user.loading,
     loaded: state.user.loaded,
@@ -55,7 +55,7 @@ class ProfileModal extends React.Component {
               <Avatar
                 xlarge
                 rounded
-                source={{uri: this.props.avatar}}
+                source={{uri: this.props.avatarUrl}}
                 activeOpacity={0.8}
               />
             </Row>
@@ -81,7 +81,7 @@ ProfileModal.propTypes = {
   showModal: PropTypes.bool,
   id: PropTypes.string,
   username: PropTypes.string,
-  avatar: PropTypes.string,
+  avatarUrl: PropTypes.string,
   stats: PropTypes.object,
   loading: PropTypes.bool,
   loaded: PropTypes.bool,

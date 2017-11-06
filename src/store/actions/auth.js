@@ -1,11 +1,11 @@
 import { createAction } from 'redux-actions';
 import * as appActions from './app';
 import * as userActions from './user';
-import Auth0 from 'react-native-auth0';
-import io from 'socket.io-client';
+import * as statsActions from './stats';
+import * as settingsActions from './settings';
 import { API_URL } from '../../utilities/const';
-
-const auth0 = new Auth0({ domain: 'app77626749.auth0.com', clientId: 'z2xIFUI0P4OLA4S_uJ2CADCe3A2AKsH5' });
+import authUtility from '../../utilities/auth';
+import socketUtility from '../../utilities/socket';
 
 export const actions = {
   CHANGE_PAGE: 'auth/CHANGE_PAGE',
@@ -24,47 +24,47 @@ export function login(username, password) {
   return function(dispatch) {
     dispatch(loading());
 
+    if (!authUtility.auth0()) {
+      authUtility.startAuth0();
+    }
+
     const params = {
       username: username,
       password: password,
       realm: 'Username-Password-Authentication',
     };
 
-    // returns an auth token
-    auth0.auth.passwordRealm(params).then((token) => {
+    authUtility.auth0().auth.passwordRealm(params).then((token) => {
       console.log('*** TOKEN ***', token);
 
-      auth0.auth.userInfo({ token: token.accessToken }).then((user) => {
-        console.log('*** USER FOUND ***', user);
+      authUtility.auth0().auth.userInfo({ token: token.accessToken }).then((user) => {
 
-        // EXAMPLE RESPONSE: {
-        //   "email": "autem.alex@gmail.com",
-        //   "emailVerified": true,
-        //   "name": "autem.alex@gmail.com",
-        //   "nickname": "aautem",
-        //   "picture": "https://s.gravatar.com/avatar/auth0.png",
-        //   "sub": "auth0|59fe6a116be939112c29137d",
-        //   "updatedAt": "2017-11-05T02:19:16.652Z",
-        // };
+        // EXAMPLE RESPONSE:
+        // {"email": "autem.alex@gmail.com",
+        // "emailVerified": true,
+        // "name": "autem.alex@gmail.com",
+        // "nickname": "aautem",
+        // "picture": "https://s.gravatar.com/avatar/auth0.png",
+        // "sub": "auth0|59fe6a116be939112c29137d",
+        // "updatedAt": "2017-11-05T02:19:16.652Z"};
 
-        // LOAD USER PREFERENCES & SETTINGS
+        // load user stats and settings
+        dispatch(statsActions.loadStats(user.nickname));
+        dispatch(settingsActions.loadSettings(user.nickname));
 
-        // open Socket.IO connection
-        const socket = io(API_URL);
-
-        // configureSocketConnection(socket);
-        socket.on('user-request', (socketId, makeUserOnline) => {
+        // start socket connection
+        socketUtility.createSocketConnection();
+        socketUtility.socket().on('user-request', (socketId, makeUserOnline) => {
           const player = {
             id: socketId,
             username: user.nickname,
-            avatar: user.picture,
+            avatarUrl: user.picture,
             inGame: false,
           };
           dispatch(userActions.setUser(player));
           makeUserOnline(player);
         });
 
-        dispatch(appActions.storeSocketConnection(socket));
         dispatch(appActions.changePage('menu'));
         dispatch(authenticated());
       });
@@ -81,6 +81,10 @@ export function createUser(email, username, password) {
   return function(dispatch) {
     dispatch(loading());
 
+    if (!authUtility.auth0()) {
+      authUtility.startAuth0();
+    }
+
     const params = {
       email: email,
       username: username,
@@ -88,15 +92,13 @@ export function createUser(email, username, password) {
       connection: 'Username-Password-Authentication',
     };
 
-    auth0.auth.createUser(params).then((user) => {
-      console.log('*** USER CREATED ***', user);
+    authUtility.auth0().auth.createUser(params).then((user) => {
 
-      // EXAMPLE RESPONSE: {
-      //   "Id": "59fe8c96b84acc463c6e9713",
-      //   "email": "aautem@trifinlabs.com",
-      //   "emailVerified": false,
-      //   "username": "aautem",
-      // };
+      // EXAMPLE RESPONSE:
+      // {"Id": "59fe8c96b84acc463c6e9713",
+      // "email": "aautem@trifinlabs.com",
+      // "emailVerified": false,
+      // "username": "aautem"};
 
       dispatch(login(username, password));
     }).catch((err) => {

@@ -13,7 +13,7 @@ const styles = require('../../styles/app');
 
 function mapStateToProps(state) {
   return {
-    size: state.series.size,
+    boardSize: state.series.boardSize,
   };
 };
 
@@ -29,14 +29,14 @@ class GameContainer extends React.Component {
   }
 
   componentWillMount() {
-    this.props.initializeBoard(this.props.size);
+    this.props.initializeBoard(this.props.boardSize);
     // set up series and game states
   }
 
   componentWillUnmount() {}
 
   // resetGameboard() {
-  //   const newGameboard = this.initializeBoard(this.state.size);
+  //   const newGameboard = this.initializeBoard(this.state.boardSize);
   //   this.setState((state) => {
   //     state.board = newGameboard;
   //     return state;
@@ -44,7 +44,7 @@ class GameContainer extends React.Component {
   // }
 
   // resetBoardPoints() {
-  //   const newBoardPoints = this.getBoardPoints(this.state.size);
+  //   const newBoardPoints = this.getBoardPoints(this.state.boardSize);
   //   this.setState((state) => {
   //     state.boardPoints = newBoardPoints;
   //     return state;
@@ -88,7 +88,7 @@ class GameContainer extends React.Component {
 
 GameContainer.propTypes = {
   initializeBoard: PropTypes.func,
-  size: PropTypes.number,
+  boardSize: PropTypes.number,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameContainer);

@@ -13,8 +13,8 @@ function mapStateToProps(state) {
   return {
     showModal: state.settings.showModal,
     username: state.user.username,
-    size: state.settings.size,
-    length: state.settings.length,
+    boardSize: state.settings.boardSize,
+    seriesLength: state.settings.seriesLength,
     timeLimit: state.settings.timeLimit,
     loading: state.settings.loading,
     loaded: state.settings.loaded,
@@ -46,8 +46,8 @@ class SettingsModal extends React.Component {
 
   saveSettings() {
     const settings = {
-      size: this.props.size,
-      length: this.props.length,
+      boardSize: this.props.boardSize,
+      seriesLength: this.props.seriesLength,
       timeLimit: this.props.timeLimit,
     }
     this.props.updateSettings(this.props.username, settings);
@@ -77,7 +77,7 @@ class SettingsModal extends React.Component {
                 <Row>
                   <Col style={styles.column}>
                     <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
-                      <Text>{this.props.size} x {this.props.size} Board</Text>
+                      <Text>{this.props.boardSize} x {this.props.boardSize} Board</Text>
                     </Row>
                     <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
                       <Col></Col>
@@ -85,9 +85,9 @@ class SettingsModal extends React.Component {
                         <Slider
                           minimumValue={4}
                           maximumValue={6}
-                          value={this.props.size}
+                          value={this.props.boardSize}
                           step={1}
-                          onSlidingComplete={(size) => { this.props.changeSize(size) }}
+                          onSlidingComplete={(boardSize) => { this.props.changeSize(size) }}
                           style={styles.fullWidth}
                         />
                       </Col>
@@ -98,7 +98,7 @@ class SettingsModal extends React.Component {
                 <Row>
                   <Col style={styles.column}>
                     <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
-                      <Text>{this.props.length} Game Series</Text>
+                      <Text>{this.props.seriesLength} Game Series</Text>
                     </Row>
                     <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
                       <Col></Col>
@@ -106,9 +106,9 @@ class SettingsModal extends React.Component {
                         <Slider
                           minimumValue={3}
                           maximumValue={11}
-                          value={this.props.length}
+                          value={this.props.seriesLength}
                           step={4}
-                          onSlidingComplete={(length) => { this.props.changeLength(length) }}
+                          onSlidingComplete={(seriesLength) => { this.props.changeLength(seriesLength) }}
                           style={styles.fullWidth}
                         />
                       </Col>
@@ -147,8 +147,8 @@ class SettingsModal extends React.Component {
 SettingsModal.propTypes = {
   showModal: PropTypes.bool,
   username: PropTypes.string,
-  size: PropTypes.number,
-  length: PropTypes.number,
+  boardSize: PropTypes.number,
+  seriesLength: PropTypes.number,
   timeLimit: PropTypes.bool,
   loading: PropTypes.bool,
   loaded: PropTypes.bool,

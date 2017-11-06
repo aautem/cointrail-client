@@ -1,6 +1,5 @@
 export const APP_TITLE = '.~::  C O N T R A I L  ::~.';
 export const API_URL = 'https://contrail-api.herokuapp.com';
-export const WS_URL = 'wss://contrail-api.herokuapp.com';
 
 export const APP_PAGES = {
   AUTH: 'auth',

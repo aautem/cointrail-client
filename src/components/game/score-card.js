@@ -12,7 +12,7 @@ const styles = require('../../styles/app');
 function mapStateToProps(state, ownProps) {
   return {
     username: state.game.players[ownProps.playerId].username,
-    avatar: state.game.players[ownProps.playerId].avatar,
+    avatarUrl: state.game.players[ownProps.playerId].avatarUrl,
     score: state.game.players[ownProps.playerId].score,
   };
 };
@@ -38,7 +38,7 @@ class ScoreCard extends React.Component {
         <Col size={1} style={styles.center}>
           <Avatar
             medium
-            source={{uri: this.props.avatar}}
+            source={{uri: this.props.avatarUrl}}
             activeOpacity={0.7}
           />
         </Col>
@@ -58,7 +58,7 @@ class ScoreCard extends React.Component {
 ScoreCard.propTypes = {
   playerId: PropTypes.string,
   username: PropTypes.string,
-  avatar: PropTypes.string,
+  avatarUrl: PropTypes.string,
   score: PropTypes.number,
 };
 

@@ -18,11 +18,11 @@ export default function reducer(state = initialState, action) {
   }
 
   if (action.type === actions.CHANGE_SIZE) {
-    return Object.assign({}, state, { size: action.payload });
+    return Object.assign({}, state, { boardSize: action.payload });
   }
 
   if (action.type === actions.CHANGE_LENGTH) {
-    return Object.assign({}, state, { length: action.payload });
+    return Object.assign({}, state, { seriesLength: action.payload });
   }
 
   if (action.type === actions.TOGGLE_TIMER) {
