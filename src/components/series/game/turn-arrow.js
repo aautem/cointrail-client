@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Icon } from 'react-native-elements';
 
 export default class TurnArrow extends React.Component {
-  render() {
+  render() {    
     const icon = this.props.player.username === this.props.turn ? 'ios-play' : 'ios-play-outline';
     return (
       <Icon

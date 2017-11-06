@@ -6,7 +6,7 @@ import { Avatar } from 'react-native-elements';
 const _appSS = require('../../../styles/app');
 
 export default class ScoreCard extends React.Component {
-  render() {
+  render() {    
     return (
       <Row style={[_appSS.center, { backgroundColor: '#fff', marginTop: 20, marginBottom: 20 }]}>
         <Col size={1} style={_appSS.center}>

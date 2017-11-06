@@ -25,9 +25,29 @@ export function joinGame(user, settings) {
     dispatch(loading());
 
     const player = Object.assign({}, user, { settings: settings });
-    console.log('*** PLAYER ***', player);
+    console.log('*** PLAYER ***', player.username);
 
     const socket = socketUtility.socket();
+
+    // Lisenter for series response
+    socket.on('series-created', (series) => {
+      console.log('*** SERIES CREATED ***', series.roomName);
+
+      socket.emit('join-room', series.roomName);
+      dispatch(initializeSeries(series));
+      dispatch(appActions.changePage(APP_PAGES.SERIES));
+      dispatch(loaded());
+
+      // MOVE THESE INTO THE SOCKET UTILITY CLASS!!!
+      socket.on('game-update', (updatedGame) => {
+        dispatch(upsertGame(updatedGame));
+      });
+  
+      socket.on('series-update', (updatedSeries) => {
+        dispatch(upsertSeries(updatedSeries));
+      });
+    });
+
     socket.emit('join-game', player, (response) => {
       console.log('*** JOIN GAME RESPONSE ***', response);
 
@@ -47,10 +67,11 @@ export function joinGame(user, settings) {
         let joined = false;
 
         socket.on('series-created', (series) => {
-          console.log('*** SERIES CREATED ***', series);
+          console.log('*** SERIES CREATED ***', series.roomName);
 
           joined = true;
-          socket.join(series.roomName);
+          socket.emit('join-room', series.roomName);
+
           dispatch(initializeSeries(series));
           dispatch(appActions.changePage(APP_PAGES.SERIES));
           dispatch(loaded());
@@ -80,20 +101,6 @@ export function joinGame(user, settings) {
         // try again later alert to return to menu
         // socket emit remove socket from waiting room
         // else configure series and settings from new response
-
-      } else {
-        dispatch(initializeSeries(response));
-        dispatch(appActions.changePage(APP_PAGES.SERIES));
-        dispatch(loaded());
-
-        // MOVE THESE INTO THE SOCKET UTILITY CLASS!!!
-        socket.on('game-update', (updatedGame) => {
-          dispatch(upsertGame(updatedGame));
-        });
-    
-        socket.on('series-update', (updatedSeries) => {
-          dispatch(upsertSeries(updatedSeries));
-        });
       }
     });
   }

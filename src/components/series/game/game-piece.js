@@ -23,7 +23,7 @@ export default class GamePiece extends React.Component {
 
   render() {
     const { username, color, rowId, colId, boardSize } = this.props;
-    const heightAndWidth = (viewport / boardsize) - 25;
+    const heightAndWidth = (viewportWidth / boardSize) - 25;
 
     return (
       <Animatable.View
@@ -37,7 +37,7 @@ export default class GamePiece extends React.Component {
           justifyContent: 'center',
         }}
       >
-        {!username &&
+        {!this.props.username &&
         <Text style={{ color: 'steelblue' }}>{this.props.points}</Text>}
       </Animatable.View>
     );
@@ -50,4 +50,5 @@ GamePiece.propTypes = {
   rowId: PropTypes.number,
   colId: PropTypes.number,
   boardSize: PropTypes.number,
+  points: PropTypes.number,
 };

@@ -2,13 +2,14 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Modal, Text, Slider, Switch, ActivityIndicator } from 'react-native';
+import { View, Modal, Text, Slider, Switch, ActivityIndicator } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Button, Avatar } from 'react-native-elements';
 import * as userActions from '../../../store/actions/user';
 import * as statsActions from '../../../store/actions/stats';
 
 const styles = require('../../../styles/modals');
+const _appSS = require('../../../styles/app');
 
 function mapStateToProps(state) {
   return {
@@ -49,27 +50,41 @@ class ProfileModal extends React.Component {
         onRequestClose={this.props.closeModal}
       >
         <Grid>
-          <Col style={styles.column}>
-            {this.props.loading && <Row><ActivityIndicator animating={true} color='steelblue' size='large' /></Row>}
-            <Row size={3}>
+          <Col style={[_appSS.center, { paddingTop: 50, paddingBottom: 50 }]}>
+            {this.props.loading &&
+            <ActivityIndicator animating={true} color='steelblue' size='large' />}
+
+            {/* activity indicator OR player stats */}
+
+            {!this.props.loading &&
+            <View style={{
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
               <Avatar
                 xlarge
                 rounded
                 source={{uri: this.props.avatarUrl}}
                 activeOpacity={0.8}
               />
-            </Row>
-            <Row><Text style={{ color: 'steelblue', fontSize: 20, fontWeight: 'bold' }}>{this.props.username}</Text></Row>
-            <Row><Text>Wins: {this.props.stats.wins}</Text></Row>
-            <Row><Text>Losses: {this.props.stats.losses}</Text></Row>
-            <Row><Text>Draws: {this.props.stats.draws}</Text></Row>
-            <Row><Text>Total Points: {this.props.stats.totalPoints}</Text></Row>
-            <Row><Text>Wins by Default: {this.props.stats.winsByDefault}</Text></Row>
-            <Row><Text>Games Played: {this.props.stats.gamesPlayed}</Text></Row>
-            <Button
-              title='BACK'
-              onPress={this.props.closeModal}
-            />
+              <Text style={{ color: 'steelblue', fontSize: 20, fontWeight: 'bold', flex: 1, flexDirection: 'row' }}>
+                {this.props.username}
+              </Text>
+              <Text style={{ flex: 1, flexDirection: 'row' }}>Wins: {this.props.stats.wins}</Text>
+              <Text style={{ flex: 1, flexDirection: 'row' }}>Losses: {this.props.stats.losses}</Text>
+              <Text style={{ flex: 1, flexDirection: 'row' }}>Draws: {this.props.stats.draws}</Text>
+              <Text style={{ flex: 1, flexDirection: 'row' }}>Total Points: {this.props.stats.totalPoints}</Text>
+              <Text style={{ flex: 1, flexDirection: 'row' }}>Wins by Default: {this.props.stats.winsByDefault}</Text>
+              <Text style={{ flex: 1, flexDirection: 'row' }}>Games Played: {this.props.stats.gamesPlayed}</Text>
+              <Button
+                title='BACK'
+                onPress={this.props.closeModal}
+                backgroundColor='steelblue'
+                color='#fff'
+              />
+            </View>}
           </Col>
         </Grid>
       </Modal>

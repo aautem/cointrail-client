@@ -30,7 +30,7 @@ class DropButton extends React.Component {
     }
   }
 
-  render() {
+  render() {    
     const color = !this.props.game.board[0][this.props.colId] ? 'steelblue' : 'lightgrey';
     return (
       <Col style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -47,7 +47,6 @@ class DropButton extends React.Component {
 }
 
 DropButton.propTypes = {
-  key: PropTypes.string,
   colId: PropTypes.number,
   game: PropTypes.object,
   username: PropTypes.string,

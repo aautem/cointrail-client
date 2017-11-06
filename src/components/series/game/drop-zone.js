@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import DropButton from './drop-button';
 import { Row } from 'react-native-easy-grid';
 
-class DropZone extends React.Component {
-  render() {
+export default class DropZone extends React.Component {
+  render() {    
     const dropButtons = [];
     for (let count = 0; count < this.props.game.boardSize; count ++) {
       dropButtons.push(

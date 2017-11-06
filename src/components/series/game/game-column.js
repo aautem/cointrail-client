@@ -5,7 +5,7 @@ import { Col } from 'react-native-easy-grid';
 const _appSS = require('../../../styles/app');
 
 export default class GameColumn extends React.Component {
-  render() {
+  render() {    
     const { game, rowId, colId } = this.props;
     const username = game.board[rowId][colId];
     const color = username ? game.players[username].gamePieceColor : 'lightgrey';
@@ -18,6 +18,7 @@ export default class GameColumn extends React.Component {
           rowId={rowId}
           colId={colId}
           boardSize={game.boardSize}
+          points={game.boardPoints[rowId][colId]}
         />
       </Col>
     );
@@ -25,7 +26,6 @@ export default class GameColumn extends React.Component {
 }
 
 GameColumn.propTypes = {
-  key: PropTypes.string,
   rowId: PropTypes.number,
   colId: PropTypes.number,
   game: PropTypes.object,

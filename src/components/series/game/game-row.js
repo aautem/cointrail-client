@@ -27,7 +27,6 @@ export default class GameRow extends React.Component {
 }
 
 GameRow.propTypes = {
-  key: PropTypes.string,
   rowId: PropTypes.number,
   game: PropTypes.object,
 };
