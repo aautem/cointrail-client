@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as appActions from '../store/actions/app';
 import * as constants from '../utilities/const';
-import { Grid, Col } from 'react-native-easy-grid';
+import { Grid, Col, Row } from 'react-native-easy-grid';
 import { ActivityIndicator } from 'react-native';
 import AuthContainer from './auth/auth-container';
 import MenuContainer from './menu/menu-container';
@@ -53,11 +53,9 @@ class AppContainer extends React.Component {
 
     return (
       <Grid>
-        <Col>
-          {this.props.page === constants.APP_PAGES.AUTH && <AuthContainer />}
-          {this.props.page === constants.APP_PAGES.MENU && <MenuContainer />}
-          {this.props.page === constants.APP_PAGES.SERIES && <SeriesContainer />}
-        </Col>
+        {this.props.page === constants.APP_PAGES.AUTH && <AuthContainer />}
+        {this.props.page === constants.APP_PAGES.MENU && <MenuContainer />}
+        {this.props.page === constants.APP_PAGES.SERIES && <SeriesContainer />}
       </Grid>
     );
   }

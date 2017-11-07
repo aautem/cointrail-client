@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as constants from '../../utilities/const';
 import { Text } from 'react-native';
-import { Col, Row } from 'react-native-easy-grid';
+import { Grid, Col, Row } from 'react-native-easy-grid';
 import Signup from './signup';
 import Login from './login';
 
@@ -36,13 +36,17 @@ class AuthContainer extends React.Component {
 
   render() {
     return (
-      <Col style={{ backgroundColor: 'lightgrey', justifyContent: 'center', paddingLeft: 10, paddingRight: 10 }}>
-        <Row size={1} style={styles.center}>
-          <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'steelblue' }}>{constants.APP_TITLE}</Text>
+      <Col size={14}>
+        <Row size={2}></Row>
+        <Row size={5} style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={{ fontSize: 30, color: 'steelblue' }}>{constants.APP_TITLE}</Text>
         </Row>
-        {this.props.page === constants.AUTH_PAGES.LOGIN && <Login />}
-        {this.props.page === constants.AUTH_PAGES.SIGNUP && <Signup />}
-        {/* this.props.page === constants.AUTH_PAGES.FORGOT_PASSWORD && <ForgotPassword /> */}
+        <Row size={14}>
+          {this.props.page === constants.AUTH_PAGES.LOGIN && <Login />}
+          {/* this.props.page === constants.AUTH_PAGES.SIGNUP && <Signup /> */}
+          {/* this.props.page === constants.AUTH_PAGES.FORGOT_PASSWORD && <ForgotPassword /> */}
+        </Row>
+        <Row size={3}></Row>
       </Col>
     );
   }
