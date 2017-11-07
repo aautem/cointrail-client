@@ -79,10 +79,12 @@ class ProfileModal extends React.Component {
               <Text style={{ flex: 1, flexDirection: 'row' }}>Wins by Default: {this.props.stats.winsByDefault}</Text>
               <Text style={{ flex: 1, flexDirection: 'row' }}>Games Played: {this.props.stats.gamesPlayed}</Text>
               <Button
-                title='BACK'
+                title='Back'
                 onPress={this.props.closeModal}
                 backgroundColor='steelblue'
                 color='#fff'
+                borderRadius={5}
+                containerViewStyle={{ borderRadius: 5 }}
               />
             </View>}
           </Col>

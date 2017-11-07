@@ -73,6 +73,7 @@ class Login extends React.Component {
                 onChangeText={(value) => {
                   this.setState({ username: value, usernameError: null });
                 }}
+                style={{ width: 310, paddingTop: 30 }}
               />
             </Row>
             <Row size={1}><FormLabel>Password</FormLabel></Row>
@@ -82,9 +83,10 @@ class Login extends React.Component {
                 onChangeText={(value) => {
                   this.setState({ password: value, passwordError: null });
                 }}
+                style={{ width: 310, paddingTop: 30 }}
               />
             </Row>
-            <Row size={1}>
+            <Row size={1} style={{ justifyContent: 'center', alignItems: 'center' }}>
               {this.state.usernameError && <FormValidationMessage>{this.state.usernameError}</FormValidationMessage>}
               {this.state.passwordError && <FormValidationMessage>{this.state.passwordError}</FormValidationMessage>}
               {this.props.error && <FormValidationMessage>{this.props.error}</FormValidationMessage>}

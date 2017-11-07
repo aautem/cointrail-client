@@ -8,6 +8,7 @@ import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Button } from 'react-native-elements';
 
 const styles = require('../../../styles/modals');
+const _appSS = require('../../../styles/app');
 
 function mapStateToProps(state) {
   return {
@@ -61,7 +62,7 @@ class SettingsModal extends React.Component {
         visible={this.props.showModal}
         onRequestClose={this.props.closeModal}
       >
-        <Grid>
+        <Grid style={[_appSS.center, { backgroundColor: '#fff', paddingTop: 35, paddingBottom: 35 }]}>
           {this.props.loading &&
           <Col style={{ justifyContent: 'center', alignItems: 'center' }}>
             <ActivityIndicator animating={true} color='steelblue' size='large' />
@@ -72,7 +73,7 @@ class SettingsModal extends React.Component {
             <Row size={3} style={{ backgroundColor: '#fff' }}>
               <Col style={styles.column}>
                 <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
-                  <Text style={{ color: 'steelblue', fontWeight: 'bold' }}>DEFAULT SETTINGS</Text>
+                  <Text style={{ color: 'steelblue', fontWeight: 'bold' }}>User Preferences</Text>
                 </Row>
                 <Row>
                   <Col style={styles.column}>
@@ -119,7 +120,7 @@ class SettingsModal extends React.Component {
                 <Row>
                   <Col style={styles.column}>
                     <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
-                      <Text>Time Limit</Text>
+                      <Text style={{ paddingRight: 10 }}>Time Limit</Text>
                       <Switch
                         value={this.props.timeLimit}
                         onValueChange={() => { this.props.toggleTimer() }}
@@ -133,6 +134,8 @@ class SettingsModal extends React.Component {
                     backgroundColor='steelblue'
                     onPress={this.saveSettings.bind(this)}
                     buttonStyle={{ width: '100%' }}
+                    borderRadius={5}
+                    containerViewStyle={{ borderRadius: 5 }}
                   />
                 </Row>
               </Col>

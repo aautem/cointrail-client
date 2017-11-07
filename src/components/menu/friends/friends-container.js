@@ -63,7 +63,7 @@ class FriendsContainer extends React.Component {
         itemWidth={130}
         activeSlideAlignment='start'
         inactiveSlideOpacity={0.6}
-        inactiveSlideScale={0.8}
+        inactiveSlideScale={0.9}
       />
     );
   }

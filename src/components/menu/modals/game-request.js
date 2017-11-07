@@ -9,20 +9,17 @@ export default class GameRequestModal extends React.Component {
     return (
       <Modal
         animationType='fade'
-        transparent={true}
         visible={this.props.showModal}
         onRequestClose={() => { }}
       >
-        <Grid>
-          <Col style={[_appSS.center, { backgroundColor: '#fff', paddingTop: 20, paddingBottom: 20 }]}>
-            <ActivityIndicator
-              animating={this.props.showModal}
-              size='large'
-              color='steelblue'
-            />
-            <Text>Finding Opponent</Text>
-          </Col>
-        </Grid>
+        <Col style={[_appSS.center, { backgroundColor: '#fff', paddingTop: 20, paddingBottom: 20 }]}>
+          <ActivityIndicator
+            animating={this.props.showModal}
+            size='large'
+            color='steelblue'
+          />
+          <Text>Finding Game</Text>
+        </Col>
       </Modal>
     );
   }

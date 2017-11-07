@@ -75,53 +75,100 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <Row size={4}>
-        <Col>
-        <FormLabel>Email</FormLabel>
-          <FormInput
-            onChangeText={(value) => {
-              this.setState({ email: value, emailError: null });
-            }}
-          />
-          {this.state.emailError && <FormValidationMessage>{this.state.emailError}</FormValidationMessage>}
-          <FormLabel>Username</FormLabel>
-          <FormInput
-            maxLength={15}
-            onChangeText={(value) => {
-              this.setState({ username: value, usernameError: null });
-            }}
-          />
-          {this.state.usernameError && <FormValidationMessage>{this.state.usernameError}</FormValidationMessage>}
-          <FormLabel>Password</FormLabel>
-          <FormInput
-            secureTextEntry={true}
-            onChangeText={(value) => {
-              this.setState({ password: value, passwordError: null });
-            }}
-          />
-          {this.state.passwordError && <FormValidationMessage>{this.state.passwordError}</FormValidationMessage>}
-          <FormLabel>Confirm Password</FormLabel>
-          <FormInput
-            secureTextEntry={true}
-            onChangeText={(value) => {
-              this.setState({ confirmPassword: value, confirmPasswordError: null });
-            }}
-          />
-          {this.state.confirmPasswordError && <FormValidationMessage>{this.state.confirmPasswordError}</FormValidationMessage>}
-          {this.props.error && <FormValidationMessage>{this.props.error}</FormValidationMessage>}
-          <Button
+      <Col size={14}>
+        <Row size={15}>
+          <Col size={1}></Col>
+          <Col size={12}>
+            <FormLabel>Email</FormLabel>
+            <Row size={4}>
+              <FormInput
+                onChangeText={(value) => {
+                  this.setState({ email: value, emailError: null });
+                }}
+                style={{ width: 310 }}
+              />
+            </Row>
+            <Row size={1}></Row>
+            <FormLabel>Username</FormLabel>
+            <Row size={4}>
+              <FormInput
+                maxLength={15}
+                onChangeText={(value) => {
+                  this.setState({ username: value, usernameError: null });
+                }}
+                style={{ width: 310 }}
+              />
+            </Row>
+            <Row size={1}></Row>
+            <FormLabel>Password</FormLabel>
+            <Row size={4}>
+              <FormInput
+                secureTextEntry={true}
+                onChangeText={(value) => {
+                  this.setState({ password: value, passwordError: null });
+                }}
+                style={{ width: 310 }}
+              />
+            </Row>
+            <Row size={1}></Row>
+            <FormLabel>Confirm Password</FormLabel>
+            <Row size={4}>
+              <FormInput
+                secureTextEntry={true}
+                onChangeText={(value) => {
+                  this.setState({ confirmPassword: value, confirmPasswordError: null });
+                }}
+                style={{ width: 310 }}
+              />
+            </Row>
+            <Row size={1}>
+              {this.state.emailError && <FormValidationMessage>{this.state.emailError}</FormValidationMessage>}
+              {this.state.usernameError && <FormValidationMessage>{this.state.usernameError}</FormValidationMessage>}
+              {this.state.passwordError && <FormValidationMessage>{this.state.passwordError}</FormValidationMessage>}
+              {this.state.confirmPasswordError && <FormValidationMessage>{this.state.confirmPasswordError}</FormValidationMessage>}
+              {this.props.error && <FormValidationMessage>{this.props.error}</FormValidationMessage>}
+            </Row>
+          </Col>
+          <Col size={1}></Col>
+        </Row>
+        <Row size={1}></Row>
+        <Row size={2}>
+          <Col size={2}></Col>
+          <Col size={10}>
+            <Button
             large
-            title='SIGN UP'
+            title='Signup'
+            icon={{name: 'user-o', type: 'font-awesome', size: 20 }}
             backgroundColor='steelblue'
             onPress={this.createUser.bind(this)}
             loading={this.props.loading}
             disabled={this.props.loading}
+            borderRadius={5}
+            containerViewStyle={{ borderRadius: 5 }}
+            style={{ paddingTop: 10 }}
           />
-          <TouchableHighlight onPress={() => { this.props.changePage('login') }}>
-            <Text style={{ textAlign: 'center' }}>Login</Text>
-          </TouchableHighlight>
-        </Col>
-      </Row>
+          </Col>
+          <Col size={2}></Col>
+        </Row>
+        <Row size={2} style={{ paddingTop: 35 }}>
+          <Col size={2}></Col>
+          <Col size={5} style={{ paddingLeft: 15, justifyContent: 'center', alignItems: 'flex-start' }}>
+            <TouchableHighlight
+              onPress={() => { console.log('Remembering password...') }}>
+              <Text style={{ color: 'steelblue' }}>Forgot Password</Text>
+            </TouchableHighlight>
+          </Col>
+          <Col size={5} style={{ paddingRight: 15, justifyContent: 'center', alignItems: 'flex-end' }}>
+            <TouchableHighlight
+              onPress={() => { this.props.changePage('login') }}>
+              <Text style={{ color: 'steelblue' }}>Login</Text>
+            </TouchableHighlight>
+          </Col>
+          <Col size={2}></Col>
+        </Row>
+        <Row size={2}>
+        </Row>
+      </Col>
     );
   }
 }

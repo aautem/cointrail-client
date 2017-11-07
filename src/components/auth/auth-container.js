@@ -43,7 +43,7 @@ class AuthContainer extends React.Component {
         </Row>
         <Row size={14}>
           {this.props.page === constants.AUTH_PAGES.LOGIN && <Login />}
-          {/* this.props.page === constants.AUTH_PAGES.SIGNUP && <Signup /> */}
+          {this.props.page === constants.AUTH_PAGES.SIGNUP && <Signup />}
           {/* this.props.page === constants.AUTH_PAGES.FORGOT_PASSWORD && <ForgotPassword /> */}
         </Row>
         <Row size={3}></Row>
