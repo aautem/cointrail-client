@@ -2,7 +2,7 @@ export default function getInitialState() {
   return {
     app: {
       config: null,
-      page: 'auth', // auth | menu | game
+      page: 'auth', // auth | menu | game | test
       loading: false,
       loaded: false,
       error: null,

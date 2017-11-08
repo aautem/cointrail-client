@@ -11,6 +11,8 @@ import MenuContainer from './menu/menu-container';
 import SeriesContainer from './series/series-container';
 const appSS = require('../styles/app');
 
+import TestContainer from './common/test-container';
+
 function mapStateToProps(state) {
   return {
     config: state.app.config,
@@ -62,6 +64,8 @@ class AppContainer extends React.Component {
             {this.props.page === constants.APP_PAGES.AUTH && <AuthContainer />}
             {this.props.page === constants.APP_PAGES.MENU && <MenuContainer />}
             {this.props.page === constants.APP_PAGES.SERIES && <SeriesContainer />}
+
+            {this.props.page === 'test' && <TestContainer />}
           </Row>
 
         </Col>

@@ -4,7 +4,7 @@ import { Icon } from 'react-native-elements';
 
 export default class TurnArrow extends React.Component {
   render() {    
-    const icon = this.props.player.username === this.props.turn ? 'ios-play' : 'ios-play-outline';
+    const icon = this.props.player && this.props.player.username === this.props.turn ? 'ios-play' : 'ios-play-outline';
     return (
       <Icon
         size={30}

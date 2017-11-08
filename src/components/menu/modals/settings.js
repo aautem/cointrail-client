@@ -156,7 +156,7 @@ class SettingsModal extends React.Component {
 
               {/* SAVE BUTTON */}
               <Row size={2/15}>
-                <Col size={10/10} style={{ backgroundColor: '#eee' }}>
+                <Col size={10/10}>
                   <Button
                     backgroundColor='steelblue'
                     color='#fff'

@@ -6,22 +6,26 @@ import { Avatar } from 'react-native-elements';
 const _appSS = require('../../../styles/app');
 
 export default class ScoreCard extends React.Component {
-  render() {    
+  render() {
+    const player = this.props.player;
+
     return (
       <Row style={[_appSS.center, { backgroundColor: '#fff', marginTop: 20, marginBottom: 20 }]}>
         <Col size={1} style={_appSS.center}>
           <Avatar
             medium
-            source={{uri: this.props.player.avatarUrl}}
+            source={{uri: player ? player.avatarUrl : null}}
             activeOpacity={0.7}
           />
         </Col>
         <Col size={2} style={_appSS.center}>
           <Row style={_appSS.center}>
-            <Text>{this.props.player.username}</Text>
+            <Text>{player ? player.username : null}</Text>
           </Row>
           <Row style={_appSS.center}>
-            <Text style={{ color: 'steelblue', fontWeight: 'bold', fontSize: 18 }}>{this.props.player.points}</Text>
+            <Text style={{ color: 'steelblue', fontWeight: 'bold', fontSize: 18 }}>
+              {player ? player.points : null}
+            </Text>
           </Row>
         </Col>
       </Row>

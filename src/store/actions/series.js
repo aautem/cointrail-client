@@ -20,6 +20,20 @@ const error = createAction(actions.ERROR, (payload) => payload);
 export const upsertGame = createAction(actions.UPSERT_GAME, (payload) => payload);
 export const upsertSeries = createAction(actions.UPSERT_SERIES, (payload) => payload);
 
+export function startNextGame(series) {
+  return function(dispatch) {
+    dispatch(loading());
+    const socket = socketUtility.socket();
+
+    // emit start-next-game event
+    socket.emit('start-next-game', series, (updateSeries) => {
+      // check if gameover in container to show SeriesResultsModal
+      dispatch(upsertSeries(series));
+      dispatch(loaded());
+    });
+  }
+}
+
 export function joinGame(user, settings) {
   return function(dispatch) {
     dispatch(loading());
@@ -103,5 +117,17 @@ export function joinGame(user, settings) {
         // else configure series and settings from new response
       }
     });
+  }
+}
+
+export function cancelGame(username) {
+  return function(dispatch) {
+    const socket = socketUtility.socket();
+
+    socket.emit('cancel-game', username, (ack) => {
+      console.log('*** GAME REQUEST CANCELLED ***', ack);
+    });
+
+    dispatch(error('Game request cancelled.'));
   }
 }

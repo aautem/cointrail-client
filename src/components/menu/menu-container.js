@@ -32,6 +32,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     joinGame: seriesActions.joinGame,
+    cancelGame: seriesActions.cancelGame,
     // changePage: appActions.changePage,
     // logout: authActions.logout,
   }, dispatch);
@@ -40,10 +41,6 @@ function mapDispatchToProps(dispatch) {
 class MenuContainer extends React.Component {
   constructor(props) {
     super(props);
-  }
-
-  joinGame() {
-    this.props.joinGame(this.props.user, this.props.settings);
   }
 
   render() {
@@ -69,7 +66,9 @@ class MenuContainer extends React.Component {
                 <MenuButton
                   icon={{ type: 'font-awesome', name: 'play-circle', color: '#fff' }}
                   title='Join Game'
-                  onPress={this.joinGame.bind(this)}
+                  onPress={() => {
+                    this.props.joinGame(this.props.user, this.props.settings);
+                  }}
                   loading={false}
                 />
               </Col>
@@ -109,12 +108,15 @@ class MenuContainer extends React.Component {
         </Row>
 
         {/* GUTTER */}
-        <Row size={1/23} style={[appSS.center, { backgroundColor: '#eee' }]}></Row>
+        <Row size={1/23}></Row>
 
         {/* MODALS */}
         <SettingsModal />
-        <ProfileModal showModal={this.props.profileModal} />
-        <GameRequestModal showModal={this.props.seriesLoading} />
+        <ProfileModal />
+        <GameRequestModal
+          showModal={this.props.seriesLoading}
+          cancel={() => { console.log('Cancelling game request...') }}
+        />
 
       </Col>
     );

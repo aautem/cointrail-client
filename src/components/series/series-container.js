@@ -2,6 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import * as seriesActions from '../../store/actions/series';
 import { ActivityIndicator } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { Row } from 'react-native-easy-grid';
@@ -10,7 +11,7 @@ import ScoreBoard from './game/score-board';
 import DropZone from './game/drop-zone';
 import GameContainer from './game/game-container';
 import GameResultsModal from './modals/game-results';
-const _appSS = require('../../styles/app');
+const appSS = require('../../styles/app');
 
 function mapStateToProps(state) {
   return {
@@ -26,17 +27,19 @@ function mapStateToProps(state) {
     // draw: state.series.draw,
     // seriesOver: state.series.seriesOver,
     // winByPoints: state.series.winByPoints,
+    series: state.series,
     username: state.user.username,
     loading: state.series.loading,
     loaded: state.series.loaded,
     error: state.series.error,
     currentGame: state.series.games[state.series.games.length - 1],
+    gameIndex: state.series.games.length - 1,
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    //
+    startNextGame: seriesActions.startNextGame,
   }, dispatch);
 };
 
@@ -51,22 +54,28 @@ class SeriesContainer extends React.Component {
 
   openDrawer() {
     this._drawer.open();
-  };
+  }
 
   closeDrawer() {
     this._drawer.close();
-  };
+  }
+
+  startNextGame() {
+    this.props.startNextGame(this.props.series);
+  }
 
   render () {
     if (this.props.loading) {
       return (
-        <Row style={[_appSS.center, { backgroundColor: '#fff' }]}>
+        <Row style={[appSS.center, { backgroundColor: '#fff' }]}>
           <ActivityIndicator animating={true} color='steelblue' size='large' />
         </Row>
       );
     }
 
     const showGameResults = this.props.currentGame.gameOver;
+
+    console.log('\x1b[34m', 'Series container rendering', this.props.series.games);
 
     return (
       <Drawer
@@ -81,7 +90,13 @@ class SeriesContainer extends React.Component {
         <ScoreBoard game={this.props.currentGame} />
         <DropZone game={this.props.currentGame} username={this.props.username} />
         <GameContainer game={this.props.currentGame} />
-        <GameResultsModal showModal={showGameResults} game={this.props.currentGame} />
+        <GameResultsModal
+          showModal={showGameResults}
+          game={this.props.currentGame}
+          loading={this.props.loading}
+          startNextGame={this.startNextGame.bind(this)}
+        />
+        {/* <SeriesResultsModal /> */}
       </Drawer>
     );
   }
@@ -89,6 +104,7 @@ class SeriesContainer extends React.Component {
 
 SeriesContainer.propTypes = {
   currentGame: PropTypes.object,
+  gameIndex: PropTypes.number,
   username: PropTypes.string,
 };
 
