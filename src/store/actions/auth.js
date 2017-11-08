@@ -21,11 +21,15 @@ const error = createAction(actions.ERROR, (payload) => payload);
 export const changePage = createAction(actions.CHANGE_PAGE, (payload) => payload);
 
 export function login(username, password) {
-  return function(dispatch) {
+  return function(dispatch, getState) {
     dispatch(loading());
 
     if (!authUtility.auth0()) {
-      authUtility.startAuth0();
+      const config = {
+        domain: getState().app.config.auth0Domain,
+        clientId: getState().app.config.auth0Id,
+      };
+      authUtility.startAuth0(config);
     }
 
     const params = {
@@ -87,7 +91,11 @@ export function createUser(email, username, password) {
     dispatch(loading());
 
     if (!authUtility.auth0()) {
-      authUtility.startAuth0();
+      const config = {
+        domain: getState().app.config.auth0Domain,
+        clientId: getState().app.config.auth0Id,
+      };
+      authUtility.startAuth0(config);
     }
 
     const params = {

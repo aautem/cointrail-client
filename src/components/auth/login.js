@@ -6,7 +6,7 @@ import { View, StyleSheet, Text, TouchableHighlight } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { FormLabel, FormInput, FormValidationMessage, Button, Icon } from 'react-native-elements';
 import * as auth from '../../store/actions/auth';
-const styles = require('../../styles/app');
+const appSS = require('../../styles/app');
 
 function mapStateToProps(state) {
   return {
@@ -26,7 +26,6 @@ function mapDispatchToProps(dispatch) {
 class Login extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       username: null,
       password: null,
@@ -34,10 +33,6 @@ class Login extends React.Component {
       passwordError: null,
     };
   }
-
-  componentWillMount() {}
-
-  componentWillUnmount() {}
 
   login() {
     if (this.validInput()) {
@@ -47,7 +42,6 @@ class Login extends React.Component {
 
   validInput() {
     let valid = true;
-
     if (!this.state.username) {
       valid = false;
       this.setState({ usernameError: 'Missing username' });
@@ -56,47 +50,40 @@ class Login extends React.Component {
       valid = false;
       this.setState({ passwordError: 'Password must be at least 6 characters' });
     }
-
     return valid;
   }
 
   render() {
     return (
-      <Col size={14}>
-        <Row size={7}>
-          <Col size={1}></Col>
-          <Col size={12}>
-            <Row size={1}><FormLabel>Username</FormLabel></Row>
-            <Row size={2}>
-              <FormInput
-                maxLength={15}
-                onChangeText={(value) => {
-                  this.setState({ username: value, usernameError: null });
-                }}
-                style={{ width: 310, paddingTop: 30 }}
-              />
-            </Row>
-            <Row size={1}><FormLabel>Password</FormLabel></Row>
-            <Row size={2}>
-              <FormInput
-                secureTextEntry={true}
-                onChangeText={(value) => {
-                  this.setState({ password: value, passwordError: null });
-                }}
-                style={{ width: 310, paddingTop: 30 }}
-              />
-            </Row>
-            <Row size={1} style={{ justifyContent: 'center', alignItems: 'center' }}>
-              {this.state.usernameError && <FormValidationMessage>{this.state.usernameError}</FormValidationMessage>}
-              {this.state.passwordError && <FormValidationMessage>{this.state.passwordError}</FormValidationMessage>}
-              {this.props.error && <FormValidationMessage>{this.props.error}</FormValidationMessage>}
-            </Row>
+      <Col size={14/14}>
+
+        {/* FORM CONTAINER */}
+        <Row size={9/18} style={[]}>
+          <Col size={14/14} style={{ justifyContent: 'center' }}>
+            <FormLabel>Username</FormLabel>
+            <FormInput
+              maxLength={15}
+              onChangeText={(value) => {
+                this.setState({ username: value, usernameError: null });
+              }}
+            />
+            {this.state.usernameError && <FormValidationMessage>{this.state.usernameError}</FormValidationMessage>}
+            <FormLabel>Password</FormLabel>
+            <FormInput
+              secureTextEntry={true}
+              onChangeText={(value) => {
+                this.setState({ password: value, passwordError: null });
+              }}
+            />
+            {this.state.passwordError && <FormValidationMessage>{this.state.passwordError}</FormValidationMessage>}
+            {this.props.error && <FormValidationMessage>{this.props.error}</FormValidationMessage>}
           </Col>
-          <Col size={1}></Col>
         </Row>
-        <Row size={2}>
-          <Col size={2}></Col>
-          <Col size={10}>
+
+        {/* BUTTON CONTAINER */}
+        <Row size={4/18} style={[appSS.center]}>
+          <Col size={1/14}></Col>
+          <Col size={12/14}>
             <Button
               large
               title='Login'
@@ -106,48 +93,47 @@ class Login extends React.Component {
               disabled={this.props.loading}
               borderRadius={5}
               containerViewStyle={{ borderRadius: 5 }}
-              style={{ paddingTop: 10 }}
             />
+            <Row size={1/4} style={{ paddingTop: 5 }}>
+              <Col size={7/14}>
+                <TouchableHighlight
+                  onPress={() => { console.log('Remembering password...') }}>
+                  <Text style={{ paddingLeft: 20, color: 'steelblue' }}>Forgot Password</Text>
+                </TouchableHighlight>
+              </Col>
+              <Col size={7/14}>
+                <TouchableHighlight
+                  onPress={() => { this.props.changePage('signup') }}>
+                  <Text style={{ textAlign: 'right', paddingRight: 20, color: 'steelblue' }}>Signup to Play</Text>
+                </TouchableHighlight>
+              </Col>
+            </Row>
           </Col>
-          <Col size={2}></Col>
+          <Col size={1/14}></Col>
         </Row>
-        <Row size={2}>
-          <Col size={2}></Col>
-          <Col size={5} style={{ paddingLeft: 15, justifyContent: 'center', alignItems: 'flex-start' }}>
-            <TouchableHighlight
-              onPress={() => { console.log('Remembering password...') }}>
-              <Text style={{ color: 'steelblue' }}>Forgot Password</Text>
-            </TouchableHighlight>
-          </Col>
-          <Col size={5} style={{ paddingRight: 15, justifyContent: 'center', alignItems: 'flex-end' }}>
-            <TouchableHighlight
-              onPress={() => { this.props.changePage('signup') }}>
-              <Text style={{ color: 'steelblue' }}>Signup to Play</Text>
-            </TouchableHighlight>
-          </Col>
-          <Col size={2}></Col>
-        </Row>
-        <Row size={4}>
-          <Col size={2}></Col>
-          <Col size={5} style={{ alignItems: 'center', paddingRight: 36, paddingTop: 20 }}>
+
+        {/* SOCIAL BUTTONS CONTAINER */}
+        <Row size={5/18} style={[appSS.center]}>
+          <Col size={7/14}>
             <Icon
               name='google--with-circle'
               type='entypo'
               color='red'
-              size={75}
+              size={80}
               onPress={() => console.log('hello')}
             />
           </Col>
-          <Col size={6} style={{ alignItems: 'center', paddingRight: 36, paddingTop: 20 }}>
+          <Col size={7/14}>
             <Icon
               name='facebook-with-circle'
               type='entypo'
               color='steelblue'
-              size={75}
+              size={80}
               onPress={() => console.log('hello')}
             />
           </Col>
         </Row>
+
       </Col>
     );
   }

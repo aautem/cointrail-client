@@ -8,7 +8,7 @@ import { Grid, Col, Row } from 'react-native-easy-grid';
 import Signup from './signup';
 import Login from './login';
 
-const styles = require('../../styles/app');
+const appSS = require('../../styles/app');
 
 function mapStateToProps(state) {
   return {
@@ -36,17 +36,22 @@ class AuthContainer extends React.Component {
 
   render() {
     return (
-      <Col size={14}>
-        <Row size={2}></Row>
-        <Row size={5} style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={{ fontSize: 30, color: 'steelblue' }}>{constants.APP_TITLE}</Text>
+      <Col size={14/14} style={{ backgroundColor: '#fff' }}>
+
+        {/* LOGO CONTAINER */}
+        <Row size={5/23} style={[appSS.center]}>
+          <Text style={{ fontSize: 30, color: 'steelblue' }}>
+            { constants.APP_TITLE }
+          </Text>
         </Row>
-        <Row size={14}>
+
+        {/* COMPONENT CONTAINER */}
+        <Row size={18/23} style={[{ }]}>
           {this.props.page === constants.AUTH_PAGES.LOGIN && <Login />}
           {this.props.page === constants.AUTH_PAGES.SIGNUP && <Signup />}
           {/* this.props.page === constants.AUTH_PAGES.FORGOT_PASSWORD && <ForgotPassword /> */}
         </Row>
-        <Row size={3}></Row>
+
       </Col>
     );
   }

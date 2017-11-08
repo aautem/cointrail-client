@@ -6,8 +6,7 @@ import { View, StyleSheet, Text, TouchableHighlight } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
 import * as auth from '../../store/actions/auth';
-
-const styles = require('../../styles/app');
+const appSS = require('../../styles/app');
 
 function mapStateToProps(state) {
   return {
@@ -75,99 +74,79 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <Col size={14}>
-        <Row size={15}>
-          <Col size={1}></Col>
-          <Col size={12}>
+      <Col size={14/14}>
+      
+        {/* FORM CONTAINER */}
+        <Row size={13/16} style={[]}>
+          <Col size={14/14} style={{ justifyContent: 'center' }}>
             <FormLabel>Email</FormLabel>
-            <Row size={4}>
-              <FormInput
-                onChangeText={(value) => {
-                  this.setState({ email: value, emailError: null });
-                }}
-                style={{ width: 310 }}
-              />
-            </Row>
-            <Row size={1}></Row>
+            <FormInput
+              onChangeText={(value) => {
+                this.setState({ email: value, emailError: null });
+              }}
+            />
+            {this.state.emailError && <FormValidationMessage>{this.state.emailError}</FormValidationMessage>}
             <FormLabel>Username</FormLabel>
-            <Row size={4}>
-              <FormInput
-                maxLength={15}
-                onChangeText={(value) => {
-                  this.setState({ username: value, usernameError: null });
-                }}
-                style={{ width: 310 }}
-              />
-            </Row>
-            <Row size={1}></Row>
+            <FormInput
+              maxLength={15}
+              onChangeText={(value) => {
+                this.setState({ username: value, usernameError: null });
+              }}
+            />
+            {this.state.usernameError && <FormValidationMessage>{this.state.usernameError}</FormValidationMessage>}
             <FormLabel>Password</FormLabel>
-            <Row size={4}>
-              <FormInput
-                secureTextEntry={true}
-                onChangeText={(value) => {
-                  this.setState({ password: value, passwordError: null });
-                }}
-                style={{ width: 310 }}
-              />
-            </Row>
-            <Row size={1}></Row>
+            <FormInput
+              secureTextEntry={true}
+              onChangeText={(value) => {
+                this.setState({ password: value, passwordError: null });
+              }}
+            />
+            {this.state.passwordError && <FormValidationMessage>{this.state.passwordError}</FormValidationMessage>}
             <FormLabel>Confirm Password</FormLabel>
-            <Row size={4}>
-              <FormInput
-                secureTextEntry={true}
-                onChangeText={(value) => {
-                  this.setState({ confirmPassword: value, confirmPasswordError: null });
-                }}
-                style={{ width: 310 }}
-              />
-            </Row>
-            <Row size={1}>
-              {this.state.emailError && <FormValidationMessage>{this.state.emailError}</FormValidationMessage>}
-              {this.state.usernameError && <FormValidationMessage>{this.state.usernameError}</FormValidationMessage>}
-              {this.state.passwordError && <FormValidationMessage>{this.state.passwordError}</FormValidationMessage>}
-              {this.state.confirmPasswordError && <FormValidationMessage>{this.state.confirmPasswordError}</FormValidationMessage>}
-              {this.props.error && <FormValidationMessage>{this.props.error}</FormValidationMessage>}
-            </Row>
+            <FormInput
+              secureTextEntry={true}
+              onChangeText={(value) => {
+                this.setState({ confirmPassword: value, confirmPasswordError: null });
+              }}
+            />
+            {this.state.confirmPasswordError && <FormValidationMessage>{this.state.confirmPasswordError}</FormValidationMessage>}
+            {this.props.error && <FormValidationMessage>{this.props.error}</FormValidationMessage>}
           </Col>
-          <Col size={1}></Col>
         </Row>
-        <Row size={1}></Row>
-        <Row size={2}>
-          <Col size={2}></Col>
-          <Col size={10}>
+      
+        {/* BUTTON CONTAINER */}
+        <Row size={3/16} style={[appSS.center]}>
+          <Col size={1/14}></Col>
+          <Col size={12/14}>
             <Button
-            large
-            title='Signup'
-            icon={{name: 'user-o', type: 'font-awesome', size: 20 }}
-            backgroundColor='steelblue'
-            onPress={this.createUser.bind(this)}
-            loading={this.props.loading}
-            disabled={this.props.loading}
-            borderRadius={5}
-            containerViewStyle={{ borderRadius: 5 }}
-            style={{ paddingTop: 10 }}
-          />
+              large
+              title='Signup'
+              icon={{name: 'user-o', type: 'font-awesome', size: 20 }}
+              backgroundColor='steelblue'
+              onPress={this.createUser.bind(this)}
+              loading={this.props.loading}
+              disabled={this.props.loading}
+              borderRadius={5}
+              containerViewStyle={{ borderRadius: 5 }}
+            />
+            <Row size={1/4} style={{ paddingTop: 5 }}>
+              <Col size={7/14}>
+                <TouchableHighlight
+                  onPress={() => { console.log('Remembering password...') }}>
+                  <Text style={{ paddingLeft: 20, color: 'steelblue' }}>Forgot Password</Text>
+                </TouchableHighlight>
+              </Col>
+              <Col size={7/14}>
+                <TouchableHighlight
+                  onPress={() => { this.props.changePage('login') }}>
+                  <Text style={{ textAlign: 'right', paddingRight: 20, color: 'steelblue' }}>Login</Text>
+                </TouchableHighlight>
+              </Col>
+            </Row>
           </Col>
-          <Col size={2}></Col>
+          <Col size={1/14}></Col>
         </Row>
-        <Row size={2} style={{ paddingTop: 35 }}>
-          <Col size={2}></Col>
-          <Col size={5} style={{ paddingLeft: 15, justifyContent: 'center', alignItems: 'flex-start' }}>
-            <TouchableHighlight
-              onPress={() => { console.log('Remembering password...') }}>
-              <Text style={{ color: 'steelblue' }}>Forgot Password</Text>
-            </TouchableHighlight>
-          </Col>
-          <Col size={5} style={{ paddingRight: 15, justifyContent: 'center', alignItems: 'flex-end' }}>
-            <TouchableHighlight
-              onPress={() => { this.props.changePage('login') }}>
-              <Text style={{ color: 'steelblue' }}>Login</Text>
-            </TouchableHighlight>
-          </Col>
-          <Col size={2}></Col>
-        </Row>
-        <Row size={2}>
-        </Row>
+        
       </Col>
     );
   }

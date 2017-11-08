@@ -1,0 +1,27 @@
+// AUTH CONTAINER // 14 COLUMNS // 23 ROWS //
+<Col size={14/14}>
+  {/* LOGO CONTAINER */}
+  <Row size={5/23} style={[{ backgroundColor: '#71CFEE' }]}></Row>
+  {/* COMPONENT CONTAINER */}
+  <Row size={18/23} style={[{ backgroundColor: '#3780B6' }]}></Row>
+</Col>
+
+// LOGIN CONTAINER // 14 COLUMNS // 18 ROWS //
+<Col size={14/14}>
+  {/* FORM CONTAINER */}
+  <Row size={9/18} style={[{ backgroundColor: '#3780B6' }]}></Row>
+  {/* BUTTON CONTAINER */}
+  <Row size={4/19} style={[{ backgroundColor: '#71CFEE' }]}></Row>
+  {/* SOCIAL CONTAINER */}
+  <Row size={5/18} style={[{ backgroundColor: '#3780B6' }]}></Row>
+</Col>
+
+// SIGNUP CONTAINER // 14 COLUMNS // 18 ROWS //
+<Col size={14/14}>
+  {/* FORM CONTAINER */}
+  <Row size={13/16} style={[{ backgroundColor: '#3780B6' }]}></Row>
+  {/* BUTTON CONTAINER */}
+  <Row size={3/16} style={[{ backgroundColor: '#71CFEE' }]}></Row>
+</Col>
+
+// FORGOT PASSWORD CONTAINER // 14 COLUMNS // 18 ROWS //

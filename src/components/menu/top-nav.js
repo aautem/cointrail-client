@@ -6,9 +6,9 @@ import * as settingsActions from '../../store/actions/settings';
 import * as userActions from '../../store/actions/user';
 import * as constants from '../../utilities/const';
 import { Header } from 'react-native-elements';
+import { Grid, Col, Row } from 'react-native-easy-grid';
 import HeaderIcon from './header-icon';
-
-const styles = require('../../styles/app');
+const appSS = require('../../styles/app');
 
 function mapStateToProps(state) {
   return {
@@ -53,7 +53,7 @@ class TopNav extends React.Component {
             color='#fff'
             onPress={this.props.openProfileModal}
           />}
-        outerContainerStyles={{ backgroundColor: 'steelblue' }}
+        style={{ paddingBottom: 10 }}
       />
     );
   }

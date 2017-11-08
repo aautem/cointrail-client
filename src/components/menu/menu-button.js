@@ -12,17 +12,17 @@ export default class MenuButton extends React.Component {
   render() {
     return (
       <Button
-        large
         raised
-        backgroundColor='lightgrey'
-        buttonStyle={{ width: '100%' }}
-        color='steelblue'
+        large
+        backgroundColor='steelblue'
+        color='#fff'
         icon={this.props.icon}
         title={this.props.title}
         loading={this.props.loading}
         onPress={this.props.onPress}
         borderRadius={5}
         containerViewStyle={{ borderRadius: 5 }}
+        style={{ width: 250 }}
       />
     );
   }

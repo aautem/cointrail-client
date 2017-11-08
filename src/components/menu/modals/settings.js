@@ -3,40 +3,40 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as settingsActions from '../../../store/actions/settings';
-import { Modal, Text, Slider, Switch, ActivityIndicator } from 'react-native';
+import { Modal, View, Text, Slider, Switch, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Button } from 'react-native-elements';
-
-const styles = require('../../../styles/modals');
-const _appSS = require('../../../styles/app');
+import { ColorPicker } from 'react-native-color-picker'
+const modalSS = require('../../../styles/modals');
+const appSS = require('../../../styles/app');
 
 function mapStateToProps(state) {
   return {
-    showModal: state.settings.showModal,
-    username: state.user.username,
-    boardSize: state.settings.boardSize,
-    seriesLength: state.settings.seriesLength,
-    timeLimit: state.settings.timeLimit,
-    loading: state.settings.loading,
-    loaded: state.settings.loaded,
-    error: state.settings.error,
+    user: state.user,
+    settings: state.settings,
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    closeModal: settingsActions.closeModal,
-    loadSettings: settingsActions.loadSettings,
-    updateSettings: settingsActions.updateSettings,
     changeSize: settingsActions.changeSize,
     changeLength: settingsActions.changeLength,
     toggleTimer: settingsActions.toggleTimer,
+    changeColor: settingsActions.changeColor,
+    changeAltColor: settingsActions.changeAltColor,
+    loadSettings: settingsActions.loadSettings,
+    saveSettings: settingsActions.saveSettings,
+    closeModal: settingsActions.closeModal,
   }, dispatch);
 };
 
 class SettingsModal extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      selectingColor: false,
+      selectingAltColor: false,
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -45,13 +45,13 @@ class SettingsModal extends React.Component {
     }
   }
 
-  saveSettings() {
-    const settings = {
-      boardSize: this.props.boardSize,
-      seriesLength: this.props.seriesLength,
-      timeLimit: this.props.timeLimit,
+  selectColor(color) {
+    if (this.state.selectingColor) {
+      this.props.changeColor(color);
+    } else if (this.state.selectingAltColor) {
+      this.props.changeAltColor(color);
     }
-    this.props.updateSettings(this.props.username, settings);
+    this.setState({ selectingColor: false, selectingAltColor: false });
   }
 
   render() {
@@ -59,109 +59,162 @@ class SettingsModal extends React.Component {
       <Modal
         animationType='fade'
         transparent={true}
-        visible={this.props.showModal}
+        visible={this.props.settings.showModal}
         onRequestClose={this.props.closeModal}
       >
-        <Grid style={[_appSS.center, { backgroundColor: '#fff', paddingTop: 35, paddingBottom: 35 }]}>
-          {this.props.loading &&
-          <Col style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <ActivityIndicator animating={true} color='steelblue' size='large' />
-          </Col>}
+        {(!this.state.selectingColor && !this.state.selectingAltColor) &&
+        <Col size={14/14} style={appSS.center}>
+          
+          {/* TRANSPARENT */}
+          <Row size={4/23}>
+            <Col size={14/14} style={[modalSS.transparent]}></Col>
+          </Row>
 
-          {!this.props.loading &&
-          <Col>
-            <Row size={3} style={{ backgroundColor: '#fff' }}>
-              <Col style={styles.column}>
-                <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
-                  <Text style={{ color: 'steelblue', fontWeight: 'bold' }}>User Preferences</Text>
-                </Row>
-                <Row>
-                  <Col style={styles.column}>
-                    <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
-                      <Text>{this.props.boardSize} x {this.props.boardSize} Board</Text>
-                    </Row>
-                    <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
-                      <Col></Col>
-                      <Col size={3}>
-                        <Slider
-                          minimumValue={4}
-                          maximumValue={6}
-                          value={this.props.boardSize}
-                          step={1}
-                          onSlidingComplete={(boardSize) => { this.props.changeSize(boardSize) }}
-                          style={styles.fullWidth}
-                        />
-                      </Col>
-                      <Col></Col>
-                    </Row>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col style={styles.column}>
-                    <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
-                      <Text>{this.props.seriesLength} Game Series</Text>
-                    </Row>
-                    <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
-                      <Col></Col>
-                      <Col size={3}>
-                        <Slider
-                          minimumValue={3}
-                          maximumValue={11}
-                          value={this.props.seriesLength}
-                          step={4}
-                          onSlidingComplete={(seriesLength) => { this.props.changeLength(seriesLength) }}
-                          style={styles.fullWidth}
-                        />
-                      </Col>
-                      <Col></Col>
-                    </Row>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col style={styles.column}>
-                    <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
-                      <Text style={{ paddingRight: 10 }}>Time Limit</Text>
-                      <Switch
-                        value={this.props.timeLimit}
-                        onValueChange={() => { this.props.toggleTimer() }}
-                      />
-                    </Row>
-                  </Col>
-                </Row>
-                <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <Row size={15/23}>
+            <Col size={2/14} style={[modalSS.transparent]}></Col>
+            <Col size={10/14} style={[{ backgroundColor: '#fff' }]}>
+
+              {/* MODAL HEADER */}
+              <Row size={2/15}>
+                <Col size={10/10} style={[appSS.center]}>
+                  <Text style={{ color: 'steelblue', fontWeight: 'bold' }}>
+                    Game Preferences
+                  </Text>
+                </Col>
+              </Row>
+
+              {/* BOARD SIZE */}
+              <Row size={3/15}>
+                <Col size={10/10} style={{ justifyContent: 'center' }}>
+                  <Text style={[{ textAlign: 'center' }]}>
+                    {this.props.settings.boardSize} x {this.props.settings.boardSize} Board
+                  </Text>
+                  <Slider
+                    minimumValue={4}
+                    maximumValue={6}
+                    value={this.props.settings.boardSize}
+                    step={1}
+                    onSlidingComplete={(boardSize) => { this.props.changeSize(boardSize) }}
+                    style={{ marginLeft: 30, marginRight: 30 }}
+                  />
+                </Col>
+              </Row>
+
+              {/* SERIES LENGTH */}
+              <Row size={3/15}>
+                <Col size={10/10} style={{ justifyContent: 'center' }}>
+                  <Text style={[{ textAlign: 'center' }]}>
+                    {this.props.settings.seriesLength} Game Series
+                  </Text>
+                  <Slider
+                    minimumValue={3}
+                    maximumValue={11}
+                    value={this.props.settings.seriesLength}
+                    step={4}
+                    onSlidingComplete={(seriesLength) => { this.props.changeLength(seriesLength) }}
+                    style={{ marginLeft: 30, marginRight: 30 }}
+                  />
+                </Col>
+              </Row>
+
+              {/* TIME LIMIT */}
+              <Row size={2/15} style={appSS.center}>
+                <Text style={{ paddingRight: 10 }}>Time Limit</Text>
+                <Switch
+                  value={this.props.settings.timeLimit}
+                  onValueChange={() => { this.props.toggleTimer() }}
+                />
+              </Row>
+
+              {/* COLOR SELECTION */}
+              <Row size={3/15}>
+                <Col size={5/10} style={appSS.center}>
+                  <Text>Color</Text>
+                  <TouchableOpacity onPress={() => {
+                    this.setState({ selectingColor: true });
+                  }}>
+                    <View style={{
+                      height: 50,
+                      width: 50,
+                      backgroundColor: this.props.settings.color,
+                      borderRadius: 5 }} />
+                  </TouchableOpacity>
+                </Col>
+                <Col size={5/10} style={appSS.center}>
+                  <Text>Alt Color</Text>
+                  <TouchableOpacity onPress={() => {
+                    this.setState({ selectingAltColor: true });
+                  }}>
+                    <View style={{
+                      height: 50,
+                      width: 50,
+                      backgroundColor: this.props.settings.altColor,
+                      borderRadius: 5 }} />
+                  </TouchableOpacity>
+                </Col>
+              </Row>
+
+              {/* SAVE BUTTON */}
+              <Row size={2/15}>
+                <Col size={10/10} style={{ backgroundColor: '#eee' }}>
                   <Button
-                    title='Save'
                     backgroundColor='steelblue'
-                    onPress={this.saveSettings.bind(this)}
-                    buttonStyle={{ width: '100%' }}
+                    color='#fff'
+                    title='Save'
+                    loading={this.props.settings.loading}
+                    onPress={() => {
+                      this.props.saveSettings(this.props.user.username, this.props.settings);
+                    }}
                     borderRadius={5}
                     containerViewStyle={{ borderRadius: 5 }}
                   />
-                </Row>
-              </Col>
-            </Row>
-          </Col>}
-        </Grid>
+                </Col>
+              </Row>
+            </Col>
+            <Col size={2/14} style={[modalSS.transparent]}></Col>
+          </Row>
+
+          {/* TRANSPARENT */}
+          <Row size={4/23}>
+            <Col size={14/14} style={[modalSS.transparent]}></Col>
+          </Row>
+        </Col>}
+
+        {/* COLOR PICKER */}
+        {(this.state.selectingColor || this.state.selectingAltColor) &&
+        <Col size={14/14} style={{ backgroundColor: '#fff', paddingLeft: 50, paddingRight: 50 }}>
+          <ColorPicker
+            onColorSelected={this.selectColor.bind(this)}
+            style={{flex: 1 }}
+            hideSliders={true}
+            defaultColor={this.state.selectingAltColor ? this.props.settings.altColor : this.props.settings.color}
+          />
+          <Button
+            backgroundColor='#eee'
+            color='grey'
+            title='Cancel'
+            loading={false}
+            onPress={() => { this.setState({ selectingColor: false, selectingAltColor: false }) }}
+            borderRadius={5}
+            containerViewStyle={{ borderRadius: 5, marginBottom: 60 }}
+          />
+        </Col>}
       </Modal>
     );
   }
 }
 
 SettingsModal.propTypes = {
-  showModal: PropTypes.bool,
-  username: PropTypes.string,
-  boardSize: PropTypes.number,
-  seriesLength: PropTypes.number,
-  timeLimit: PropTypes.bool,
-  loading: PropTypes.bool,
-  loaded: PropTypes.bool,
-  error: PropTypes.string,
+  user: PropTypes.object,
+  settings: PropTypes.object,
   changeSize: PropTypes.func,
   changeLength: PropTypes.func,
   toggleTimer: PropTypes.func,
+  changeColor: PropTypes.func,
+  changeAltColor: PropTypes.func,
   closeModal: PropTypes.func,
   loadSettings: PropTypes.func,
-  updateSettings: PropTypes.func,
+  saveSettings: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsModal);

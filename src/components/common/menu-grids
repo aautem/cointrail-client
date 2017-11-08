@@ -1,0 +1,7 @@
+// MENU CONTAINER // 14 COLUMNS // 23 ROWS //
+<Col size={14/14}>
+  {/* LOGO CONTAINER */}
+  <Row size={5/23} style={[{ backgroundColor: '#71CFEE' }]}></Row>
+  {/* COMPONENT CONTAINER */}
+  <Row size={18/23} style={[{ backgroundColor: '#3780B6' }]}></Row>
+</Col>

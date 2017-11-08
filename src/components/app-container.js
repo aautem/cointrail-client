@@ -9,8 +9,7 @@ import { ActivityIndicator } from 'react-native';
 import AuthContainer from './auth/auth-container';
 import MenuContainer from './menu/menu-container';
 import SeriesContainer from './series/series-container';
-
-const styles = require('../styles/app');
+const appSS = require('../styles/app');
 
 function mapStateToProps(state) {
   return {
@@ -44,7 +43,7 @@ class AppContainer extends React.Component {
     if (this.props.appLoading || this.props.authLoading) {
       return (
         <Grid>
-          <Col style={[styles.center, { backgroundColor: 'steelblue' }]}>
+          <Col size={14/14} style={[appSS.center, { backgroundColor: 'steelblue' }]}>
             <ActivityIndicator animating={true} color='#fff' size='large' />
           </Col>
         </Grid>
@@ -53,9 +52,19 @@ class AppContainer extends React.Component {
 
     return (
       <Grid>
-        {this.props.page === constants.APP_PAGES.AUTH && <AuthContainer />}
-        {this.props.page === constants.APP_PAGES.MENU && <MenuContainer />}
-        {this.props.page === constants.APP_PAGES.SERIES && <SeriesContainer />}
+        <Col size={14/14}>
+
+          {/* MENU BAR */}
+          <Row size={1/24}></Row>
+
+          {/* AUTH PAGES */}
+          <Row size={23/24}>
+            {this.props.page === constants.APP_PAGES.AUTH && <AuthContainer />}
+            {this.props.page === constants.APP_PAGES.MENU && <MenuContainer />}
+            {this.props.page === constants.APP_PAGES.SERIES && <SeriesContainer />}
+          </Row>
+
+        </Col>
       </Grid>
     );
   }

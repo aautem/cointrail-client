@@ -5,8 +5,8 @@ class AuthUtility {
     this.auth0Connection = null;
   }
 
-  startAuth0() {
-    this.auth0Connection = new Auth0({ domain: 'app77626749.auth0.com', clientId: 'z2xIFUI0P4OLA4S_uJ2CADCe3A2AKsH5' });
+  startAuth0(config) {
+    this.auth0Connection = new Auth0({ domain: config.domain, clientId: config.clientId });
   }
 
   auth0() {

@@ -55,16 +55,21 @@ class FriendsContainer extends React.Component {
 
   render() {
     return (
-      <Carousel
-        ref={(c) => { this._carousel = c }}
-        data={this.state.friends}
-        renderItem={this.renderItem}
-        sliderWidth={viewportWidth}
-        itemWidth={130}
-        activeSlideAlignment='start'
-        inactiveSlideOpacity={0.6}
-        inactiveSlideScale={0.9}
-      />
+      <Col size={14/14} style={{paddingTop: 10, paddingBottom: 10}}>
+        <Text style={{ color: 'grey', fontWeight: 'bold', paddingLeft: 10 }}>
+          Friends
+        </Text>
+        <Carousel
+          ref={(c) => { this._carousel = c }}
+          data={this.state.friends}
+          renderItem={this.renderItem}
+          sliderWidth={viewportWidth}
+          itemWidth={130}
+          activeSlideAlignment='start'
+          inactiveSlideOpacity={0.6}
+          inactiveSlideScale={0.9}
+        />
+      </Col>
     );
   }
 }

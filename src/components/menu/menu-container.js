@@ -17,13 +17,15 @@ import ProfileModal from './modals/profile';
 import FriendsContainer from './friends/friends-container';
 import MenuButton from './menu-button';
 import GameRequestModal from './modals/game-request';
-const _appSS = require('../../styles/app');
+const appSS = require('../../styles/app');
 
 function mapStateToProps(state) {
   return {
     user: state.user,
     settings: state.settings,
     seriesLoading: state.series.loading,
+    settingsModal: state.settings.showModal,
+    profileModal: state.user.showModal,
   };
 };
 
@@ -46,60 +48,74 @@ class MenuContainer extends React.Component {
 
   render() {
     return (
-      <Col size={14} style={{ backgroundColor: 'lightgrey' }}>
-        <Row size={2}>
+      <Col size={14/14}>
+
+        {/* TOP NAV CONTAINER */}
+        <Row size={2/23} style={[appSS.center, { backgroundColor: 'steelblue' }]}>
           <TopNav />
         </Row>
-        <Row size={0.5}>
-          <Text style={{ color: 'grey', fontWeight: 'bold' }}>Friends</Text>
-        </Row>
-        <Row size={4} style={{ backgroundColor: 'lightgrey', paddingBottom: 20 }}>
+
+        {/* FRIENDS CONTAINER */}
+        <Row size={8/23} style={[appSS.center, { backgroundColor: '#eee' }]}>
           <FriendsContainer />
         </Row>
-        <Row size={8} style={{ paddingTop: 10, backgroundColor: 'steelblue' }}>
-          <Col size={2}></Col>
-          <Col size={10}>
-            <Row size={4} style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 10 }}>
-              <MenuButton
-                icon={{ type: 'font-awesome', name: 'play-circle', color: 'steelblue' }}
-                title='Join Game'
-                onPress={this.joinGame.bind(this)}
-                loading={false}
-              />
+
+        {/* BUTTONS CONTAINER */}
+        <Row size={12/23} style={[appSS.center, { backgroundColor: '#fff' }]}>
+          <Col size={2/14}></Col>
+          <Col size={10/14}>
+            <Row size={3/12}>
+              <Col size={10/10} style={appSS.center}>
+                <MenuButton
+                  icon={{ type: 'font-awesome', name: 'play-circle', color: '#fff' }}
+                  title='Join Game'
+                  onPress={this.joinGame.bind(this)}
+                  loading={false}
+                />
+              </Col>
             </Row>
-            <Row size={4} style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <MenuButton
-                icon={{ type: 'material-community', name: 'message-text-outline', color: 'steelblue' }}
-                title='Messages'
-                onPress={() => { console.log('Opening inbox...') }}
-                loading={false}
-              />
+            <Row size={3/12}>
+              <Col size={10/10} style={appSS.center}>
+                <MenuButton
+                  icon={{ type: 'material-community', name: 'message-text-outline', color: '#fff' }}
+                  title='Messages'
+                  onPress={() => { console.log('Opening inbox...') }}
+                  loading={false}
+                />
+              </Col>
             </Row>
-            <Row size={4} style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <MenuButton
-                icon={{ type: 'ionicon', name: 'md-stats', color: 'steelblue' }}
-                title='Leaderboard'
-                onPress={() => { console.log('Loading leaderboard...') }}
-                loading={false}
-              />
+            <Row size={3/12}>
+              <Col size={10/10} style={appSS.center}>
+                <MenuButton
+                  icon={{ type: 'ionicon', name: 'md-stats', color: '#fff' }}
+                  title='Leaderboard'
+                  onPress={() => { console.log('Loading leaderboard...') }}
+                  loading={false}
+                />
+              </Col>
             </Row>
-            <Row size={4} style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <MenuButton
-                icon={{ type: 'material', name: 'help', color: 'steelblue' }}
-                title='How to Play'
-                onPress={() => { console.log('Loading help...') }}
-                loading={false}
-              />
+            <Row size={3/12}>
+              <Col size={10/10} style={appSS.center}>
+                <MenuButton
+                  icon={{ type: 'material', name: 'help', color: '#fff' }}
+                  title='How to Play'
+                  onPress={() => { console.log('Loading help...') }}
+                  loading={false}
+                />
+              </Col>
             </Row>
           </Col>
-          <Col size={2}></Col>
+          <Col size={2/14}></Col>
         </Row>
-        <Row size={2} style={{ backgroundColor: 'steelblue' }}></Row>
+
+        {/* GUTTER */}
+        <Row size={1/23} style={[appSS.center, { backgroundColor: '#eee' }]}></Row>
+
+        {/* MODALS */}
         <SettingsModal />
-        <ProfileModal />
-        <GameRequestModal
-          showModal={this.props.seriesLoading}
-        />
+        <ProfileModal showModal={this.props.profileModal} />
+        <GameRequestModal showModal={this.props.seriesLoading} />
+
       </Col>
     );
   }
@@ -110,6 +126,8 @@ MenuContainer.propTypes = {
   user: PropTypes.object,
   settings: PropTypes.object,
   seriesLoading: PropTypes.bool,
+  settingsModal: PropTypes.bool,
+  profileModal: PropTypes.bool,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuContainer);

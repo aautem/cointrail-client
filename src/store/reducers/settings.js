@@ -17,17 +17,25 @@ export default function reducer(state = initialState, action) {
     return Object.assign({}, state, { showModal: false });
   }
 
-  if (action.type === actions.CHANGE_SIZE) {
+  if (action.type === actions.SET_SIZE) {
     return Object.assign({}, state, { boardSize: action.payload });
   }
 
-  if (action.type === actions.CHANGE_LENGTH) {
+  if (action.type === actions.SET_LENGTH) {
     return Object.assign({}, state, { seriesLength: action.payload });
   }
 
-  if (action.type === actions.TOGGLE_TIMER) {
+  if (action.type === actions.SET_TIMER) {
     const timeLimit = !state.timeLimit;
     return Object.assign({}, state, { timeLimit: timeLimit });
+  }
+
+  if (action.type === actions.SET_COLOR) {
+    return Object.assign({}, state, { color: action.payload });
+  }
+
+  if (action.type === actions.SET_ALT_COLOR) {
+    return Object.assign({}, state, { altColor: action.payload });
   }
 
   if (action.type === actions.LOADING) {
