@@ -34,11 +34,14 @@ export default class GameResultsModal extends React.Component {
           <Row size={7/24} style={{ backgroundColor: player2.gamePieceColor }}>
 
             {/* LEFT PLAYER */}
-            <Col size={7.85/14} style={{ backgroundColor: player1.gamePieceColor, alignItems: 'flex-start', justifyContent: 'center' }}>
+            <Col size={7.85/14} style={{ backgroundColor: player1.gamePieceColor, overflow: 'hidden', alignItems: 'flex-start', justifyContent: 'center' }}>
               <Avatar
                 xlarge
                 source={{uri: player1.avatarUrl}}
                 activeOpacity={0.8}
+                avatarStyle={{ borderTopRightRadius: 70, overflow: 'hidden' }}
+                containerStyle={{ borderTopRightRadius: 70, overflow: 'hidden' }}
+                overlayContainerStyle={{ borderTopRightRadius: 70, overflow: 'hidden' }}
               />
               <View style={{ backgroundColor: player1.gamePieceColor, width: 80, height: 30, alignSelf: 'flex-end', justifyContent: 'center', marginTop: -30, borderTopLeftRadius: 30, overflow: 'hidden' }}>
                 <Text style={{ color: '#fff', textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>{player1.points}</Text>
@@ -61,11 +64,14 @@ export default class GameResultsModal extends React.Component {
             </Col>
 
             {/* RIGHT PLAYER */}
-            <Col size={7.85/14} style={{ alignItems: 'flex-end', justifyContent: 'center' }}>
+            <Col size={7.85/14} style={{ alignItems: 'flex-end', justifyContent: 'center', overflow: 'hidden' }}>
               <Avatar
                 xlarge
                 source={{uri: player2.avatarUrl}}
                 activeOpacity={0.8}
+                avatarStyle={{ borderTopLeftRadius: 70, overflow: 'hidden' }}
+                containerStyle={{ borderTopLeftRadius: 70, overflow: 'hidden' }}
+                overlayContainerStyle={{ borderTopRightRadius: 70, overflow: 'hidden' }}
               />
               <View style={{ backgroundColor: player2.gamePieceColor, width: 80, height: 30, alignSelf: 'flex-start', justifyContent: 'center', marginTop: -30, borderTopRightRadius: 30, overflow: 'hidden' }}>
                 <Text style={{ color: '#fff', textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>{player2.points}</Text>

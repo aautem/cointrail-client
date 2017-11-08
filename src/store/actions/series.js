@@ -2,6 +2,7 @@ import { createAction } from 'redux-actions';
 import { APP_PAGES } from '../../utilities/const';
 import socketUtility from '../../utilities/socket';
 import * as appActions from './app';
+import * as gameActions from './game';
 
 export const actions = {
   INITIALIZE_SERIES: 'series/INITIALIZE_SERIES',
@@ -23,12 +24,19 @@ export const upsertSeries = createAction(actions.UPSERT_SERIES, (payload) => pay
 export function startNextGame(series) {
   return function(dispatch) {
     dispatch(loading());
-    const socket = socketUtility.socket();
+    const socket = socketUtility.socket;
 
     // emit start-next-game event
-    socket.emit('start-next-game', series, (updateSeries) => {
+    socket.emit('start-next-game', series, (updatedSeries) => {
       // check if gameover in container to show SeriesResultsModal
-      dispatch(upsertSeries(series));
+
+      console.log('\x1b[31m', '*** UPDATED SERIES', updatedSeries);
+
+      dispatch(upsertSeries(updatedSeries));
+
+      console.log('\x1b[32m', '*** SENDING TO CURRENT GAME REDUCER', updatedSeries.games[updatedSeries.games.length - 1]);
+
+      dispatch(gameActions.setCurrentGame(updatedSeries.games[updatedSeries.games.length - 1]));
       dispatch(loaded());
     });
   }
@@ -41,7 +49,7 @@ export function joinGame(user, settings) {
     const player = Object.assign({}, user, { settings: settings });
     console.log('*** PLAYER ***', player.username);
 
-    const socket = socketUtility.socket();
+    const socket = socketUtility.socket;
 
     // Lisenter for series response
     socket.on('series-created', (series) => {
@@ -49,16 +57,19 @@ export function joinGame(user, settings) {
 
       socket.emit('join-room', series.roomName);
       dispatch(initializeSeries(series));
+      dispatch(gameActions.setCurrentGame(series.games[series.games.length - 1]));
       dispatch(appActions.changePage(APP_PAGES.SERIES));
       dispatch(loaded());
 
       // MOVE THESE INTO THE SOCKET UTILITY CLASS!!!
       socket.on('game-update', (updatedGame) => {
         dispatch(upsertGame(updatedGame));
+        dispatch(gameActions.setCurrentGame(updatedGame));
       });
   
       socket.on('series-update', (updatedSeries) => {
         dispatch(upsertSeries(updatedSeries));
+        dispatch(gameActions.setCurrentGame(updatedSeries.games[updatedSeries.games.length - 1]));
       });
     });
 
@@ -87,16 +98,19 @@ export function joinGame(user, settings) {
           socket.emit('join-room', series.roomName);
 
           dispatch(initializeSeries(series));
+          dispatch(gameActions.setCurrentGame(series.games[series.games.length - 1]));
           dispatch(appActions.changePage(APP_PAGES.SERIES));
           dispatch(loaded());
 
           // MOVE THESE INTO THE SOCKET UTILITY CLASS!!!
           socket.on('game-update', (updatedGame) => {
             dispatch(upsertGame(updatedGame));
+            dispatch(gameActions.setCurrentGame(updatedGame));
           });
       
           socket.on('series-update', (updatedSeries) => {
             dispatch(upsertSeries(updatedSeries));
+            dispatch(gameActions.setCurrentGame(updatedSeries.games[updatedSeries.games.length - 1]));
           });
         });
 
@@ -122,7 +136,7 @@ export function joinGame(user, settings) {
 
 export function cancelGame(username) {
   return function(dispatch) {
-    const socket = socketUtility.socket();
+    const socket = socketUtility.socket;
 
     socket.emit('cancel-game', username, (ack) => {
       console.log('*** GAME REQUEST CANCELLED ***', ack);

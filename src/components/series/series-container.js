@@ -15,25 +15,12 @@ const appSS = require('../../styles/app');
 
 function mapStateToProps(state) {
   return {
-    // seriesPlayers: state.series.players,
-    // mySeriesPlayer: state.series.players ? state.series.players[state.user.username],
-    // roomName: state.series.roomName,
-    // seriesLength: state.series.seriesLength,
-    // boardSize: state.series.boardSize,
-    // timeLimit: state.series.timeLimit,
-    // gamesPlayed: state.series.gamesPlayed,
-    // games: state.series.games,
-    // winner: state.series.winner,
-    // draw: state.series.draw,
-    // seriesOver: state.series.seriesOver,
-    // winByPoints: state.series.winByPoints,
     series: state.series,
     username: state.user.username,
+    game: state.game,
     loading: state.series.loading,
     loaded: state.series.loaded,
     error: state.series.error,
-    currentGame: state.series.games[state.series.games.length - 1],
-    gameIndex: state.series.games.length - 1,
   };
 };
 
@@ -47,10 +34,6 @@ class SeriesContainer extends React.Component {
   constructor(props) {
     super(props);
   }
-
-  componentWillMount() {}
-
-  componentWillUnmount() {}
 
   openDrawer() {
     this._drawer.open();
@@ -73,9 +56,7 @@ class SeriesContainer extends React.Component {
       );
     }
 
-    const showGameResults = this.props.currentGame.gameOver;
-
-    console.log('\x1b[34m', 'Series container rendering', this.props.series.games);
+    console.log('\x1b[34m', 'Series container rendering', this.props.game);
 
     return (
       <Drawer
@@ -87,12 +68,12 @@ class SeriesContainer extends React.Component {
         closedDrawerOffset={100}
         tapToClose={true}
       >
-        <ScoreBoard game={this.props.currentGame} />
-        <DropZone game={this.props.currentGame} username={this.props.username} />
-        <GameContainer game={this.props.currentGame} />
+        <ScoreBoard game={this.props.game} />
+        <DropZone game={this.props.game} username={this.props.username} />
+        <GameContainer game={this.props.game} />
         <GameResultsModal
-          showModal={showGameResults}
-          game={this.props.currentGame}
+          showModal={this.props.game ? this.props.game.gameOver : false}
+          game={this.props.game}
           loading={this.props.loading}
           startNextGame={this.startNextGame.bind(this)}
         />
@@ -103,9 +84,12 @@ class SeriesContainer extends React.Component {
 }
 
 SeriesContainer.propTypes = {
-  currentGame: PropTypes.object,
-  gameIndex: PropTypes.number,
+  series: PropTypes.object,
+  game: PropTypes.object,
   username: PropTypes.string,
+  loading: PropTypes.bool,
+  loaded: PropTypes.bool,
+  error: PropTypes.string,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SeriesContainer);

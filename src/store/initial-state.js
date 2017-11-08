@@ -62,6 +62,22 @@ export default function getInitialState() {
       loaded: false,
       error: null,
     },
+    game: {
+      roomName: null,
+      boardSize: null,
+      timeLimit: null,
+      winner: null,
+      draw: false,
+      gameOver: false,
+      winByPoints: false,
+      board: null,
+      boardPoints: null,
+      players: null,
+      turn: null,
+      loading: false,
+      loaded: false,
+      error: null,
+    },
     leaderboard: {
       data: [], // Array of stats objects
       loading: false,

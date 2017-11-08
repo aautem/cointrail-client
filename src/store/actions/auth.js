@@ -24,12 +24,11 @@ export function login(username, password) {
   return function(dispatch, getState) {
     dispatch(loading());
 
-    if (!authUtility.auth0()) {
-      const config = {
+    if (!authUtility.auth0) {
+      startAuth0({
         domain: getState().app.config.auth0Domain,
-        clientId: getState().app.config.auth0Id,
-      };
-      authUtility.startAuth0(config);
+        clientId: getState().app.config.auth0Id
+      });
     }
 
     const params = {
@@ -38,7 +37,7 @@ export function login(username, password) {
       realm: 'Username-Password-Authentication',
     };
 
-    authUtility.auth0().auth.passwordRealm(params).then((token) => {
+    authUtility.auth0.auth.passwordRealm(params).then((token) => {
 
       // {"accessToken": "_Wi99268xpsS36Zya02BWGOQQy-cIkBi",
       //   "expiresIn": 86400,
@@ -46,7 +45,7 @@ export function login(username, password) {
       //   "scope": "openid profile email address phone",
       //   "tokenType": "Bearer"}
 
-      authUtility.auth0().auth.userInfo({ token: token.accessToken }).then((user) => {
+      authUtility.auth0.auth.userInfo({ token: token.accessToken }).then((user) => {
 
         // EXAMPLE RESPONSE:
         // {"email": "autem.alex@gmail.com",
@@ -63,7 +62,7 @@ export function login(username, password) {
 
         // start socket connection
         socketUtility.createSocketConnection();
-        socketUtility.socket().on('user-request', (socketId, respond) => {
+        socketUtility.socket.on('user-request', (socketId, respond) => {
           const player = {
             id: socketId,
             username: user.nickname,
@@ -90,12 +89,11 @@ export function createUser(email, username, password) {
   return function(dispatch) {
     dispatch(loading());
 
-    if (!authUtility.auth0()) {
-      const config = {
+    if (!authUtility.auth0) {
+      startAuth0({
         domain: getState().app.config.auth0Domain,
-        clientId: getState().app.config.auth0Id,
-      };
-      authUtility.startAuth0(config);
+        clientId: getState().app.config.auth0Id
+      });
     }
 
     const params = {
@@ -105,7 +103,7 @@ export function createUser(email, username, password) {
       connection: 'Username-Password-Authentication',
     };
 
-    authUtility.auth0().auth.createUser(params).then((user) => {
+    authUtility.auth0.auth.createUser(params).then((user) => {
 
       // EXAMPLE RESPONSE:
       // {"Id": "59fe8c96b84acc463c6e9713",
@@ -121,4 +119,8 @@ export function createUser(email, username, password) {
       dispatch(error(errMsg));
     });
   }
+}
+
+function startAuth0(config) {
+  authUtility.startAuth0(config);
 }

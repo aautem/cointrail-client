@@ -3,15 +3,11 @@ import { API_URL } from './const';
 
 class SocketUtility {
   constructor() {
-    this.socketConnection = null;
+    this.socket = null;
   }
 
   createSocketConnection() {
-    this.socketConnection = io(API_URL);
-  }
-
-  socket() {
-    return this.socketConnection;
+    this.socket = io(API_URL);
   }
 }
 
