@@ -1,6 +1,6 @@
 {
-  "name": "aa",
-  "displayName": "aa",
+  "name": "contrail-client",
+  "displayName": "contrail-client",
   "expo": {
     "sdkVersion": "21.0.0"
   }
