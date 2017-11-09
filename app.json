@@ -1,7 +1,4 @@
 {
   "name": "ContrailConnect4",
-  "displayName": "Contrail",
-  "expo": {
-    "sdkVersion": "21.0.0"
-  }
+  "displayName": "Contrail"
 }

@@ -12,7 +12,7 @@ export default class ScoreTally extends React.Component {
       <Row size={2.5/5}>
         <Col size={4/10} style={appSS.center}>
           <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16 }}>
-            {this.props.player.username ? this.props.player.username.toUpperCase() : null}
+            {this.props.player ? this.props.player.username.toUpperCase() : ''}
           </Text>
         </Col>
 

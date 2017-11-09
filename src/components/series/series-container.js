@@ -52,6 +52,9 @@ class SeriesContainer extends React.Component {
   }
 
   render () {
+    if (!this.props.series) {
+      return null;
+    }
 
     // ISSUE WITH DRAWER NOT BEING IN THE RIGHT POSITION ON LOAD
     // SERIES RESETS AFTER FIRST MOVE OF SECOND GAME???

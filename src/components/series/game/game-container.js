@@ -28,6 +28,10 @@ class GameContainer extends React.Component {
   // }
 
   render() {
+    if (!this.props.game) {
+      return null;
+    }
+
     const rows = [];
     for (let count = 0; count < this.props.game.boardSize; count ++) {
       rows.push(

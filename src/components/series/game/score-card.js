@@ -7,8 +7,11 @@ const appSS = require('../../../styles/app');
 
 export default class ScoreCard extends React.Component {
   render() {
-    const player = this.props.player;
+    if (!this.props.player) {
+      return null;
+    }
 
+    const player = this.props.player;
     return (
       <Col size={5/7}>
         <Row style={appSS.center}>
@@ -16,15 +19,15 @@ export default class ScoreCard extends React.Component {
             height={36}
             width={36}
             rounded
-            source={{uri: player ? player.avatarUrl : null}}
+            source={{uri: player.avatarUrl}}
             activeOpacity={0.7}
           />
           <Col>
             <Row size={1/3} style={appSS.center}>
-              <Text style={{ color: '#fff', marginTop: 20 }}>{player ? player.username : null}</Text>
+              <Text style={{ color: '#fff', marginTop: 20 }}>{player.username}</Text>
             </Row>
             <Row size={2/3} style={appSS.center}>
-              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16 }}>{player ? player.points : null}</Text>
+              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16 }}>{player.points}</Text>
             </Row>
           </Col>
         </Row>

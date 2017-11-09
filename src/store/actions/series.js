@@ -53,7 +53,7 @@ export function joinGame(user, settings) {
 
     // Lisenter for series response
     socket.on('series-created', (series) => {
-      console.log('*** SERIES CREATED ***', series.roomName);
+      console.log('*** SERIES CREATED ***', series);
 
       socket.emit('join-room', series.roomName);
       dispatch(initializeSeries(series));
@@ -92,7 +92,7 @@ export function joinGame(user, settings) {
         let joined = false;
 
         socket.on('series-created', (series) => {
-          console.log('*** SERIES CREATED ***', series.roomName);
+          console.log('*** SERIES CREATED ***', series);
 
           joined = true;
           socket.emit('join-room', series.roomName);
@@ -114,7 +114,7 @@ export function joinGame(user, settings) {
           });
         });
 
-        // // wait up to 20 seconds for opponent
+        // wait up to 20 seconds for opponent
         window.setTimeout(() => {
           if (!joined) {
             dispatch(error('Game request timeout.'));

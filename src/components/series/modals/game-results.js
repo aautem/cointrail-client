@@ -8,6 +8,10 @@ const appSS = require('../../../styles/app');
 
 export default class GameResultsModal extends React.Component {
   render() {
+    if (!this.props.game) {
+      return null;
+    }
+
     const usernames = Object.keys(this.props.game.players);
     const player1 = this.props.game.players[usernames[0]];
     const player2 = this.props.game.players[usernames[1]];
@@ -26,26 +30,26 @@ export default class GameResultsModal extends React.Component {
           {/* HEADER */}
           <Row size={1/24}>
             <Col size={14/14} style={appSS.center}>
-              <Text>{this.props.game.winner ? this.props.game.winner.toUpperCase() : null} WINS</Text>
+              <Text>{this.props.game.winner ? this.props.game.winner.toUpperCase() : ''} WINS</Text>
             </Col>
           </Row>
 
           {/* CURRENT GAME */}
-          <Row size={7/24} style={{ backgroundColor: player2.gamePieceColor }}>
+          <Row size={7/24} style={{ backgroundColor: player2 ? player2.gamePieceColor : '#aaa' }}>
 
             {/* LEFT PLAYER */}
-            <Col size={7.85/14} style={{ backgroundColor: player1.gamePieceColor, overflow: 'hidden', alignItems: 'flex-start', justifyContent: 'center' }}>
+            <Col size={7.85/14} style={{ backgroundColor: player1 ? player1.gamePieceColor : '#aaa', overflow: 'hidden', alignItems: 'flex-start', justifyContent: 'center' }}>
               <Animatable.View animation={'slideInLeft'}>
                 <Avatar
                   xlarge
-                  source={{uri: player1.avatarUrl}}
+                  source={{uri: player1 ? player1.avatarUrl : ''}}
                   activeOpacity={0.8}
                   avatarStyle={{ borderTopRightRadius: 50, overflow: 'hidden' }}
                   containerStyle={{ borderTopRightRadius: 50, overflow: 'hidden' }}
                   overlayContainerStyle={{ borderTopRightRadius: 50, overflow: 'hidden' }}
                 />
-                <View style={{ backgroundColor: player1.gamePieceColor, width: 80, height: 30, alignSelf: 'flex-end', justifyContent: 'center', marginTop: -30, borderTopLeftRadius: 30, overflow: 'hidden' }}>
-                  <Text style={{ color: '#fff', textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>{player1.points}</Text>
+                <View style={{ backgroundColor: player1 ? player1.gamePieceColor : '#aaa', width: 80, height: 30, alignSelf: 'flex-end', justifyContent: 'center', marginTop: -30, borderTopLeftRadius: 30, overflow: 'hidden' }}>
+                  <Text style={{ color: '#fff', textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>{player1 ? player1.points : 0}</Text>
                 </View>
               </Animatable.View>
             </Col>
@@ -70,14 +74,14 @@ export default class GameResultsModal extends React.Component {
               <Animatable.View animation={'slideInRight'}>
                 <Avatar
                   xlarge
-                  source={{uri: player2.avatarUrl}}
+                  source={{uri: player2 ? player2.avatarUrl : ''}}
                   activeOpacity={0.8}
                   avatarStyle={{ borderTopLeftRadius: 50, overflow: 'hidden' }}
                   containerStyle={{ borderTopLeftRadius: 50, overflow: 'hidden' }}
                   overlayContainerStyle={{ borderTopLeftRadius: 50, overflow: 'hidden' }}
                 />
-                <View style={{ backgroundColor: player2.gamePieceColor, width: 80, height: 30, alignSelf: 'flex-start', justifyContent: 'center', marginTop: -30, borderTopRightRadius: 30, overflow: 'hidden' }}>
-                  <Text style={{ color: '#fff', textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>{player2.points}</Text>
+                <View style={{ backgroundColor: player2 ? player2.gamePieceColor : '#aaa', width: 80, height: 30, alignSelf: 'flex-start', justifyContent: 'center', marginTop: -30, borderTopRightRadius: 30, overflow: 'hidden' }}>
+                  <Text style={{ color: '#fff', textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>{player2 ? player2.points : 0}</Text>
                 </View>
               </Animatable.View>
             </Col>
@@ -97,28 +101,28 @@ export default class GameResultsModal extends React.Component {
                     <Animatable.View
                       animation={'slideInRight'}
                       style={{
-                        backgroundColor: player1.gamePieceColor,
+                        backgroundColor: player1 ? player1.gamePieceColor : '#aaa',
                         borderTopLeftRadius: 5,
                         borderBottomLeftRadius: 5,
                         overflow: 'hidden',
                         justifyContent: 'center',
-                        flex: player1.points,
+                        flex: player1 ? player1.points : 1,
                       }}
                     >
-                      <Text style={{ color: '#fff', paddingLeft: 10, fontWeight: 'bold' }}>{player1.points}</Text>
+                      <Text style={{ color: '#fff', paddingLeft: 10, fontWeight: 'bold' }}>{player1 ? player1.points : 0}</Text>
                     </Animatable.View>
                     <Animatable.View
                       animation={'slideInLeft'}
                       style={{
-                        backgroundColor: player2.gamePieceColor,
+                        backgroundColor: player2 ? player2.gamePieceColor : '#aaa',
                         borderTopRightRadius: 5,
                         borderBottomRightRadius: 5,
                         overflow: 'hidden',
                         justifyContent: 'center',
-                        flex: player2.points,
+                        flex: player2 ? player2.points : 1,
                       }}
                     >
-                      <Text style={{ color: '#fff', paddingRight: 10, fontWeight: 'bold', textAlign: 'right' }}>{player2.points}</Text>
+                      <Text style={{ color: '#fff', paddingRight: 10, fontWeight: 'bold', textAlign: 'right' }}>{player2 ? player2.points : 0}</Text>
                     </Animatable.View>
                   </Row>
                 </Col>
@@ -132,7 +136,7 @@ export default class GameResultsModal extends React.Component {
                   </Row>
                   <Row size={2.5/4} style={{ paddingLeft: 20, paddingRight: 20 }}>
                     <Col size={206} style={{
-                      backgroundColor: 'steelblue',
+                      backgroundColor: player1 ? player1.gamePieceColor : '#aaa',
                       borderTopLeftRadius: 5,
                       borderBottomLeftRadius: 5,
                       overflow: 'hidden',
@@ -141,7 +145,7 @@ export default class GameResultsModal extends React.Component {
                       <Text style={{ color: '#fff', paddingLeft: 10, fontWeight: 'bold' }}>206</Text>
                     </Col>
                     <Col size={301} style={{
-                      backgroundColor: 'powderblue',
+                      backgroundColor: player2 ? player2.gamePieceColor : '#aaa',
                       borderTopRightRadius: 5,
                       borderBottomRightRadius: 5,
                       overflow: 'hidden',
@@ -161,7 +165,7 @@ export default class GameResultsModal extends React.Component {
                   </Row>
                   <Row size={2.5/4} style={{ paddingLeft: 20, paddingRight: 20 }}>
                     <Col size={121} style={{
-                      backgroundColor: 'steelblue',
+                      backgroundColor: player1 ? player1.gamePieceColor : '#aaa',
                       borderTopLeftRadius: 5,
                       borderBottomLeftRadius: 5,
                       overflow: 'hidden',
@@ -170,7 +174,7 @@ export default class GameResultsModal extends React.Component {
                       <Text style={{ color: '#fff', paddingLeft: 10, fontWeight: 'bold' }}>121</Text>
                     </Col>
                     <Col size={98} style={{
-                      backgroundColor: 'powderblue',
+                      backgroundColor: player2 ? player2.gamePieceColor : '#aaa',
                       borderTopRightRadius: 5,
                       borderBottomRightRadius: 5,
                       overflow: 'hidden',

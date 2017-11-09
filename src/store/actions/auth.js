@@ -24,6 +24,8 @@ export function loginUser(user) {
   return function(dispatch) {
     dispatch(loading());
 
+    console.log('*** LOGGING IN ***', user);
+
     if(!user.nickname) {
       dispatch(error('Authentication error: missing profile username'));
     } else {

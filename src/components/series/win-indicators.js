@@ -8,6 +8,10 @@ const appSS = require('../../styles/app');
 
 export default class WinIndicators extends React.Component {
   render () {
+    if (!this.props.username) {
+      return null;
+    }
+    
     const indicators = [];
     for (let count = 0; count < this.props.series.seriesLength; count ++) {
       let color = '#fff';

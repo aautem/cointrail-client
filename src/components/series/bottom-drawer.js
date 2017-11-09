@@ -15,6 +15,10 @@ export default class BottomDrawer extends React.Component {
   }
   
   render () {
+    if (!this.props.series) {
+      return null;
+    }
+    
     const players = this.props.series.players;
     const usernames = Object.keys(players);
     return (
@@ -73,12 +77,12 @@ export default class BottomDrawer extends React.Component {
             </Row>
 
             {/* BOTTOM MARGIN */}
-            <Row size={1/7} style={{ backgroundColor: 'red' }}></Row>
+            <Row size={1/7} style={{ backgroundColor: '#aaa' }}></Row>
           </Col>
         </Row>
 
         {/* HIDDEN DRAWER */}
-        <Row size={17/24} style={{ backgroundColor: 'blue' }}></Row>
+        <Row size={17/24} style={{ backgroundColor: '#aaa' }}></Row>
 
       </Col>
     );
