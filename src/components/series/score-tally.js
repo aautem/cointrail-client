@@ -1,111 +1,30 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Text, View } from 'react-native';
 import { Header, Button, Icon } from 'react-native-elements';
+import WinIndicators from './win-indicators';
+const appSS = require('../../styles/app');
 
-const styles = require('../../styles/app');
-
-function mapStateToProps(state) {
-  return {
-    //
-  };
-};
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    //
-  }, dispatch);
-};
-
-class ScoreTally extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  componentWillMount() {}
-
-  componentWillUnmount() {}
-
+export default class ScoreTally extends React.Component {
   render () {
     return (
-      <Row>
-        <Col size={3} style={styles.center}>
-          <Text style={{ color: '#fff' }}>aautem</Text>
+      <Row size={2.5/5}>
+        <Col size={4/10} style={appSS.center}>
+          <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16 }}>
+            {this.props.player.username ? this.props.player.username.toUpperCase() : null}
+          </Text>
         </Col>
-        <Col size={7}>
-          <Row>
-            <Col size={1} style={styles.center}>
-              <Icon
-                size={10}
-                name='circle'
-                type='font-awesome'
-                color='lightgreen'
-              />
-            </Col>
-            <Col size={1} style={styles.center}>
-              <Icon
-                size={10}
-                name='circle'
-                type='font-awesome'
-                color='lightgreen'
-              />
-            </Col>
-            <Col size={1} style={styles.center}>
-              <Icon
-                size={10}
-                name='circle'
-                type='font-awesome'
-                color='yellow'
-              />
-            </Col>
-            <Col size={1} style={styles.center}>
-              <Icon
-                size={10}
-                name='circle'
-                type='font-awesome'
-                color='lightgreen'
-              />
-            </Col>
-            <Col size={1} style={styles.center}>
-              <Icon
-                size={10}
-                name='circle-o'
-                type='font-awesome'
-                color='#fff'
-              />
-            </Col>
-            <Col size={1} style={styles.center}>
-              <Icon
-                size={10}
-                name='circle-o'
-                type='font-awesome'
-                color='#fff'
-              />
-            </Col>
-            <Col size={1} style={styles.center}>
-              <Icon
-                size={10}
-                name='circle-o'
-                type='font-awesome'
-                color='#fff'
-              />
-            </Col>
-          </Row>
-        </Col>
+
+        {/* WIN INDICATORS */}
+        <WinIndicators player={this.props.player} series={this.props.series} />
+
       </Row>
     );
   }
 }
 
-// 'circle' 'circle-o' 'times-circle-o'
-
-// ScoreTally.propTypes = {
-//   board: PropTypes.array,
-//   boardPoints: PropTypes.array,
-// };
-
-export default connect(mapStateToProps, mapDispatchToProps)(ScoreTally);
+ScoreTally.propTypes = {
+  player: PropTypes.object,
+  series: PropTypes.object,
+};

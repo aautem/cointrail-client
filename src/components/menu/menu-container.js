@@ -9,8 +9,7 @@ import * as seriesActions from '../../store/actions/series';
 import * as constants from '../../utilities/const';
 import { Text } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
-import { Header, Button } from 'react-native-elements';
-import TopNav from './top-nav';
+import { Header, Button, Icon } from 'react-native-elements';
 import HeaderIcon from './header-icon';
 import SettingsModal from './modals/settings';
 import ProfileModal from './modals/profile';
@@ -33,6 +32,8 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     joinGame: seriesActions.joinGame,
     cancelGame: seriesActions.cancelGame,
+    openSettingsModal: settingsActions.openModal,
+    openProfileModal: userActions.openModal,
     // changePage: appActions.changePage,
     // logout: authActions.logout,
   }, dispatch);
@@ -48,8 +49,26 @@ class MenuContainer extends React.Component {
       <Col size={14/14}>
 
         {/* TOP NAV CONTAINER */}
-        <Row size={2/23} style={[appSS.center, { backgroundColor: 'steelblue' }]}>
-          <TopNav />
+        <Row size={2/23} style={[{ backgroundColor: '#aaa' }]}>
+          <Col size={2/14} style={[appSS.center]}>
+            <Icon
+              name='settings'
+              type='material-community'
+              color='#fff'
+              onPress={this.props.openSettingsModal}
+            />
+          </Col>
+          <Col size={10/14} style={[appSS.center]}>
+            <Text style={{ color: '#fff', fontWeight: 'bold' }}>{constants.APP_TITLE}</Text>
+          </Col>
+          <Col size={2/14} style={[appSS.center]}>
+            <Icon
+              name='account-circle'
+              type='material-community'
+              color='#fff'
+              onPress={this.props.openProfileModal}
+            />
+          </Col>
         </Row>
 
         {/* FRIENDS CONTAINER */}

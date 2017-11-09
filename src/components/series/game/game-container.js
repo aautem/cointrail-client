@@ -27,7 +27,7 @@ class GameContainer extends React.Component {
   //   // check for game over, etc.
   // }
 
-  render() {    
+  render() {
     const rows = [];
     for (let count = 0; count < this.props.game.boardSize; count ++) {
       rows.push(
@@ -40,8 +40,8 @@ class GameContainer extends React.Component {
     }
 
     return (
-      <Row size={6} style={{ paddingLeft: 5, paddingRight: 5, paddingBottom: 5 }}>
-        <Col>
+      <Row size={12/14}>
+        <Col style={{ paddingBottom: 20 }}>
           { rows }
         </Col>
       </Row>

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import * as seriesActions from '../../store/actions/series';
 import { ActivityIndicator } from 'react-native';
 import Drawer from 'react-native-drawer';
-import { Row } from 'react-native-easy-grid';
+import { Grid, Col, Row } from 'react-native-easy-grid';
 import BottomDrawer from './bottom-drawer';
 import ScoreBoard from './game/score-board';
 import DropZone from './game/drop-zone';
@@ -35,6 +35,10 @@ class SeriesContainer extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+    // this.closeDrawer();
+  }
+
   openDrawer() {
     this._drawer.open();
   }
@@ -48,36 +52,52 @@ class SeriesContainer extends React.Component {
   }
 
   render () {
-    if (this.props.loading) {
-      return (
-        <Row style={[appSS.center, { backgroundColor: '#fff' }]}>
-          <ActivityIndicator animating={true} color='steelblue' size='large' />
-        </Row>
-      );
-    }
 
-    console.log('\x1b[34m', 'Series container rendering', this.props.game);
+    // ISSUE WITH DRAWER NOT BEING IN THE RIGHT POSITION ON LOAD
+    // SERIES RESETS AFTER FIRST MOVE OF SECOND GAME???
 
     return (
       <Drawer
         ref={(ref) => { this._drawer = ref }}
         side='bottom'
         type='overlay'
-        content={<BottomDrawer />}
-        openDrawerOffset={115}
-        closedDrawerOffset={100}
+        content={<BottomDrawer
+          series={this.props.series}
+          openDrawer={this.openDrawer.bind(this)}
+          closeDrawer={this.closeDrawer.bind(this)}
+        />}
+        openDrawerOffset={155}
+        closedDrawerOffset={140}
         tapToClose={true}
+        open={false}
       >
-        <ScoreBoard game={this.props.game} />
-        <DropZone game={this.props.game} username={this.props.username} />
-        <GameContainer game={this.props.game} />
-        <GameResultsModal
-          showModal={this.props.game ? this.props.game.gameOver : false}
-          game={this.props.game}
-          loading={this.props.loading}
-          startNextGame={this.startNextGame.bind(this)}
-        />
-        {/* <SeriesResultsModal /> */}
+        <Col size={14/14}>
+          
+          {/* SCOREBOARD */}
+          <ScoreBoard game={this.props.game} />
+
+          {/* GAMEBOARD */}
+          <Row size={14/16}>
+            <Col size={14/14} style={{ backgroundColor: '#eee' }}>
+             
+              {/* DROP BUTTONS */}
+              <DropZone game={this.props.game} username={this.props.username} />
+
+              {/* GAME BOARD */}
+              <GameContainer game={this.props.game} />
+            
+            </Col>
+          </Row>
+
+          {/* MODAL OVERLAYS */}
+          <GameResultsModal
+            showModal={this.props.game ? this.props.game.gameOver : false}
+            game={this.props.game}
+            loading={this.props.loading}
+            startNextGame={this.startNextGame.bind(this)}
+          />
+          {/* <SeriesResultsModal /> */}
+        </Col>
       </Drawer>
     );
   }

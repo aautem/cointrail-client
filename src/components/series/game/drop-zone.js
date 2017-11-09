@@ -18,7 +18,7 @@ export default class DropZone extends React.Component {
     }
 
     return (
-      <Row size={1.25} style={{ paddingLeft: 5, paddingRight: 5, paddingTop: 5, backgroundColor: '#fff' }}>
+      <Row size={2/14} style={{ paddingTop: 5 }}>
         { dropButtons }
       </Row>
     );

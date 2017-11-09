@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as settingsActions from '../../../store/actions/settings';
-import { Modal, View, Text, Slider, Switch, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { Modal, View, Text, Slider, Switch, ActivityIndicator, TouchableOpacity, Picker } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Button } from 'react-native-elements';
 import { ColorPicker } from 'react-native-color-picker'
@@ -107,11 +107,27 @@ class SettingsModal extends React.Component {
                     {this.props.settings.seriesLength} Game Series
                   </Text>
                   <Slider
-                    minimumValue={3}
-                    maximumValue={11}
+                    minimumValue={1}
+                    maximumValue={6}
                     value={this.props.settings.seriesLength}
-                    step={4}
-                    onSlidingComplete={(seriesLength) => { this.props.changeLength(seriesLength) }}
+                    step={1}
+                    onSlidingComplete={(length) => {
+                      if (length <= 2 || length === 4 || length === 6) {
+                        this.props.changeLength(length);
+                      } else if (length === 3) {
+                        if (this.props.settings.seriesLength < 3) {
+                          this.props.changeLength(length + 1);
+                        } else {
+                          this.props.changeLength(length - 1);
+                        }
+                      } else if (length === 5) {
+                        if (this.props.settings.seriesLength < 5) {
+                          this.props.changeLength(length + 1);
+                        } else {
+                          this.props.changeLength(length - 1);
+                        }
+                      }
+                    }}
                     style={{ marginLeft: 30, marginRight: 30 }}
                   />
                 </Col>

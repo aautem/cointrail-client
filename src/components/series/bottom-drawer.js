@@ -1,70 +1,91 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ScoreTally from './score-tally';
-
 import { Grid, Col, Row } from 'react-native-easy-grid';
-import { Text } from 'react-native';
-import { Header, Button } from 'react-native-elements';
+import { Text, View } from 'react-native';
+import { Header, Button, Icon } from 'react-native-elements';
+const appSS = require('../../styles/app');
 
-const styles = require('../../styles/app');
-
-function mapStateToProps(state) {
-  return {
-    //
-  };
-};
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    //
-  }, dispatch);
-};
-
-class BottomDrawer extends React.Component {
+export default class BottomDrawer extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      drawerOpen: false,
+    };
   }
-
-  componentWillMount() {}
-
-  componentWillUnmount() {}
-
+  
   render () {
+    const players = this.props.series.players;
+    const usernames = Object.keys(players);
     return (
-      <Col style={{ backgroundColor: 'steelblue' }}>
-        <Row size={1}>
-          <Col size={3}>
-            <Row>
-              <Text style={{ color: '#fff' }}>BEST OF 7</Text>
+      <Col size={14/14} style={{ backgroundColor: '#aaa' }}>
+
+        {/* VISIBLE DRAWER */}
+        <Row size={7/24}>
+          <Col size={14/14}>
+
+            {/* SLIDE UP ARROW BUTTON */}
+            <Row size={1/7} style={{
+              justifyContent: 'center',
+              borderStyle: 'solid',
+              borderBottomColor: '#fff',
+              borderBottomWidth: 0.5,
+              marginLeft: 160,
+              marginRight: 160
+            }}>
+              <Icon
+                name={this.state.drawerOpen ? 'ios-arrow-down' : 'ios-arrow-up'}
+                type='ionicon'
+                color='#fff'
+                onPress={() => {
+                  // HANDLE CASE WHERE DRAWER IS SLID OPEN AND DOESN'T CALL THIS FUNCTION
+
+                  // this.state.drawerOpen ? this.props.closeDrawer() : this.props.openDrawer();
+                  // this.setState((prevState) => {
+                  //   return { drawerOpen: !prevState.drawerOpen };
+              }}/>
             </Row>
-            <ScoreTally />
-            <ScoreTally />
-          </Col>
-          <Col size={1.25} style={[styles.center, { backgroundColor: '#fff', margin: 18 }]}>
-            <Text style={{ fontSize: 20 }}>:12</Text>
+
+            {/* SERIES SCORE CONTAINER */}
+            <Row size={5/7}>
+
+              {/* SCORE BOARD */}
+              <Col size={10/14}>
+                <ScoreTally player={players[usernames[0]]} series={this.props.series} />
+                <ScoreTally player={players[usernames[1]]} series={this.props.series} />
+              </Col>
+
+              {/* TIME LIMIT */}
+              <Col size={4/14} style={[appSS.center]}>
+                <View style={{
+                  backgroundColor: '#fff',
+                  margin: 20,
+                  borderRadius: 10,
+                  overflow: 'hidden',
+                }}>
+                  <Text style={{
+                    padding: 20,
+                    fontSize: 14,
+                  }}>:12</Text>
+                </View>
+              </Col>
+
+            </Row>
+
+            {/* BOTTOM MARGIN */}
+            <Row size={1/7} style={{ backgroundColor: 'red' }}></Row>
           </Col>
         </Row>
-        <Row size={4}>
-          <Col style={styles.center}>
-            <Row><Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', paddingTop: 10 }}>SEND MESSAGE</Text></Row>
-            <Row><Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', paddingTop: 10 }}>QUIT GAME</Text></Row>
-            <Row><Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', paddingTop: 10 }}>MAIN MENU</Text></Row>
-            <Row><Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', paddingTop: 10 }}>ADD FAVORITE</Text></Row>
-            <Row><Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', paddingTop: 10 }}>ADD FRIEND</Text></Row>
-            <Row><Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', paddingTop: 10 }}>SEND FRIEND INVITE</Text></Row>
-            <Row><Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', paddingTop: 10 }}>FORFEIT</Text></Row>
-          </Col>
-        </Row>
+
+        {/* HIDDEN DRAWER */}
+        <Row size={17/24} style={{ backgroundColor: 'blue' }}></Row>
+
       </Col>
     );
   }
 }
 
-// BottomDrawer.propTypes = {
-//   board: PropTypes.array,
-//   boardPoints: PropTypes.array,
-// };
-
-export default connect(mapStateToProps, mapDispatchToProps)(BottomDrawer);
+BottomDrawer.propTypes = {
+  series: PropTypes.object,
+  openDrawer: PropTypes.func,
+};

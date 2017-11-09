@@ -20,7 +20,7 @@ export default class GameResultsModal extends React.Component {
       >
         <Col size={14/14}>
 
-          {/* HEADER */}
+          {/* MENU BAR */}
           <Row size={1/24}></Row>
           
           {/* HEADER */}
@@ -35,17 +35,19 @@ export default class GameResultsModal extends React.Component {
 
             {/* LEFT PLAYER */}
             <Col size={7.85/14} style={{ backgroundColor: player1.gamePieceColor, overflow: 'hidden', alignItems: 'flex-start', justifyContent: 'center' }}>
-              <Avatar
-                xlarge
-                source={{uri: player1.avatarUrl}}
-                activeOpacity={0.8}
-                avatarStyle={{ borderTopRightRadius: 70, overflow: 'hidden' }}
-                containerStyle={{ borderTopRightRadius: 70, overflow: 'hidden' }}
-                overlayContainerStyle={{ borderTopRightRadius: 70, overflow: 'hidden' }}
-              />
-              <View style={{ backgroundColor: player1.gamePieceColor, width: 80, height: 30, alignSelf: 'flex-end', justifyContent: 'center', marginTop: -30, borderTopLeftRadius: 30, overflow: 'hidden' }}>
-                <Text style={{ color: '#fff', textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>{player1.points}</Text>
-              </View>
+              <Animatable.View animation={'slideInLeft'}>
+                <Avatar
+                  xlarge
+                  source={{uri: player1.avatarUrl}}
+                  activeOpacity={0.8}
+                  avatarStyle={{ borderTopRightRadius: 50, overflow: 'hidden' }}
+                  containerStyle={{ borderTopRightRadius: 50, overflow: 'hidden' }}
+                  overlayContainerStyle={{ borderTopRightRadius: 50, overflow: 'hidden' }}
+                />
+                <View style={{ backgroundColor: player1.gamePieceColor, width: 80, height: 30, alignSelf: 'flex-end', justifyContent: 'center', marginTop: -30, borderTopLeftRadius: 30, overflow: 'hidden' }}>
+                  <Text style={{ color: '#fff', textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>{player1.points}</Text>
+                </View>
+              </Animatable.View>
             </Col>
 
             {/* VS */}
@@ -65,17 +67,19 @@ export default class GameResultsModal extends React.Component {
 
             {/* RIGHT PLAYER */}
             <Col size={7.85/14} style={{ alignItems: 'flex-end', justifyContent: 'center', overflow: 'hidden' }}>
-              <Avatar
-                xlarge
-                source={{uri: player2.avatarUrl}}
-                activeOpacity={0.8}
-                avatarStyle={{ borderTopLeftRadius: 70, overflow: 'hidden' }}
-                containerStyle={{ borderTopLeftRadius: 70, overflow: 'hidden' }}
-                overlayContainerStyle={{ borderTopRightRadius: 70, overflow: 'hidden' }}
-              />
-              <View style={{ backgroundColor: player2.gamePieceColor, width: 80, height: 30, alignSelf: 'flex-start', justifyContent: 'center', marginTop: -30, borderTopRightRadius: 30, overflow: 'hidden' }}>
-                <Text style={{ color: '#fff', textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>{player2.points}</Text>
-              </View>
+              <Animatable.View animation={'slideInRight'}>
+                <Avatar
+                  xlarge
+                  source={{uri: player2.avatarUrl}}
+                  activeOpacity={0.8}
+                  avatarStyle={{ borderTopLeftRadius: 50, overflow: 'hidden' }}
+                  containerStyle={{ borderTopLeftRadius: 50, overflow: 'hidden' }}
+                  overlayContainerStyle={{ borderTopLeftRadius: 50, overflow: 'hidden' }}
+                />
+                <View style={{ backgroundColor: player2.gamePieceColor, width: 80, height: 30, alignSelf: 'flex-start', justifyContent: 'center', marginTop: -30, borderTopRightRadius: 30, overflow: 'hidden' }}>
+                  <Text style={{ color: '#fff', textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>{player2.points}</Text>
+                </View>
+              </Animatable.View>
             </Col>
           </Row>
 

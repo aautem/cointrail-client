@@ -24,11 +24,11 @@ export default function getInitialState() {
       error: null,
     },
     settings: {
-      boardSize: 4,
-      seriesLength: 7,
+      boardSize: 4, // 4 | 5 | 6
+      seriesLength: 2, // 1 | 2 | 4 | 6
       timeLimit: false,
-      color: '#3780B6',
-      altColor: '#71CFEE',
+      color: '#5B08C6',
+      altColor: '#000BFC',
       showModal: false,
       loading: false,
       loaded: false,

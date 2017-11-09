@@ -35,10 +35,13 @@ export default class GamePiece extends React.Component {
           width: heightAndWidth,
           alignItems: 'center',
           justifyContent: 'center',
+          borderStyle: 'solid',
+          borderColor: '#aaa',
+          borderWidth: 1,
         }}
       >
         {!this.props.username &&
-        <Text style={{ color: 'steelblue' }}>{this.props.points}</Text>}
+        <Text style={{ color: '#aaa', fontSize: 12 }}>{this.props.points}</Text>}
       </Animatable.View>
     );
   }
