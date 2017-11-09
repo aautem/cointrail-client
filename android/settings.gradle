@@ -1,0 +1,3 @@
+rootProject.name = 'ContrailConnect4'
+
+include ':app'
