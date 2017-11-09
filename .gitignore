@@ -55,6 +55,9 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
+# Builds
+android/app/build/
+
 # dotenv environment variables file
 .env
 
