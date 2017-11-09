@@ -49,7 +49,7 @@ class MenuContainer extends React.Component {
       <Col size={14/14}>
 
         {/* TOP NAV CONTAINER */}
-        <Row size={2/23} style={[{ backgroundColor: '#aaa' }]}>
+        <Row size={2/24} style={[{ backgroundColor: '#aaa' }]}>
           <Col size={2/14} style={[appSS.center]}>
             <Icon
               name='settings'
@@ -72,12 +72,12 @@ class MenuContainer extends React.Component {
         </Row>
 
         {/* FRIENDS CONTAINER */}
-        <Row size={8/23} style={[appSS.center, { backgroundColor: '#eee' }]}>
+        <Row size={8/24} style={[appSS.center, { backgroundColor: '#eee' }]}>
           <FriendsContainer />
         </Row>
 
         {/* BUTTONS CONTAINER */}
-        <Row size={12/23} style={[appSS.center, { backgroundColor: '#fff' }]}>
+        <Row size={14/24} style={[appSS.center, { backgroundColor: '#fff', paddingTop: 10, paddingBottom: 10 }]}>
           <Col size={2/14}></Col>
           <Col size={10/14}>
             <Row size={3/12}>
@@ -126,9 +126,6 @@ class MenuContainer extends React.Component {
           <Col size={2/14}></Col>
         </Row>
 
-        {/* GUTTER */}
-        <Row size={1/23}></Row>
-
         {/* MODALS */}
         <SettingsModal />
         <ProfileModal />
@@ -136,7 +133,6 @@ class MenuContainer extends React.Component {
           showModal={this.props.seriesLoading}
           cancel={() => { console.log('Cancelling game request...') }}
         />
-
       </Col>
     );
   }

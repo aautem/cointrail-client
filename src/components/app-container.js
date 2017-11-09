@@ -56,11 +56,8 @@ class AppContainer extends React.Component {
       <Grid>
         <Col size={14/14}>
 
-          {/* MENU BAR */}
-          <Row size={1/24}></Row>
-
-          {/* AUTH PAGES */}
-          <Row size={23/24}>
+          {/* APP PAGES */}
+          <Row size={24/24}>
             {this.props.page === constants.APP_PAGES.AUTH && <AuthContainer />}
             {this.props.page === constants.APP_PAGES.MENU && <MenuContainer />}
             {this.props.page === constants.APP_PAGES.SERIES && <SeriesContainer />}

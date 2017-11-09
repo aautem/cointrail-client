@@ -1,4 +1,7 @@
 # contrail-client
+* add `local.properties` file to `./android` with `sdk.dir = /Users/aautem/Library/Android/sdk`
+* add `apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"` to `./android/app/build.gradle`
+* add `android:screenOrientation="portrait"` to Android Manifest .MainActivity
 
 ## Resources
 
