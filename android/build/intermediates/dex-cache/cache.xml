@@ -12,6 +12,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/exploded-aar/com.android.support/customtabs/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="e4a9d42c6d45eed4fd52f28dee859884131eae4c">
+        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/com.android.support-customtabs-23.0.1_04620f3808bb18b88b589b50f9c04c3a5c49879a.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/aautem/.gradle/caches/modules-2/files-2.1/com.facebook.fbui.textlayoutbuilder/staticlayout-proxy/1.0/f162442a19fff13995fbd51ba414d9ee05579080/staticlayout-proxy-1.0.jar"
         jumboMode="false"
         optimize="true"
@@ -90,6 +99,15 @@
         revision="23.0.1"
         sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
         <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-23.0.1_f7066862c228abe63ce45110954c2e60db796f6b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/exploded-aar/ContrailConnect4/react-native-auth0/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="711739f5d66d949ef338d0faca5bdd7d266a3674">
+        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/ContrailConnect4-react-native-auth0-unspecified_637023634393ac26643355838ee63dc2c682b2c9.jar" />
     </item>
     <item
         is-multidex="false"

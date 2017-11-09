@@ -15,7 +15,6 @@ import TestContainer from './common/test-container';
 
 function mapStateToProps(state) {
   return {
-    config: state.app.config,
     page: state.app.page,
     authLoading: state.auth.loading,
     authAuthenticated: state.auth.authenticated,
@@ -35,9 +34,6 @@ function mapDispatchToProps(dispatch) {
 class AppContainer extends React.Component {
   constructor(props) {
     super(props);
-  }
-  
-  componentWillMount() {
     this.props.loadConfig();
   }
 
@@ -73,7 +69,6 @@ class AppContainer extends React.Component {
 
 AppContainer.propTypes = {
   loadConfig: PropTypes.func,
-  config: PropTypes.object,
   page: PropTypes.string,
   authLoading: PropTypes.bool,
   authAuthenticated: PropTypes.bool,

@@ -2,26 +2,22 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Auth0 from 'react-native-auth0';
+import * as authActions from '../../store/actions/auth';
 import * as constants from '../../utilities/const';
 import { Text } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
-import Signup from './signup';
-import Login from './login';
-
 const appSS = require('../../styles/app');
 
 function mapStateToProps(state) {
   return {
-    page: state.auth.page,
-    loading: state.auth.loading,
-    authenticated: state.auth.authenticated,
-    error: state.auth.error,
+    config: state.app.config,
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    //
+    loginUser: authActions.loginUser,
   }, dispatch);
 };
 
@@ -29,39 +25,37 @@ class AuthContainer extends React.Component {
   constructor(props) {
     super(props);
   }
-  
-  componentWillMount() {}
-
-  componentWillUnmount() {}
 
   render() {
+    if (this.props.config) {
+      const auth0 = new Auth0({
+        domain: this.props.config.auth0Domain,
+        clientId: this.props.config.auth0Id,
+      });
+      auth0.webAuth.authorize({
+        scope: 'openid profile email',
+        audience: 'https://app77626749.auth0.com/userinfo'
+      }).then((res) => {
+        auth0.auth.userInfo({ token: res.accessToken }).then((user) => {
+          this.props.loginUser(user);
+        });
+      }).catch((error) => {
+        console.warn('Authentication error:', error);
+      });
+    }
+
     return (
-      <Col size={14/14} style={{ backgroundColor: '#fff' }}>
-
-        {/* LOGO CONTAINER */}
-        <Row size={5/23} style={[appSS.center]}>
-          <Text style={{ fontSize: 30, color: 'steelblue' }}>
-            { constants.APP_TITLE }
-          </Text>
-        </Row>
-
-        {/* COMPONENT CONTAINER */}
-        <Row size={18/23} style={[{ }]}>
-          {this.props.page === constants.AUTH_PAGES.LOGIN && <Login />}
-          {this.props.page === constants.AUTH_PAGES.SIGNUP && <Signup />}
-          {/* this.props.page === constants.AUTH_PAGES.FORGOT_PASSWORD && <ForgotPassword /> */}
-        </Row>
-
+      <Col size={14/14} style={[appSS.center, { backgroundColor: '#aaa' }]}>
+        <Text styles={{ color: '#fff' }}>Please login or sign up to continue</Text>
+        {/* Button that reopens the Auth0 lock */}
       </Col>
     );
   }
 }
 
 AuthContainer.propTypes = {
-  page: PropTypes.string,
-  loading: PropTypes.bool,
-  authenticated: PropTypes.bool,
-  error: PropTypes.string,
+  config: PropTypes.object,
+  loginUser: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthContainer);
