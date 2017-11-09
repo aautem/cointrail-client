@@ -25,7 +25,7 @@ export default function getInitialState() {
     },
     settings: {
       boardSize: 4, // 4 | 5 | 6
-      seriesLength: 2, // 1 | 2 | 4 | 6
+      seriesLength: 2, // 2 | 4 | 6
       timeLimit: false,
       color: '#5B08C6',
       altColor: '#000BFC',

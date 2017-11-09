@@ -107,27 +107,11 @@ class SettingsModal extends React.Component {
                     {this.props.settings.seriesLength} Game Series
                   </Text>
                   <Slider
-                    minimumValue={1}
+                    minimumValue={2}
                     maximumValue={6}
                     value={this.props.settings.seriesLength}
-                    step={1}
-                    onSlidingComplete={(length) => {
-                      if (length <= 2 || length === 4 || length === 6) {
-                        this.props.changeLength(length);
-                      } else if (length === 3) {
-                        if (this.props.settings.seriesLength < 3) {
-                          this.props.changeLength(length + 1);
-                        } else {
-                          this.props.changeLength(length - 1);
-                        }
-                      } else if (length === 5) {
-                        if (this.props.settings.seriesLength < 5) {
-                          this.props.changeLength(length + 1);
-                        } else {
-                          this.props.changeLength(length - 1);
-                        }
-                      }
-                    }}
+                    step={2}
+                    onSlidingComplete={(length) => { this.props.changeLength(length) }}
                     style={{ marginLeft: 30, marginRight: 30 }}
                   />
                 </Col>
