@@ -19,6 +19,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     login: auth.login,
+    googleLogin: auth.googleLogin,
+    facebookLogin: auth.facebookLogin,
     changePage: auth.changePage,
   }, dispatch);
 };
@@ -120,7 +122,7 @@ class Login extends React.Component {
               type='entypo'
               color='red'
               size={80}
-              onPress={() => console.log('hello')}
+              onPress={this.props.googleLogin}
             />
           </Col>
           <Col size={7/14}>
@@ -129,7 +131,7 @@ class Login extends React.Component {
               type='entypo'
               color='steelblue'
               size={80}
-              onPress={() => console.log('hello')}
+              onPress={this.props.facebookLogin}
             />
           </Col>
         </Row>
@@ -141,6 +143,7 @@ class Login extends React.Component {
 
 Login.propTypes = {
   login: PropTypes.func,
+  facebookLogin: PropTypes.func,
   changePage: PropTypes.func,
   loading: PropTypes.bool,
   authenticated: PropTypes.bool,

@@ -1,10 +1,10 @@
 import { createAction } from 'redux-actions';
+import Auth0 from 'react-native-auth0';
 import * as appActions from './app';
 import * as userActions from './user';
 import * as statsActions from './stats';
 import * as settingsActions from './settings';
 import { API_URL } from '../../utilities/const';
-import authUtility from '../../utilities/auth';
 import socketUtility from '../../utilities/socket';
 
 export const actions = {
@@ -24,20 +24,16 @@ export function login(username, password) {
   return function(dispatch, getState) {
     dispatch(loading());
 
-    if (!authUtility.auth0) {
-      startAuth0({
-        domain: getState().app.config.auth0Domain,
-        clientId: getState().app.config.auth0Id
-      });
-    }
+    const auth0 = new Auth0({
+      domain: getState().app.config.auth0Domain,
+      clientId: getState().app.config.auth0Id
+    });
 
-    const params = {
+    auth0.auth.passwordRealm({
       username: username,
       password: password,
       realm: 'Username-Password-Authentication',
-    };
-
-    authUtility.auth0.auth.passwordRealm(params).then((token) => {
+    }).then((token) => {
 
       // {"accessToken": "_Wi99268xpsS36Zya02BWGOQQy-cIkBi",
       //   "expiresIn": 86400,
@@ -45,7 +41,7 @@ export function login(username, password) {
       //   "scope": "openid profile email address phone",
       //   "tokenType": "Bearer"}
 
-      authUtility.auth0.auth.userInfo({ token: token.accessToken }).then((user) => {
+      auth0.auth.userInfo({ token: token.accessToken }).then((user) => {
 
         // EXAMPLE RESPONSE:
         // {"email": "autem.alex@gmail.com",
@@ -85,25 +81,36 @@ export function login(username, password) {
   }
 }
 
+export function googleLogin() {
+  return function(dispatch, getState) {
+    dispatch(loading());
+
+    const auth0 = new Auth0({
+      domain: getState().app.config.auth0Domain,
+      clientId: getState().app.config.auth0Id
+    });
+
+    auth0.webAuth.authorize().then((token) => {
+      console.log('*** TOKEN ***', token);
+    });
+  }
+}
+
 export function createUser(email, username, password) {
   return function(dispatch) {
     dispatch(loading());
 
-    if (!authUtility.auth0) {
-      startAuth0({
-        domain: getState().app.config.auth0Domain,
-        clientId: getState().app.config.auth0Id
-      });
-    }
+    const auth0 = new Auth0({
+      domain: getState().app.config.auth0Domain,
+      clientId: getState().app.config.auth0Id
+    });
 
-    const params = {
+    auth0.auth.createUser({
       email: email,
       username: username,
       password: password,
       connection: 'Username-Password-Authentication',
-    };
-
-    authUtility.auth0.auth.createUser(params).then((user) => {
+    }).then((user) => {
 
       // EXAMPLE RESPONSE:
       // {"Id": "59fe8c96b84acc463c6e9713",
@@ -119,8 +126,4 @@ export function createUser(email, username, password) {
       dispatch(error(errMsg));
     });
   }
-}
-
-function startAuth0(config) {
-  authUtility.startAuth0(config);
 }

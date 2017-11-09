@@ -45,7 +45,7 @@ class AppContainer extends React.Component {
     if (this.props.appLoading || this.props.authLoading) {
       return (
         <Grid>
-          <Col size={14/14} style={[appSS.center, { backgroundColor: 'steelblue' }]}>
+          <Col size={14/14} style={[appSS.center, { backgroundColor: '#aaa' }]}>
             <ActivityIndicator animating={true} color='#fff' size='large' />
           </Col>
         </Grid>
