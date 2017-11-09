@@ -46,7 +46,7 @@ class AuthContainer extends React.Component {
 
     return (
       <Col size={14/14} style={[appSS.center, { backgroundColor: '#aaa' }]}>
-        <Text styles={{ color: '#fff' }}>Please login or sign up to continue</Text>
+        <Text style={{ color: '#fff' }}>Please login or sign up to continue</Text>
         {/* Button that reopens the Auth0 lock */}
       </Col>
     );

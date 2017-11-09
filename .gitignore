@@ -57,6 +57,7 @@ typings/
 
 # Builds
 android/app/build/
+ios/build/
 
 # dotenv environment variables file
 .env
