@@ -1,7 +1,52 @@
-# contrail-client
-* add `local.properties` file to `./android` with `sdk.dir = /Users/aautem/Library/Android/sdk`
-* add `apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"` to `./android/app/build.gradle`
-* add `android:screenOrientation="portrait"` to Android Manifest .MainActivity
+# Contrail
+* android/local.properties
+
+```
+sdk.dir = /Users/aautem/Library/Android/sdk
+```
+
+* AndroidManifest.xml
+
+```
+<activity
+  android:name=".MainActivity"
+  android:label="@string/app_name"
+  android:launchMode="singleTask"
+  android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+  android:screenOrientation="portrait"
+  android:windowSoftInputMode="adjustResize">
+  <intent-filter>
+      <action android:name="android.intent.action.MAIN" />
+      <category android:name="android.intent.category.LAUNCHER" />
+  </intent-filter>
+  <intent-filter>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <category android:name="android.intent.category.BROWSABLE" />
+      <data
+          android:host="app77626749.auth0.com"
+          android:pathPrefix="/android/${applicationId}/callback"
+          android:scheme="${applicationId}" />
+  </intent-filter>
+</activity>
+```
+
+* android/app/build.gradle
+
+```
+// React Native vector icons
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+```
+
+* android/settings.gradle
+
+```
+rootProject.name = 'ContrailConnect4'
+include ':react-native-auth0'
+project(':react-native-auth0').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-auth0/android')
+
+include ':app'
+```
 
 ## Resources
 
