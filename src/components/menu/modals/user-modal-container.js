@@ -33,7 +33,7 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 };
 
-class ProfileModal extends React.Component {
+class UserModalContainer extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -66,7 +66,7 @@ class ProfileModal extends React.Component {
                 {this.props.username ? this.props.username.toUpperCase() : null}
               </Text>
             </Col>
-            <Col size={8/14} style={{ justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 15 }}>
+            <Col size={8/14} style={[appSS.center]}>
               <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>{this.props.stats.gamesPlayed}</Text>
               <Text style={{ color: '#fff' }}>Games Played</Text>
               <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20, paddingTop: 20 }}>{this.props.stats.totalPoints}</Text>
@@ -148,17 +148,8 @@ class ProfileModal extends React.Component {
   }
 }
 
-ProfileModal.propTypes = {
-  showModal: PropTypes.bool,
-  id: PropTypes.string,
-  username: PropTypes.string,
-  avatarUrl: PropTypes.string,
-  stats: PropTypes.object,
-  loading: PropTypes.bool,
-  loaded: PropTypes.bool,
-  error: PropTypes.string,
-  closeModal: PropTypes.func,
-  loadStats: PropTypes.func,
+UserModalContainer.propTypes = {
+  //
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileModal);
+export default connect(mapStateToProps, mapDispatchToProps)(UserModalContainer);

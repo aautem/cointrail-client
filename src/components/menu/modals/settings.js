@@ -3,12 +3,13 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as settingsActions from '../../../store/actions/settings';
-import { Modal, View, Text, Slider, Switch, ActivityIndicator, TouchableOpacity, Picker } from 'react-native';
+import { Dimensions, Modal, View, Text, Slider, Switch, ActivityIndicator, TouchableOpacity, TouchableHighlight, Picker } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Button, Avatar } from 'react-native-elements';
 import { ColorPicker } from 'react-native-color-picker'
 const modalSS = require('../../../styles/modals');
 const appSS = require('../../../styles/app');
+const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
 function mapStateToProps(state) {
   return {
@@ -66,30 +67,31 @@ class SettingsModal extends React.Component {
 
           {/* PICTURE / STATS */}
           <Row size={8/24} style={{ backgroundColor: this.props.settings.color }}>
-            <Col size={6/14}>
+            <Col size={6/14} style={{ justifyContent: 'center', alignItems: 'center' }}>
               <Avatar
-                xlarge
+                height={viewportHeight / 5}
+                rounded
                 source={{uri: this.props.user.avatarUrl}}
                 activeOpacity={0.8}
-                avatarStyle={{ borderBottomRightRadius: 20, overflow: 'hidden' }}
-                containerStyle={{ borderBottomRightRadius: 20, overflow: 'hidden' }}
-                overlayContainerStyle={{ borderBottomRightRadius: 20, overflow: 'hidden' }}
               />
+              <Text style={{ textAlign: 'center', paddingTop: 10, color: '#fff', fontWeight: 'bold' }}>
+                {this.props.user.username}
+              </Text>
             </Col>
-            <Col size={8/14} style={[appSS.center]}>
-              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>{`${this.props.user.username}'s`}</Text>
-              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>preferences</Text>
+            <Col size={8/14} style={{ justifyContent: 'flex-end', alignItems: 'flex-end', paddingBottom: 20, paddingRight: 20 }}>
+              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>GAME</Text>
+              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>PREFERENCES</Text>
             </Col>
           </Row>
 
           {/* GAME SETTINGS */}
           <Row size={8/24}>
-            <Col size={14/14} style={{ justifyContent: 'center', paddingTop: 20 }}>
+            <Col size={14/14} style={{ justifyContent: 'center', paddingTop: 10 }}>
 
               {/* BOARD SIZE */}
               <Row size={3/8}>
                 <Col size={14/14} style={{ justifyContent: 'center' }}>
-                  <Text style={[{ textAlign: 'center' }]}>
+                  <Text style={[{ textAlign: 'center', color: 'black' }]}>
                     Gameboard Size: {this.props.settings.boardSize} x {this.props.settings.boardSize}
                   </Text>
                   <Slider
@@ -106,7 +108,7 @@ class SettingsModal extends React.Component {
               {/* SERIES LENGTH */}
               <Row size={3/8}>
                 <Col size={14/14} style={{ justifyContent: 'center' }}>
-                  <Text style={[{ textAlign: 'center' }]}>
+                  <Text style={[{ textAlign: 'center', color: 'black' }]}>
                     Series Length: {this.props.settings.seriesLength}
                   </Text>
                   <Slider
@@ -121,8 +123,8 @@ class SettingsModal extends React.Component {
               </Row>
 
               {/* TIME LIMIT */}
-              <Row size={2/8} style={appSS.center}>
-                <Text style={{ paddingRight: 10 }}>15 Second Limit</Text>
+              <Row size={2/10} style={appSS.center}>
+                <Text style={{ paddingRight: 10, color: 'black' }}>15 Second Limit</Text>
                 <Switch
                   value={this.props.settings.timeLimit}
                   onValueChange={() => { this.props.toggleTimer() }}
@@ -133,53 +135,50 @@ class SettingsModal extends React.Component {
           </Row>
 
           {/* COLOR SELECTION */}
-          <Row size={4/24} style={{ paddingTop: 25, paddingLeft: 10, paddingRight: 10 }}>
-            <Col size={7/14} style={[appSS.center]}>
-              <Text style={{ paddingBottom: 10 }}>Color</Text>
+          <Row size={6/24} style={{ paddingLeft: 20, paddingRight: 20, marginTop: 5 }}>
+            <Col size={5/14} style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
               <TouchableOpacity onPress={() => {
                 this.setState({ selectingColor: true });
               }}>
                 <View style={{
-                  height: 80,
-                  width: 80,
+                  height: viewportHeight / 6,
+                  width: viewportHeight / 6,
                   backgroundColor: this.props.settings.color,
                   borderRadius: 100,
                   borderWidth: 1,
-                  borderColor: '#aaa',
-                  borderStyle: 'solid' }} />
+                  borderColor: 'black',
+                  borderStyle: 'solid',
+              }} />
               </TouchableOpacity>
             </Col>
-            <Col size={7/14} style={appSS.center}>
-              <Text style={{ paddingBottom: 10 }}>Alt Color</Text>
+            <Col size={4/14} style={[appSS.center]}>
+              <Text style={{ color: 'black', paddingBottom: 10 }}>{`< Primary`}</Text>
+              <Text style={{ color: 'black' }}>{`Alternate >`}</Text>
+            </Col>
+            <Col size={5/14} style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
               <TouchableOpacity onPress={() => {
                 this.setState({ selectingAltColor: true });
               }}>
                 <View style={{
-                  height: 80,
-                  width: 80,
+                  height: viewportHeight / 6,
+                  width: viewportHeight / 6,
                   backgroundColor: this.props.settings.altColor,
                   borderRadius: 100,
                   borderWidth: 1,
-                  borderColor: '#aaa',
-                  borderStyle: 'solid' }} />
+                  borderColor: 'black',
+                  borderStyle: 'solid',
+                }}/>
               </TouchableOpacity>
             </Col>
           </Row>
 
           {/* SAVE BUTTON */}
-          <Row size={4/24}>
-            <Col size={14/14} style={[appSS.center]}>
-              <Button
-                backgroundColor='#aaa'
-                color='#fff'
-                title='Save'
-                loading={this.props.settings.loading}
-                onPress={() => {
-                  this.props.saveSettings(this.props.user.username, this.props.settings);
-                }}
-                borderRadius={5}
-                containerViewStyle={{ borderRadius: 5 }}
-              />
+          <Row size={2/24}>
+            <Col size={14/14} style={[appSS.center, { backgroundColor: '#eee' }]}>
+              <TouchableHighlight
+                onPress={() => { this.props.saveSettings(this.props.user.username, this.props.settings) }}>
+                <Text style={{ color: '#aaa' }}>Save</Text>
+              </TouchableHighlight>
             </Col>
           </Row>
 
@@ -187,21 +186,21 @@ class SettingsModal extends React.Component {
 
         {/* COLOR PICKER */}
         {(this.state.selectingColor || this.state.selectingAltColor) &&
-        <Col size={14/14} style={{ backgroundColor: '#eee', paddingLeft: 50, paddingRight: 50 }}>
-          <ColorPicker
-            onColorSelected={this.selectColor.bind(this)}
-            style={{flex: 1 }}
-            hideSliders={true}
-            defaultColor={this.state.selectingAltColor ? this.props.settings.altColor : this.props.settings.color}
-          />
-          <Button
-            backgroundColor='#aaa'
-            color='#fff'
-            title='Cancel'
-            onPress={() => { this.setState({ selectingColor: false, selectingAltColor: false }) }}
-            borderRadius={5}
-            containerViewStyle={{ borderRadius: 5, marginBottom: 60 }}
-          />
+        <Col size={14/14} style={{ backgroundColor: '#fff' }}>
+          <Row size={22/24} style={{ paddingLeft: 50, paddingRight: 50 }}>
+            <ColorPicker
+              onColorSelected={this.selectColor.bind(this)}
+              style={{flex: 1 }}
+              hideSliders={true}
+              defaultColor={this.state.selectingAltColor ? this.props.settings.altColor : this.props.settings.color}
+            />
+          </Row>
+          <Row size={2/24} style={{ backgroundColor: '#eee', justifyContent: 'center', alignItems: 'center' }}>
+            <TouchableHighlight
+              onPress={() => { this.setState({ selectingColor: false, selectingAltColor: false }) }}>
+              <Text style={{ color: '#aaa' }}>Cancel</Text>
+            </TouchableHighlight>
+          </Row>
         </Col>}
       </Modal>
     );

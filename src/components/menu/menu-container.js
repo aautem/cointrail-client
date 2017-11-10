@@ -74,14 +74,17 @@ class MenuContainer extends React.Component {
         <Row size={10/24} style={[appSS.center, { backgroundColor: '#eee' }]}>
           <Col size={14/14}>
             <Row size={2/10}>
-              <Col size={6/14} style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
+              <Col size={4/14} style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
                 <Text style={{ color: '#aaa', fontWeight: 'bold', paddingLeft: 10 }}>
-                  Friends Online: 3/12
+                  3/12
+                </Text>
+                <Text style={{ color: '#aaa', fontWeight: 'bold', paddingLeft: 10 }}>
+                  Friends Online
                 </Text>
               </Col>
-              <Col size={8/14}>
+              <Col size={10/14}>
                 <Row size={2/2} style={{ justifyContent: 'flex-end', alignItems: 'center', paddingRight: 10, backgroundColor: '#fff', borderBottomLeftRadius: 50, borderColor: '#aaa', borderWidth: 1 }}>
-                  <Text style={{ fontWeight: 'bold', color: 'black', fontSize: 20, paddingRight: 10 }}>AAUTEM</Text>
+                  <Text style={{ fontWeight: 'bold', color: 'black', fontSize: 20, paddingRight: 10 }}>{this.props.user.username}</Text>
                   <Icon
                     size={24}
                     name='account-circle'

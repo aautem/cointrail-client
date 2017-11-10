@@ -77,7 +77,7 @@ class FriendComponent extends React.Component {
             type='font-awesome'
             color='lightgreen'
           />
-          <Text style={{ color: '#fff', fontWeight: 'bold', paddingLeft: 10 }}>{this.props.username.toUpperCase()}</Text>
+          <Text style={{ color: '#fff', fontWeight: 'bold', paddingLeft: 10 }}>{this.props.username ? this.props.username.toUpperCase() : ''}</Text>
         </Row>
       </View>
     );

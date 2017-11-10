@@ -11,8 +11,8 @@ export default class HorizontalGraph extends React.Component {
     return (
       <Col size={14/14}>
         <Row size={1.5/4}>
-          <Col size={14/14} style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ color: '#aaa' }}>{this.props.title}</Text>
+          <Col size={14/14} style={{ justifyContent: 'center', alignItems: 'flex-start', paddingLeft: 20 }}>
+            <Text style={{ color: 'black' }}>{this.props.title}</Text>
           </Col>
         </Row>
         <Row size={2.5/4} style={{ paddingLeft: 20, paddingRight: 20 }}>
@@ -32,7 +32,7 @@ export default class HorizontalGraph extends React.Component {
             </Text>
           </Animatable.View>
           <Animatable.View
-            animation={'slideInLeft'}
+            animation={'slideInRight'}
             style={{
               backgroundColor: this.props.rightColor,
               borderTopRightRadius: 5,
@@ -42,7 +42,7 @@ export default class HorizontalGraph extends React.Component {
               flex: this.props.rightValue,
             }}
           >
-            <Text style={{ color: '#fff', paddingRight: 10, fontWeight: 'bold', textAlign: 'right' }}>
+            <Text style={{ color: '#aaa', paddingRight: 10, fontWeight: 'bold', textAlign: 'right' }}>
               {`${this.props.leftValue + this.props.rightValue}${this.props.percentage ? '%' : ''}`}
             </Text>
           </Animatable.View>
