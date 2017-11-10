@@ -1,6 +1,7 @@
 import { createAction } from 'redux-actions';
 import Game from '../../utilities/game';
 import socketUtility from '../../utilities/socket';
+import * as appActions from './app';
 import * as seriesActions from './series';
 
 export const actions = {
@@ -19,6 +20,7 @@ export function startSoloGame() {
   return function (dispatch, getState) {
     dispatch(loading());
     const settings = {
+      mode: 'solo',
       roomName: 'solo',
       boardSize: getState().settings.boardSize,
       timeLimit: getState().settings.timeLimit,
@@ -27,7 +29,7 @@ export function startSoloGame() {
     const player = {
       id: getState().user.id,
       username: getState().user.username,
-      avatarUrl: geState().user.avatarUrl,
+      avatarUrl: getState().user.avatarUrl,
       color: getState().settings.color,
     };
     game.initializeSoloGame(player);
@@ -37,15 +39,35 @@ export function startSoloGame() {
   }
 }
 
-export function dropCoin(game, colId) {
-  return function(dispatch) {
+export function dropCoin(colId) {
+  return function(dispatch, getState) {
     dispatch(loading());
+    const game = Object.assign({}, getState().game);
+    const gameInstance = new Game(game);
+    gameInstance.dropCoin(colId);
 
-    // emit dropcoin event to room
-    const socket = socketUtility.socket;
-    socket.emit('drop-coin', { game: game, colId: colId }, (ack) => {
-      console.log('*** DROP COIN ACK ***', ack);
+    // DO ALL CALCULATION ON FRONT END AND SEND UPDATED GAME/SERIES TO SERVER
+    // just have to turn it back into a game class instance
+    // (do this now so we don't mutate the state)
+    if (gameInstance.mode === 'solo') {
+      dispatch(setCurrentGame(gameInstance));
       dispatch(loaded());
-    });
+
+      if (!gameInstance.gameOver) {
+        if (gameInstance.turn !== getState().user.username) {
+          setTimeout(() => {
+            const colId = gameInstance.getOpenColumn();
+            dispatch(dropCoin(colId));
+          }, 5000);
+        }
+      }
+    } else {
+      // emit dropcoin event to room
+      const socket = socketUtility.socket;
+      socket.emit('drop-coin', { game: game, colId: colId }, (ack) => {
+        console.log('*** DROP COIN ACK ***', ack);
+        dispatch(loaded());
+      });
+    }
   }
 }

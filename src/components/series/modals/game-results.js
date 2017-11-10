@@ -8,7 +8,7 @@ const appSS = require('../../../styles/app');
 
 export default class GameResultsModal extends React.Component {
   render() {
-    if (!this.props.game) {
+    if (!this.props.game.roomName) {
       return null;
     }
 
@@ -193,7 +193,7 @@ export default class GameResultsModal extends React.Component {
             <Button
               large
               title='Next Game'
-              onPress={this.props.startNextGame}
+              onPress={() => { /* this.props.startNextGame */ }}
               backgroundColor='#aaa'
               color='#fff'
               borderRadius={5}

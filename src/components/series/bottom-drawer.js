@@ -15,11 +15,11 @@ export default class BottomDrawer extends React.Component {
   }
   
   render () {
-    if (!this.props.series) {
+    if (!this.props.game.roomName) {
       return null;
     }
     
-    const players = this.props.series.players;
+    const players = this.props.game.players;
     const usernames = Object.keys(players);
     return (
       <Col size={14/14} style={{ backgroundColor: '#aaa' }}>
@@ -55,8 +55,8 @@ export default class BottomDrawer extends React.Component {
 
               {/* SCORE BOARD */}
               <Col size={10/14}>
-                <ScoreTally player={players[usernames[0]]} series={this.props.series} />
-                <ScoreTally player={players[usernames[1]]} series={this.props.series} />
+                {/* <ScoreTally player={players[usernames[0]]} series={this.props.series} />
+                <ScoreTally player={players[usernames[1]]} series={this.props.series} /> */}
               </Col>
 
               {/* TIME LIMIT */}
@@ -91,5 +91,6 @@ export default class BottomDrawer extends React.Component {
 
 BottomDrawer.propTypes = {
   series: PropTypes.object,
+  game: PropTypes.object,
   openDrawer: PropTypes.func,
 };

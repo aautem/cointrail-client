@@ -41,7 +41,7 @@ export default class GamePiece extends React.Component {
         }}
       >
         {!this.props.username &&
-        <Text style={{ color: '#aaa', fontSize: 12 }}>{this.props.points}</Text>}
+        <Text style={{ color: '#aaa', fontSize: 10, fontWeight: 'bold' }}>{this.props.points}</Text>}
       </Animatable.View>
     );
   }

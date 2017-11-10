@@ -9,6 +9,7 @@ import { ActivityIndicator } from 'react-native';
 import AuthContainer from './auth/auth-container';
 import MenuContainer from './menu/menu-container';
 import SeriesContainer from './series/series-container';
+import SoloGameContainer from './game/solo-game';
 const appSS = require('../styles/app');
 
 import TestContainer from './common/test-container';
@@ -57,6 +58,7 @@ class AppContainer extends React.Component {
             {this.props.page === constants.APP_PAGES.AUTH && <AuthContainer />}
             {this.props.page === constants.APP_PAGES.MENU && <MenuContainer />}
             {this.props.page === constants.APP_PAGES.SERIES && <SeriesContainer />}
+            {this.props.page === constants.APP_PAGES.SOLO && <SoloGameContainer />}
 
             {this.props.page === 'test' && <TestContainer />}
           </Row>

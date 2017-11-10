@@ -5,10 +5,17 @@ import { Col } from 'react-native-easy-grid';
 const appSS = require('../../../styles/app');
 
 export default class GameColumn extends React.Component {
-  render() {    
+  render() {
+    if (!this.props.game.roomName) {
+      return null;
+    }
+
     const { game, rowId, colId } = this.props;
     const username = game.board[rowId][colId];
-    const color = username ? game.players[username].gamePieceColor : '#fff';
+    let color = '#eee';
+    if (username) {
+      color = game.players[username].color;
+    }
 
     return (
       <Col style={appSS.center}>

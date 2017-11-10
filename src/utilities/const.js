@@ -12,6 +12,7 @@ export const APP_PAGES = {
   AUTH: 'auth',
   MENU: 'menu',
   SERIES: 'series',
+  SOLO: 'solo',
 };
 
 export const AUTH_PAGES = {

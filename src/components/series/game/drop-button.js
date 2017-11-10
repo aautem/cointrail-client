@@ -26,12 +26,12 @@ class DropButton extends React.Component {
   dropCoin() {
     // only drop coin if user's turn and column has room
     if (this.props.game.turn === this.props.username && !this.props.game.board[0][this.props.colId]) {
-      this.props.dropCoin(this.props.game, this.props.colId);
+      this.props.dropCoin(this.props.colId);
     }
   }
 
   render() {    
-    const color = !this.props.game.board[0][this.props.colId] ? 'steelblue' : 'lightgrey';
+    const color = !this.props.game.board[0][this.props.colId] ? '#aaa' : '#eee';
     return (
       <Col style={{ justifyContent: 'center', alignItems: 'center' }}>
         <Icon
