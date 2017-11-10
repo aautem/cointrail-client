@@ -83,7 +83,7 @@ class MenuContainer extends React.Component {
                 </Text>
               </Col>
               <Col size={10/14}>
-                <Row size={2/2} style={{ justifyContent: 'flex-end', alignItems: 'center', paddingRight: 10, backgroundColor: '#fff', borderBottomLeftRadius: 50, borderColor: '#aaa', borderWidth: 1 }}>
+                <Row size={2/2} style={{ justifyContent: 'flex-end', alignItems: 'center', paddingRight: 10, backgroundColor: '#ddd', borderBottomLeftRadius: 50, borderColor: '#aaa', borderWidth: 2, borderTopWidth: 0, borderRightWidth: 0 }}>
                   <Text style={{ fontWeight: 'bold', color: 'black', fontSize: 20, paddingRight: 10 }}>{this.props.user.username}</Text>
                   <Icon
                     size={24}
@@ -122,19 +122,19 @@ class MenuContainer extends React.Component {
           <Col size={6/14}>
 
             {/* HELP & INFO ICONS */}
-            <Row size={14/14} style={{ justifyContent: 'flex-start', alignItems: 'flex-end', backgroundColor: '#ccc', paddingLeft: 10, paddingBottom: 10 }}>
+            <Row size={14/14} style={{ justifyContent: 'flex-start', alignItems: 'flex-end', backgroundColor: '#fff', paddingLeft: 10, paddingBottom: 10 }}>
               <Icon
                 size={32}
                 name='help-circle'
                 type='material-community'
-                color='#eee'
+                color='#ddd'
                 onPress={() => { console.log('Getting help...') }}
               />
               <Icon
                 size={32}
                 name='information'
                 type='material-community'
-                color='#eee'
+                color='#ddd'
                 style={{ paddingLeft: 5 }}
                 onPress={() => { console.log('Getting help...') }}
               />
@@ -144,53 +144,51 @@ class MenuContainer extends React.Component {
           <Col size={8/14}>
 
             {/* BUTTONS CONTAINER */}
-            <Row size={14/14} style={[{ backgroundColor: '#ccc' }]}>
+            <Row size={14/14} style={[{ backgroundColor: '#fff' }]}>
               <Col size={8/8} style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
                 <Button
-                  backgroundColor='#fff'
+                  backgroundColor='#ddd'
                   color='black'
                   iconRight={{ type: 'material-community', name: 'account-multiple', color: 'black' }}
                   title='JOIN'
                   loading={false}
                   onPress={() => {}}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
-                  containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 100, borderBottomLeftRadius: 5, marginBottom: 3 }}
+                  containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 100, borderBottomLeftRadius: 5, paddingBottom: 5 }}
                   buttonStyle={{ width: viewportWidth / 2.25, height: viewportHeight / 10, borderTopLeftRadius: 100, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
                 />
                 <Button
-                  raised
-                  backgroundColor='#fff'
+                  backgroundColor='#ddd'
                   color='black'
                   iconRight={{ type: 'material-community', name: 'account', color: 'black' }}
                   title='SOLO'
                   loading={false}
                   onPress={() => {}}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
-                  containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, marginBottom: 3 }}
+                  containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, paddingBottom: 5 }}
                   buttonStyle={{ width: viewportWidth / 2.25, height: viewportHeight / 10, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
                 />
                 <Button
-                  raised
-                  backgroundColor='#fff'
+                  backgroundColor='#ddd'
                   color='black'
                   iconRight={{ type: 'ionicon', name: 'md-stats', color: 'black' }}
                   title='LEADERS'
                   loading={false}
                   onPress={() => {}}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
-                  containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, marginBottom: 3 }}
+                  containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, paddingBottom: 5 }}
                   buttonStyle={{ width: viewportWidth / 2.25, height: viewportHeight / 10, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
                 /> 
                 <Button
-                  raised
-                  backgroundColor='#fff'
+                  backgroundColor='#ddd'
                   color='black'
                   iconRight={{ type: 'material-community', name: 'message-text-outline', color: 'black' }}
                   title='INBOX'
                   loading={false}
                   onPress={() => {}}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
-                  containerViewStyle={{ marginRight: 0, borderBottomLeftRadius: 100, borderTopLeftRadius: 5, marginBottom: 20 }}
+                  containerOverlayStyle={{ paddingBottom: 20 }}
+                  containerViewStyle={{ marginRight: 0, borderBottomLeftRadius: 100, borderTopLeftRadius: 5 }}
                   buttonStyle={{ width: viewportWidth / 2.25, height: viewportHeight / 10, borderBottomLeftRadius: 100, borderTopLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
                 />
               </Col>
