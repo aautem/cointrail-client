@@ -14,7 +14,7 @@ export default class MenuButton extends React.Component {
       <Button
         raised
         large
-        backgroundColor='steelblue'
+        backgroundColor='#aaa'
         color='#fff'
         icon={this.props.icon}
         title={this.props.title}

@@ -48,10 +48,11 @@ class MenuContainer extends React.Component {
     return (
       <Col size={14/14}>
 
-        {/* TOP NAV CONTAINER */}
+        {/* TOP NAV */}
         <Row size={2/24} style={[{ backgroundColor: '#aaa' }]}>
           <Col size={2/14} style={[appSS.center]}>
             <Icon
+              small
               name='settings'
               type='material-community'
               color='#fff'
@@ -59,10 +60,11 @@ class MenuContainer extends React.Component {
             />
           </Col>
           <Col size={10/14} style={[appSS.center]}>
-            <Text style={{ color: '#fff', fontWeight: 'bold' }}>{constants.APP_TITLE}</Text>
+            <Text style={{ color: '#fff', fontWeight: 'bold' }}>Contrail</Text>
           </Col>
           <Col size={2/14} style={[appSS.center]}>
             <Icon
+              small
               name='account-circle'
               type='material-community'
               color='#fff'
@@ -72,18 +74,22 @@ class MenuContainer extends React.Component {
         </Row>
 
         {/* FRIENDS CONTAINER */}
-        <Row size={8/24} style={[appSS.center, { backgroundColor: '#eee' }]}>
+        <Row size={10/24} style={[appSS.center, { backgroundColor: '#eee' }]}>
           <FriendsContainer />
         </Row>
 
         {/* BUTTONS CONTAINER */}
-        <Row size={14/24} style={[appSS.center, { backgroundColor: '#fff', paddingTop: 10, paddingBottom: 10 }]}>
-          <Col size={2/14}></Col>
-          <Col size={10/14}>
+        <Row size={10/24} style={[{
+          backgroundColor: '#fff',
+          justifyContent: 'center',
+          alignItems: 'flex-start',
+          paddingTop: 30
+        }]}>
+          <Col size={7/14} style={{ paddingLeft: 10 }}>
             <Row size={3/12}>
-              <Col size={10/10} style={appSS.center}>
+              <Col size={7/7} style={appSS.center}>
                 <MenuButton
-                  icon={{ type: 'font-awesome', name: 'play-circle', color: '#fff' }}
+                  icon={{ type: 'entypo', name: 'flash', color: '#fff' }}
                   title='Join Game'
                   onPress={() => {
                     this.props.joinGame(this.props.user, this.props.settings);
@@ -92,8 +98,8 @@ class MenuContainer extends React.Component {
                 />
               </Col>
             </Row>
-            <Row size={3/12}>
-              <Col size={10/10} style={appSS.center}>
+            <Row size={3/12} style={{ paddingTop: 20 }}>
+              <Col size={7/7} style={appSS.center}>
                 <MenuButton
                   icon={{ type: 'material-community', name: 'message-text-outline', color: '#fff' }}
                   title='Messages'
@@ -102,8 +108,10 @@ class MenuContainer extends React.Component {
                 />
               </Col>
             </Row>
+          </Col>
+          <Col size={7/14} style={{ paddingRight: 10 }}>
             <Row size={3/12}>
-              <Col size={10/10} style={appSS.center}>
+              <Col size={14/14} style={appSS.center}>
                 <MenuButton
                   icon={{ type: 'ionicon', name: 'md-stats', color: '#fff' }}
                   title='Leaderboard'
@@ -112,18 +120,28 @@ class MenuContainer extends React.Component {
                 />
               </Col>
             </Row>
-            <Row size={3/12}>
-              <Col size={10/10} style={appSS.center}>
+            <Row size={3/12} style={{ paddingTop: 20 }}>
+              <Col size={14/14} style={appSS.center}>
                 <MenuButton
-                  icon={{ type: 'material', name: 'help', color: '#fff' }}
-                  title='How to Play'
+                  icon={{ type: 'ionicons', name: 'md-person', color: '#fff' }}
+                  title='Solo Play'
                   onPress={() => { console.log('Loading help...') }}
                   loading={false}
                 />
               </Col>
             </Row>
           </Col>
-          <Col size={2/14}></Col>
+        </Row>
+
+        {/* HELP ICON */}
+        <Row size={2} style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
+          <Icon
+            size={32}
+            name='help-with-circle'
+            type='entypo'
+            color='#aaa'
+            onPress={() => { console.log('Getting help...') }}
+          />
         </Row>
 
         {/* MODALS */}

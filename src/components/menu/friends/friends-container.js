@@ -55,7 +55,7 @@ class FriendsContainer extends React.Component {
 
   render() {
     return (
-      <Col size={14/14} style={{paddingTop: 10, paddingBottom: 10}}>
+      <Col size={14/14} style={{paddingTop: 15, paddingBottom: 30}}>
         <Text style={{ color: 'grey', fontWeight: 'bold', paddingLeft: 10 }}>
           Friends
         </Text>

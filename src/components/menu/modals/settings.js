@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import * as settingsActions from '../../../store/actions/settings';
 import { Modal, View, Text, Slider, Switch, ActivityIndicator, TouchableOpacity, Picker } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
-import { Button } from 'react-native-elements';
+import { Button, Avatar } from 'react-native-elements';
 import { ColorPicker } from 'react-native-color-picker'
 const modalSS = require('../../../styles/modals');
 const appSS = require('../../../styles/app');
@@ -58,36 +58,39 @@ class SettingsModal extends React.Component {
     return (
       <Modal
         animationType='fade'
-        transparent={true}
         visible={this.props.settings.showModal}
         onRequestClose={this.props.closeModal}
       >
         {(!this.state.selectingColor && !this.state.selectingAltColor) &&
-        <Col size={14/14} style={appSS.center}>
-          
-          {/* TRANSPARENT */}
-          <Row size={4/23}>
-            <Col size={14/14} style={[modalSS.transparent]}></Col>
+        <Col size={14/14} style={[appSS.center, { backgroundColor: '#fff' }]}>
+
+          {/* PICTURE / STATS */}
+          <Row size={8/24} style={{ backgroundColor: this.props.settings.color }}>
+            <Col size={6/14}>
+              <Avatar
+                xlarge
+                source={{uri: this.props.user.avatarUrl}}
+                activeOpacity={0.8}
+                avatarStyle={{ borderBottomRightRadius: 20, overflow: 'hidden' }}
+                containerStyle={{ borderBottomRightRadius: 20, overflow: 'hidden' }}
+                overlayContainerStyle={{ borderBottomRightRadius: 20, overflow: 'hidden' }}
+              />
+            </Col>
+            <Col size={8/14} style={[appSS.center]}>
+              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>{`${this.props.user.username}'s`}</Text>
+              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>preferences</Text>
+            </Col>
           </Row>
 
-          <Row size={15/23}>
-            <Col size={2/14} style={[modalSS.transparent]}></Col>
-            <Col size={10/14} style={[{ backgroundColor: '#fff' }]}>
-
-              {/* MODAL HEADER */}
-              <Row size={2/15}>
-                <Col size={10/10} style={[appSS.center]}>
-                  <Text style={{ color: 'steelblue', fontWeight: 'bold' }}>
-                    Game Preferences
-                  </Text>
-                </Col>
-              </Row>
+          {/* GAME SETTINGS */}
+          <Row size={8/24}>
+            <Col size={14/14} style={{ justifyContent: 'center', paddingTop: 20 }}>
 
               {/* BOARD SIZE */}
-              <Row size={3/15}>
-                <Col size={10/10} style={{ justifyContent: 'center' }}>
+              <Row size={3/8}>
+                <Col size={14/14} style={{ justifyContent: 'center' }}>
                   <Text style={[{ textAlign: 'center' }]}>
-                    {this.props.settings.boardSize} x {this.props.settings.boardSize} Board
+                    Gameboard Size: {this.props.settings.boardSize} x {this.props.settings.boardSize}
                   </Text>
                   <Slider
                     minimumValue={4}
@@ -101,10 +104,10 @@ class SettingsModal extends React.Component {
               </Row>
 
               {/* SERIES LENGTH */}
-              <Row size={3/15}>
-                <Col size={10/10} style={{ justifyContent: 'center' }}>
+              <Row size={3/8}>
+                <Col size={14/14} style={{ justifyContent: 'center' }}>
                   <Text style={[{ textAlign: 'center' }]}>
-                    {this.props.settings.seriesLength} Game Series
+                    Series Length: {this.props.settings.seriesLength}
                   </Text>
                   <Slider
                     minimumValue={2}
@@ -118,71 +121,73 @@ class SettingsModal extends React.Component {
               </Row>
 
               {/* TIME LIMIT */}
-              <Row size={2/15} style={appSS.center}>
-                <Text style={{ paddingRight: 10 }}>Time Limit</Text>
+              <Row size={2/8} style={appSS.center}>
+                <Text style={{ paddingRight: 10 }}>15 Second Limit</Text>
                 <Switch
                   value={this.props.settings.timeLimit}
                   onValueChange={() => { this.props.toggleTimer() }}
                 />
               </Row>
-
-              {/* COLOR SELECTION */}
-              <Row size={3/15}>
-                <Col size={5/10} style={appSS.center}>
-                  <Text>Color</Text>
-                  <TouchableOpacity onPress={() => {
-                    this.setState({ selectingColor: true });
-                  }}>
-                    <View style={{
-                      height: 50,
-                      width: 50,
-                      backgroundColor: this.props.settings.color,
-                      borderRadius: 5 }} />
-                  </TouchableOpacity>
-                </Col>
-                <Col size={5/10} style={appSS.center}>
-                  <Text>Alt Color</Text>
-                  <TouchableOpacity onPress={() => {
-                    this.setState({ selectingAltColor: true });
-                  }}>
-                    <View style={{
-                      height: 50,
-                      width: 50,
-                      backgroundColor: this.props.settings.altColor,
-                      borderRadius: 5 }} />
-                  </TouchableOpacity>
-                </Col>
-              </Row>
-
-              {/* SAVE BUTTON */}
-              <Row size={2/15}>
-                <Col size={10/10}>
-                  <Button
-                    backgroundColor='steelblue'
-                    color='#fff'
-                    title='Save'
-                    loading={this.props.settings.loading}
-                    onPress={() => {
-                      this.props.saveSettings(this.props.user.username, this.props.settings);
-                    }}
-                    borderRadius={5}
-                    containerViewStyle={{ borderRadius: 5 }}
-                  />
-                </Col>
-              </Row>
+            
             </Col>
-            <Col size={2/14} style={[modalSS.transparent]}></Col>
           </Row>
 
-          {/* TRANSPARENT */}
-          <Row size={4/23}>
-            <Col size={14/14} style={[modalSS.transparent]}></Col>
+          {/* COLOR SELECTION */}
+          <Row size={4/24} style={{ paddingTop: 25, paddingLeft: 10, paddingRight: 10 }}>
+            <Col size={7/14} style={[appSS.center]}>
+              <Text style={{ paddingBottom: 10 }}>Color</Text>
+              <TouchableOpacity onPress={() => {
+                this.setState({ selectingColor: true });
+              }}>
+                <View style={{
+                  height: 80,
+                  width: 80,
+                  backgroundColor: this.props.settings.color,
+                  borderRadius: 100,
+                  borderWidth: 1,
+                  borderColor: '#aaa',
+                  borderStyle: 'solid' }} />
+              </TouchableOpacity>
+            </Col>
+            <Col size={7/14} style={appSS.center}>
+              <Text style={{ paddingBottom: 10 }}>Alt Color</Text>
+              <TouchableOpacity onPress={() => {
+                this.setState({ selectingAltColor: true });
+              }}>
+                <View style={{
+                  height: 80,
+                  width: 80,
+                  backgroundColor: this.props.settings.altColor,
+                  borderRadius: 100,
+                  borderWidth: 1,
+                  borderColor: '#aaa',
+                  borderStyle: 'solid' }} />
+              </TouchableOpacity>
+            </Col>
           </Row>
+
+          {/* SAVE BUTTON */}
+          <Row size={4/24}>
+            <Col size={14/14} style={[appSS.center]}>
+              <Button
+                backgroundColor='#aaa'
+                color='#fff'
+                title='Save'
+                loading={this.props.settings.loading}
+                onPress={() => {
+                  this.props.saveSettings(this.props.user.username, this.props.settings);
+                }}
+                borderRadius={5}
+                containerViewStyle={{ borderRadius: 5 }}
+              />
+            </Col>
+          </Row>
+
         </Col>}
 
         {/* COLOR PICKER */}
         {(this.state.selectingColor || this.state.selectingAltColor) &&
-        <Col size={14/14} style={{ backgroundColor: '#fff', paddingLeft: 50, paddingRight: 50 }}>
+        <Col size={14/14} style={{ backgroundColor: '#eee', paddingLeft: 50, paddingRight: 50 }}>
           <ColorPicker
             onColorSelected={this.selectColor.bind(this)}
             style={{flex: 1 }}
@@ -190,10 +195,9 @@ class SettingsModal extends React.Component {
             defaultColor={this.state.selectingAltColor ? this.props.settings.altColor : this.props.settings.color}
           />
           <Button
-            backgroundColor='#eee'
-            color='grey'
+            backgroundColor='#aaa'
+            color='#fff'
             title='Cancel'
-            loading={false}
             onPress={() => { this.setState({ selectingColor: false, selectingAltColor: false }) }}
             borderRadius={5}
             containerViewStyle={{ borderRadius: 5, marginBottom: 60 }}
