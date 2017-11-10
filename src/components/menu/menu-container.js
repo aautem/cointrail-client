@@ -7,7 +7,8 @@ import * as userActions from '../../store/actions/user';
 import * as appActions from '../../store/actions/app';
 import * as seriesActions from '../../store/actions/series';
 import * as constants from '../../utilities/const';
-import { Text } from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import { Text, View, Dimensions } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Header, Button, Icon } from 'react-native-elements';
 import HeaderIcon from './header-icon';
@@ -17,6 +18,7 @@ import FriendsContainer from './friends/friends-container';
 import MenuButton from './menu-button';
 import GameRequestModal from './modals/game-request';
 const appSS = require('../../styles/app');
+const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
 function mapStateToProps(state) {
   return {
@@ -48,100 +50,89 @@ class MenuContainer extends React.Component {
     return (
       <Col size={14/14}>
 
-        {/* TOP NAV */}
-        <Row size={2/24} style={[{ backgroundColor: '#aaa' }]}>
-          <Col size={2/14} style={[appSS.center]}>
-            <Icon
-              small
-              name='settings'
-              type='material-community'
-              color='#fff'
-              onPress={this.props.openSettingsModal}
-            />
-          </Col>
-          <Col size={10/14} style={[appSS.center]}>
-            <Text style={{ color: '#fff', fontWeight: 'bold' }}>Contrail</Text>
-          </Col>
-          <Col size={2/14} style={[appSS.center]}>
-            <Icon
-              small
-              name='account-circle'
-              type='material-community'
-              color='#fff'
-              onPress={this.props.openProfileModal}
-            />
-          </Col>
-        </Row>
-
         {/* FRIENDS CONTAINER */}
         <Row size={10/24} style={[appSS.center, { backgroundColor: '#eee' }]}>
           <FriendsContainer />
         </Row>
 
-        {/* BUTTONS CONTAINER */}
-        <Row size={10/24} style={[{
-          backgroundColor: '#fff',
-          justifyContent: 'center',
-          alignItems: 'flex-start',
-          paddingTop: 30
-        }]}>
-          <Col size={7/14} style={{ paddingLeft: 10 }}>
-            <Row size={3/12}>
-              <Col size={7/7} style={appSS.center}>
-                <MenuButton
-                  icon={{ type: 'entypo', name: 'flash', color: '#fff' }}
-                  title='Join Game'
-                  onPress={() => {
-                    this.props.joinGame(this.props.user, this.props.settings);
-                  }}
-                  loading={false}
-                />
-              </Col>
-            </Row>
-            <Row size={3/12} style={{ paddingTop: 20 }}>
-              <Col size={7/7} style={appSS.center}>
-                <MenuButton
-                  icon={{ type: 'material-community', name: 'message-text-outline', color: '#fff' }}
-                  title='Messages'
-                  onPress={() => { console.log('Opening inbox...') }}
-                  loading={false}
-                />
-              </Col>
-            </Row>
-          </Col>
-          <Col size={7/14} style={{ paddingRight: 10 }}>
-            <Row size={3/12}>
-              <Col size={14/14} style={appSS.center}>
-                <MenuButton
-                  icon={{ type: 'ionicon', name: 'md-stats', color: '#fff' }}
-                  title='Leaderboard'
-                  onPress={() => { console.log('Loading leaderboard...') }}
-                  loading={false}
-                />
-              </Col>
-            </Row>
-            <Row size={3/12} style={{ paddingTop: 20 }}>
-              <Col size={14/14} style={appSS.center}>
-                <MenuButton
-                  icon={{ type: 'ionicons', name: 'md-person', color: '#fff' }}
-                  title='Solo Play'
-                  onPress={() => { console.log('Loading help...') }}
-                  loading={false}
-                />
-              </Col>
-            </Row>
-          </Col>
-        </Row>
+        <Row size={14/24}>
+          <Col size={6/14}>
 
-        {/* HELP ICON */}
-        <Row size={2} style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
-          <Icon
-            size={32}
-            name='help-with-circle'
-            type='entypo'
-            color='#aaa'
-            onPress={() => { console.log('Getting help...') }}
-          />
+            {/* HELP & INFO ICONS */}
+            <Row size={14/14} style={{ justifyContent: 'flex-start', alignItems: 'flex-end', backgroundColor: '#ccc', paddingLeft: 10, paddingBottom: 10 }}>
+              <Icon
+                size={32}
+                name='help-circle'
+                type='material-community'
+                color='#eee'
+                onPress={() => { console.log('Getting help...') }}
+              />
+              <Icon
+                size={32}
+                name='information'
+                type='material-community'
+                color='#eee'
+                style={{ paddingLeft: 5 }}
+                onPress={() => { console.log('Getting help...') }}
+              />
+            </Row>
+
+          </Col>
+          <Col size={8/14}>
+
+            {/* BUTTONS CONTAINER */}
+            <Row size={14/14} style={[{ backgroundColor: '#ccc' }]}>
+              <Col size={8/8} style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
+                <Button
+                  backgroundColor='#fff'
+                  color='black'
+                  iconRight={{ type: 'material-community', name: 'account-multiple', color: 'black' }}
+                  title='JOIN'
+                  loading={false}
+                  onPress={() => {}}
+                  textStyle={{ fontWeight: 'bold', fontSize: 16 }}
+                  containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 100, borderBottomLeftRadius: 5, marginBottom: 3 }}
+                  buttonStyle={{ width: viewportWidth / 2.25, height: viewportHeight / 10, borderTopLeftRadius: 100, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
+                />
+                <Button
+                  raised
+                  backgroundColor='#fff'
+                  color='black'
+                  iconRight={{ type: 'material-community', name: 'account', color: 'black' }}
+                  title='SOLO'
+                  loading={false}
+                  onPress={() => {}}
+                  textStyle={{ fontWeight: 'bold', fontSize: 16 }}
+                  containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, marginBottom: 3 }}
+                  buttonStyle={{ width: viewportWidth / 2.25, height: viewportHeight / 10, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
+                />
+                <Button
+                  raised
+                  backgroundColor='#fff'
+                  color='black'
+                  iconRight={{ type: 'ionicon', name: 'md-stats', color: 'black' }}
+                  title='LEADERS'
+                  loading={false}
+                  onPress={() => {}}
+                  textStyle={{ fontWeight: 'bold', fontSize: 16 }}
+                  containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, marginBottom: 3 }}
+                  buttonStyle={{ width: viewportWidth / 2.25, height: viewportHeight / 10, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
+                /> 
+                <Button
+                  raised
+                  backgroundColor='#fff'
+                  color='black'
+                  iconRight={{ type: 'material-community', name: 'message-text-outline', color: 'black' }}
+                  title='INBOX'
+                  loading={false}
+                  onPress={() => {}}
+                  textStyle={{ fontWeight: 'bold', fontSize: 16 }}
+                  containerViewStyle={{ marginRight: 0, borderBottomLeftRadius: 100, borderTopLeftRadius: 5, marginBottom: 20 }}
+                  buttonStyle={{ width: viewportWidth / 2.25, height: viewportHeight / 10, borderBottomLeftRadius: 100, borderTopLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
+                />
+              </Col>
+            </Row>
+          </Col>
         </Row>
 
         {/* MODALS */}

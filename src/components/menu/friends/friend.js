@@ -3,9 +3,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Grid, Col, Row } from 'react-native-easy-grid';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, Dimensions } from 'react-native';
 import { Card, ListItem, Button, Avatar, Icon } from 'react-native-elements';
 const styles = require('../../../styles/app');
+const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
 function mapStateToProps(state) {
   return {
@@ -34,63 +35,57 @@ class FriendComponent extends React.Component {
 
   render() {
     return (
-      <View style={{ height: '100%', width: 130, padding: 5, backgroundColor: '#fff' }}>
+      <View style={{
+        height: '100%',
+        width: 150,
+        backgroundColor: '#fff',
+        borderTopRightRadius: 80,
+        borderBottomRightRadius: 20,
+        borderWidth: 3,
+        borderColor: this.props.color,
+        borderLeftWidth: 0,
+        borderTopWidth: 0
+      }}>
         <Avatar
-          large
           rounded
+          width={viewportWidth / 4}
           source={{uri: this.props.image}}
           activeOpacity={0.7}
-          containerStyle={{ marginLeft: 20 }}
           onPress={() => { console.log('Loading stats...') }}
+          avatarStyle={{ borderColor: this.props.color, borderWidth: 3, borderTopLeftRadius: 0 }}
         />
-        <Row size={1} style={styles.center}>
+        <Row size={1} style={{ alignItems: 'center', justifyContent: 'center' }}>
           <Icon
-            size={10}
+            size={24}
+            name='message-text'
+            type='material-community'
+            color={this.props.color}
+            style={{ flex: 1, alignItems: 'center', paddingLeft: 5 }}
+          />
+          <Icon
+            size={50}
+            name='control-point-duplicate'
+            type='material'
+            color={this.props.color}
+            style={{ flex: 1, alignItems: 'center', paddingRight: 10, paddingBottom: 20 }}
+          />
+        </Row>
+        <Row size={1} style={{ backgroundColor: this.props.color, borderBottomRightRadius: 18, justifyContent: 'center', alignItems: 'center' }}>
+          <Icon
+            size={14}
             name='circle'
             type='font-awesome'
             color='lightgreen'
           />
-          <Text style={{ marginLeft: 5 }}>{this.props.title}</Text>
-        </Row>
-        <Row size={3} style={styles.center}>
-          <Icon
-            size={30}
-            name='play-circle'
-            type='font-awesome'
-            color='steelblue'
-            containerStyle={{ paddingLeft: 10, paddingRight: 10 }}
-          />
-          <Icon
-            size={30}
-            name='message-text-outline'
-            type='material-community'
-            color='steelblue'
-            containerStyle={{ paddingLeft: 10, paddingRight: 10 }}
-          />
+          <Text style={{ color: '#fff', fontWeight: 'bold', paddingLeft: 10 }}>USERNAME</Text>
         </Row>
       </View>
-
-      // <Card
-      //   image={{ uri: this.props.image }}
-      //   imageStyle={{ width: 50, height: 50 }}
-      // >
-      //   <Text>
-      //     {this.props.title}
-      //   </Text>
-      //   <Button
-      //     backgroundColor='lightgrey'
-      //     title='Play'
-      //   />
-      // </Card>
     );
   }
 }
 
-// FriendsContainer.propTypes = {
-//   friends: PropTypes.array,
-//   loading: PropTypes.bool,
-//   loaded: PropTypes.bool,
-//   error: PropTypes.string,
-// };
+FriendComponent.propTypes = {
+  color: PropTypes.string,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(FriendComponent);

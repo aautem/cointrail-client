@@ -14,15 +14,16 @@ export default class MenuButton extends React.Component {
       <Button
         raised
         large
-        backgroundColor='#aaa'
-        color='#fff'
+        backgroundColor='#fff'
+        color='#aaa'
         icon={this.props.icon}
         title={this.props.title}
         loading={this.props.loading}
         onPress={this.props.onPress}
+        style={{ fontWeight: 'bold' }}
         borderRadius={5}
         containerViewStyle={{ borderRadius: 5 }}
-        style={{ width: 250 }}
+        style={{ width: 150 }}
       />
     );
   }
