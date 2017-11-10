@@ -8,6 +8,7 @@ import * as appActions from '../../store/actions/app';
 import * as seriesActions from '../../store/actions/series';
 import * as constants from '../../utilities/const';
 import * as Animatable from 'react-native-animatable';
+import Carousel from 'react-native-snap-carousel';
 import { Text, View, Dimensions } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Header, Button, Icon } from 'react-native-elements';
@@ -17,6 +18,7 @@ import ProfileModal from './modals/profile';
 import FriendsContainer from './friends/friends-container';
 import MenuButton from './menu-button';
 import GameRequestModal from './modals/game-request';
+import FriendComponent from './friends/friend';
 const appSS = require('../../styles/app');
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
@@ -44,6 +46,24 @@ function mapDispatchToProps(dispatch) {
 class MenuContainer extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      friends: [
+        {username: 'aautem', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583, color: 'green'},
+        {username: 'cdturner', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg', points: 583, color: 'purple'},
+        {username: 'kaitheguy', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583, color: 'red'},
+        {username: 'billybob', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg', points: 583, color: 'powderblue'},
+        {username: 'chocolaterain', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583, color: 'grey'},
+        {username: 'timmytwoshoes', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg', points: 583, color: 'pink'},
+        {username: 'kipperdom', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583, color: 'steelblue'},
+        {username: 'hazyhank', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg', points: 583, color: 'lime'},
+      ],
+    };
+  }
+
+  renderItem ({item, index}) {
+    return (
+      <FriendComponent username={item.username} image={item.avatar} text={item.points} color={item.color} />
+    );
   }
 
   render() {
@@ -52,7 +72,47 @@ class MenuContainer extends React.Component {
 
         {/* FRIENDS CONTAINER */}
         <Row size={10/24} style={[appSS.center, { backgroundColor: '#eee' }]}>
-          <FriendsContainer />
+          <Col size={14/14}>
+            <Row size={2/10}>
+              <Col size={6/14} style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
+                <Text style={{ color: '#aaa', fontWeight: 'bold', paddingLeft: 10 }}>
+                  Friends Online: 3/12
+                </Text>
+              </Col>
+              <Col size={8/14}>
+                <Row size={2/2} style={{ justifyContent: 'flex-end', alignItems: 'center', paddingRight: 10, backgroundColor: '#fff', borderBottomLeftRadius: 50, borderColor: '#aaa', borderWidth: 1 }}>
+                  <Text style={{ fontWeight: 'bold', color: 'black', fontSize: 20, paddingRight: 10 }}>AAUTEM</Text>
+                  <Icon
+                    size={24}
+                    name='account-circle'
+                    type='material'
+                    color='black'
+                    style={{ paddingRight: 5 }}
+                    onPress={this.props.openProfileModal}
+                  />
+                  <Icon
+                    size={24}
+                    name='settings'
+                    type='material'
+                    color='black'
+                    onPress={this.props.openSettingsModal}
+                  />
+                </Row>
+              </Col>
+            </Row>
+            <Row size={8/10}>
+              <Carousel
+                ref={(c) => { this._carousel = c }}
+                data={this.state.friends}
+                renderItem={this.renderItem}
+                sliderWidth={viewportWidth}
+                itemWidth={150}
+                activeSlideAlignment='start'
+                inactiveSlideOpacity={0.60}
+                inactiveSlideScale={0.80}
+              />
+            </Row>
+          </Col>
         </Row>
 
         <Row size={14/24}>

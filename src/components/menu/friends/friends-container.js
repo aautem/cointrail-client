@@ -90,8 +90,8 @@ class FriendsContainer extends React.Component {
             sliderWidth={viewportWidth}
             itemWidth={150}
             activeSlideAlignment='start'
-            inactiveSlideOpacity={0.65}
-            inactiveSlideScale={0.85}
+            inactiveSlideOpacity={0.60}
+            inactiveSlideScale={0.80}
           />
         </Row>
       </Col>
