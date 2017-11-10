@@ -2,7 +2,7 @@ export default function getInitialState() {
   return {
     app: {
       config: null,
-      page: 'auth', // auth | menu | game | test
+      page: 'auth', // auth | menu | game | solo | test
       loading: false,
       loaded: false,
       error: null,
@@ -63,6 +63,7 @@ export default function getInitialState() {
       error: null,
     },
     game: {
+      mode: null, // series | solo
       roomName: null,
       boardSize: null,
       timeLimit: null,

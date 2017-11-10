@@ -6,6 +6,7 @@ import * as settingsActions from '../../store/actions/settings';
 import * as userActions from '../../store/actions/user';
 import * as appActions from '../../store/actions/app';
 import * as seriesActions from '../../store/actions/series';
+import * as gameActions from '../../store/actions/game';
 import * as constants from '../../utilities/const';
 import * as Animatable from 'react-native-animatable';
 import Carousel from 'react-native-snap-carousel';
@@ -29,6 +30,10 @@ function mapStateToProps(state) {
     seriesLoading: state.series.loading,
     settingsModal: state.settings.showModal,
     profileModal: state.user.showModal,
+
+    gameLoading: state.game.loading,
+    gameLoaded: state.game.loaded,
+    gameError: state.game.error,
   };
 };
 
@@ -38,6 +43,7 @@ function mapDispatchToProps(dispatch) {
     cancelGame: seriesActions.cancelGame,
     openSettingsModal: settingsActions.openModal,
     openProfileModal: userActions.openModal,
+    startSoloGame: gameActions.startSoloGame,
     // changePage: appActions.changePage,
     // logout: authActions.logout,
   }, dispatch);
@@ -151,7 +157,7 @@ class MenuContainer extends React.Component {
                   color='black'
                   iconRight={{ type: 'material-community', name: 'account-multiple', color: 'black' }}
                   title='JOIN'
-                  loading={false}
+                  loading={this.props.seriesLoading}
                   onPress={() => {}}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
                   containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 100, borderBottomLeftRadius: 5, paddingBottom: 5 }}
@@ -162,8 +168,8 @@ class MenuContainer extends React.Component {
                   color='black'
                   iconRight={{ type: 'material-community', name: 'account', color: 'black' }}
                   title='SOLO'
-                  loading={false}
-                  onPress={() => {}}
+                  loading={this.props.gameLoading}
+                  onPress={this.props.startSoloGame}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
                   containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, paddingBottom: 5 }}
                   buttonStyle={{ width: viewportWidth / 2.25, height: viewportHeight / 10, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
