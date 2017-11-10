@@ -100,7 +100,7 @@ class MenuContainer extends React.Component {
                 </Row>
               </Col>
             </Row>
-            <Row size={8/10}>
+            <Row size={8/10} style={{ paddingBottom: 10 }}>
               <Carousel
                 ref={(c) => { this._carousel = c }}
                 data={this.state.friends}
