@@ -12,6 +12,18 @@ export default function reducer(state = initialState, action) {
     return state;
   }
 
+  if (action.type === actions.RESET) {
+    return getInitialState().game;
+  }
+
+  if (action.type === actions.SHOW_MODAL) {
+    return Object.assign({}, state, { showResultsModal: true });
+  }
+
+  if (action.type === actions.HIDE_MODAL) {
+    return Object.assign({}, state, { showResultsModal: false });
+  }
+
   if (action.type === actions.LOADING) {
     return Object.assign({}, state, { loading: true, loaded: false, error: null });
   }

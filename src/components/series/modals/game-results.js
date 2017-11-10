@@ -1,18 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as Animatable from 'react-native-animatable';
-import { View, Modal, Text, ActivityIndicator } from 'react-native';
+import { View, Modal, Text, ActivityIndicator, TouchableHighlight, Platform } from 'react-native';
 import { Grid, Row, Col } from 'react-native-easy-grid';
 import { Button, Avatar } from 'react-native-elements';
 const appSS = require('../../../styles/app');
 
 export default class GameResultsModal extends React.Component {
   render() {
-    if (!this.props.game.roomName) {
+    if (!this.props.game.gameOver) {
       return null;
     }
 
     const usernames = Object.keys(this.props.game.players);
+    const winner = this.props.game.winner;
+    const loser = winner === usernames[0] ? usernames[1] : usernames[0];
     const player1 = this.props.game.players[usernames[0]];
     const player2 = this.props.game.players[usernames[1]];
 
@@ -23,22 +25,24 @@ export default class GameResultsModal extends React.Component {
         onRequestClose={() => { }}
       >
         <Col size={14/14}>
-
-          {/* MENU BAR */}
-          <Row size={1/24}></Row>
           
           {/* HEADER */}
           <Row size={1/24}>
-            <Col size={14/14} style={appSS.center}>
-              <Text>{this.props.game.winner ? this.props.game.winner.toUpperCase() : ''} WINS</Text>
+            <Col size={14/14} style={[appSS.center, { backgroundColor: '#fff' }]}>
+              <Text style={{
+                fontWeight: 'bold',
+                color: this.props.game.players[winner].color,
+              }}>
+                {this.props.game.winner.toUpperCase()} WINS BY {this.props.game.winByPoints ? 'POINTS' : 'CONNECTION'}
+              </Text>
             </Col>
           </Row>
 
           {/* CURRENT GAME */}
-          <Row size={7/24} style={{ backgroundColor: player2 ? player2.gamePieceColor : '#aaa' }}>
+          <Row size={8/24} style={{ backgroundColor: player2 ? player2.color : '#aaa' }}>
 
             {/* LEFT PLAYER */}
-            <Col size={7.85/14} style={{ backgroundColor: player1 ? player1.gamePieceColor : '#aaa', overflow: 'hidden', alignItems: 'flex-start', justifyContent: 'center' }}>
+            <Col size={7.85/14} style={{ backgroundColor: player1 ? player1.color : '#aaa', overflow: 'hidden', alignItems: 'flex-start', justifyContent: 'center' }}>
               <Animatable.View animation={'slideInLeft'}>
                 <Avatar
                   xlarge
@@ -48,7 +52,7 @@ export default class GameResultsModal extends React.Component {
                   containerStyle={{ borderTopRightRadius: 50, overflow: 'hidden' }}
                   overlayContainerStyle={{ borderTopRightRadius: 50, overflow: 'hidden' }}
                 />
-                <View style={{ backgroundColor: player1 ? player1.gamePieceColor : '#aaa', width: 80, height: 30, alignSelf: 'flex-end', justifyContent: 'center', marginTop: -30, borderTopLeftRadius: 30, overflow: 'hidden' }}>
+                <View style={{ backgroundColor: player1 ? player1.color : '#aaa', width: 80, height: 30, alignSelf: 'flex-end', justifyContent: 'center', marginTop: -30, borderTopLeftRadius: 30, overflow: 'hidden' }}>
                   <Text style={{ color: '#fff', textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>{player1 ? player1.points : 0}</Text>
                 </View>
               </Animatable.View>
@@ -56,6 +60,7 @@ export default class GameResultsModal extends React.Component {
 
             {/* VS */}
             <Col size={0.3/14} style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
+              {Platform.OS === 'ios' &&
               <View style={{
                 width: 50,
                 height: 50,
@@ -66,7 +71,7 @@ export default class GameResultsModal extends React.Component {
                 overflow: 'hidden',
               }}>
                 <Text style={{ fontWeight: 'bold' }}>VS</Text>
-              </View>
+              </View>}
             </Col>
 
             {/* RIGHT PLAYER */}
@@ -80,7 +85,7 @@ export default class GameResultsModal extends React.Component {
                   containerStyle={{ borderTopLeftRadius: 50, overflow: 'hidden' }}
                   overlayContainerStyle={{ borderTopLeftRadius: 50, overflow: 'hidden' }}
                 />
-                <View style={{ backgroundColor: player2 ? player2.gamePieceColor : '#aaa', width: 80, height: 30, alignSelf: 'flex-start', justifyContent: 'center', marginTop: -30, borderTopRightRadius: 30, overflow: 'hidden' }}>
+                <View style={{ backgroundColor: player2 ? player2.color : '#aaa', width: 80, height: 30, alignSelf: 'flex-start', justifyContent: 'center', marginTop: -30, borderTopRightRadius: 30, overflow: 'hidden' }}>
                   <Text style={{ color: '#fff', textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>{player2 ? player2.points : 0}</Text>
                 </View>
               </Animatable.View>
@@ -88,7 +93,7 @@ export default class GameResultsModal extends React.Component {
           </Row>
 
           {/* PREVIOUS GAMES */}
-          <Row size={12/24}>
+          <Row size={13/24}>
             <Col size={14/14}>
               <Row size={4/13} style={{ backgroundColor: '#fff' }}>
                 <Col size={14/14}>
@@ -101,7 +106,7 @@ export default class GameResultsModal extends React.Component {
                     <Animatable.View
                       animation={'slideInRight'}
                       style={{
-                        backgroundColor: player1 ? player1.gamePieceColor : '#aaa',
+                        backgroundColor: player1 ? player1.color : '#aaa',
                         borderTopLeftRadius: 5,
                         borderBottomLeftRadius: 5,
                         overflow: 'hidden',
@@ -114,7 +119,7 @@ export default class GameResultsModal extends React.Component {
                     <Animatable.View
                       animation={'slideInLeft'}
                       style={{
-                        backgroundColor: player2 ? player2.gamePieceColor : '#aaa',
+                        backgroundColor: player2 ? player2.color : '#aaa',
                         borderTopRightRadius: 5,
                         borderBottomRightRadius: 5,
                         overflow: 'hidden',
@@ -136,7 +141,7 @@ export default class GameResultsModal extends React.Component {
                   </Row>
                   <Row size={2.5/4} style={{ paddingLeft: 20, paddingRight: 20 }}>
                     <Col size={206} style={{
-                      backgroundColor: player1 ? player1.gamePieceColor : '#aaa',
+                      backgroundColor: player1 ? player1.color : '#aaa',
                       borderTopLeftRadius: 5,
                       borderBottomLeftRadius: 5,
                       overflow: 'hidden',
@@ -145,7 +150,7 @@ export default class GameResultsModal extends React.Component {
                       <Text style={{ color: '#fff', paddingLeft: 10, fontWeight: 'bold' }}>206</Text>
                     </Col>
                     <Col size={301} style={{
-                      backgroundColor: player2 ? player2.gamePieceColor : '#aaa',
+                      backgroundColor: player2 ? player2.color : '#aaa',
                       borderTopRightRadius: 5,
                       borderBottomRightRadius: 5,
                       overflow: 'hidden',
@@ -165,7 +170,7 @@ export default class GameResultsModal extends React.Component {
                   </Row>
                   <Row size={2.5/4} style={{ paddingLeft: 20, paddingRight: 20 }}>
                     <Col size={121} style={{
-                      backgroundColor: player1 ? player1.gamePieceColor : '#aaa',
+                      backgroundColor: player1 ? player1.color : '#aaa',
                       borderTopLeftRadius: 5,
                       borderBottomLeftRadius: 5,
                       overflow: 'hidden',
@@ -174,7 +179,7 @@ export default class GameResultsModal extends React.Component {
                       <Text style={{ color: '#fff', paddingLeft: 10, fontWeight: 'bold' }}>121</Text>
                     </Col>
                     <Col size={98} style={{
-                      backgroundColor: player2 ? player2.gamePieceColor : '#aaa',
+                      backgroundColor: player2 ? player2.color : '#aaa',
                       borderTopRightRadius: 5,
                       borderBottomRightRadius: 5,
                       overflow: 'hidden',
@@ -189,17 +194,10 @@ export default class GameResultsModal extends React.Component {
           </Row>
 
           {/* NEXT BUTTON */}
-          <Row size={3/24} style={[{ justifyContent: 'center' }]}>
-            <Button
-              large
-              title='Next Game'
-              onPress={() => { /* this.props.startNextGame */ }}
-              backgroundColor='#aaa'
-              color='#fff'
-              borderRadius={5}
-              containerViewStyle={{ borderRadius: 5 }}
-              loading={this.props.loading}
-            />
+          <Row size={2/24} style={[{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#eee' }]}>
+            <TouchableHighlight onPress={this.props.handleButtonPress}>
+              <Text style={{ color: '#aaa' }}>Next Game</Text>
+            </TouchableHighlight>
           </Row>
         </Col>
       </Modal>
@@ -208,6 +206,7 @@ export default class GameResultsModal extends React.Component {
 }
 
 GameResultsModal.propTypes = {
+  handleButtonPress: PropTypes.func,
   showModal: PropTypes.bool,
   game: PropTypes.object,
   startNextGame: PropTypes.func,

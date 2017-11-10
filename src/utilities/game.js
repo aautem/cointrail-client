@@ -99,10 +99,7 @@ export default class Game {
   _initializePlayers(player1, player2) {
     if (!player2) {
       const players = {};
-      const cpu = {
-        id: 'cpu', username: 'adhamdannaway', color: 'blue',
-        avatarUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-      };
+      const cpu = this._getRandomProfile();
       console.log('*** CPU ***', cpu);
       players['cpu'] = new GamePlayer(cpu);
       players[player1.username] = new GamePlayer(player1);
@@ -136,7 +133,7 @@ export default class Game {
         avatarUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
       }
     ];
-    const index = Math.floor(Math.random() * profiles.length - 1);
+    const index = Math.floor(Math.random() * (profiles.length - 1));
     return profiles[index];
   }
 
@@ -162,7 +159,7 @@ export default class Game {
           if (winnerByPoints) {
             this.turn = null;
             this.winner = winnerByPoints;
-            this.winnerByPoints = true;
+            this.winByPoints = true;
             this.gameOver = true;
           } else {
             this.turn = null;
@@ -186,7 +183,7 @@ export default class Game {
       }
     });
     if (colIds.length) {
-      const random = Math.floor(Math.random() * colIds.length - 1);
+      const random = Math.floor(Math.random() * (colIds.length - 1));
       return colIds[random];
     }
     return null;

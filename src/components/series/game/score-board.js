@@ -34,14 +34,14 @@ export default class ScoreBoard extends React.Component {
               color={this.props.game.turn === usernames[0] ? '#fff' : '#aaa'}
             />}
             <Col style={{ alignItems: 'flex-end', justifyContent: 'center', paddingRight: 30 }}>
-              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 24 }}>187</Text>
+              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 24 }}>{players[usernames[0]].points}</Text>
             </Col>
           </Row>
-        </Col> 
+        </Col>
         <Col size={7/14} style={[{ backgroundColor: players[usernames[1]].color }]}>
           <Row size={2/2} style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
             <Col style={{ alignItems: 'flex-start', justifyContent: 'center', paddingLeft: 30 }}>
-              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 24 }}>122</Text>
+              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 24 }}>{players[usernames[1]].points}</Text>
             </Col>
             {this.props.game.turn === usernames[1] &&
             <Icon

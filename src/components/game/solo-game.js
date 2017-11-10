@@ -9,13 +9,14 @@ import ScoreBoard from '../series/game/score-board';
 import DropZone from '../series/game/drop-zone';
 import GameContainer from '../series/game/game-container';
 import GameResultsModal from '../series/modals/game-results';
+import * as gameActions from '../../store/actions/game';
 const appSS = require('../../styles/app');
 
 function mapStateToProps(state) {
   return {
     game: state.game,
     user: state.user,
-    showResultsModal: state.game.showResultsModal,
+    resultsModal: state.game.showResultsModal,
     loading: state.game.loading,
     loaded: state.game.loaded,
     error: state.game.error,
@@ -24,13 +25,25 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    //
+    showResultsModal: gameActions.showResultsModal,
+    resetGame: gameActions.resetGame,
   }, dispatch);
 };
 
 class SoloGameContainer extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.resultsModal && nextProps.game.gameOver) {
+      if (nextProps.game.winByPoints || nextProps.game.draw) {
+        setTimeout(this.props.showResultsModal, 3000);
+      } else if (nextProps.game.winByConnection) {
+        // trigger animation to highlight winning pieces
+        setTimeout(this.props.showResultsModal, 3000);
+      }
+    }
   }
 
   openDrawer() {
@@ -84,7 +97,8 @@ class SoloGameContainer extends React.Component {
 
           {/* MODAL OVERLAYS */}
           <GameResultsModal
-            showModal={this.props.showResultsModal}
+            showModal={this.props.resultsModal}
+            handleButtonPress={this.props.resetGame}
             game={this.props.game}
             loading={this.props.loading}
             startNextGame={() => { }}
@@ -97,7 +111,8 @@ class SoloGameContainer extends React.Component {
 }
 
 SoloGameContainer.propTypes = {
-  showResultsModal: PropTypes.bool,
+  showResultsModal: PropTypes.func,
+  resultsModal: PropTypes.bool,
   series: PropTypes.object,
   game: PropTypes.object,
   username: PropTypes.string,

@@ -6,15 +6,20 @@ import * as seriesActions from './series';
 
 export const actions = {
   SET_CURRENT_GAME: 'game/SET_CURRENT_GAME',
+  RESET: 'game/RESET',
+  SHOW_MODAL: 'game/SHOW_MODAL',
+  HIDE_MODAL: 'game/HIDE_MODAL',
   LOADING: 'game/LOADING',
   LOADED: 'game/LOADED',
   ERROR: 'game/ERROR',
 };
 
+const reset = createAction(actions.RESET);
 const loading = createAction(actions.LOADING);
 const loaded = createAction(actions.LOADED);
 const error = createAction(actions.ERROR, (payload) => payload);
 export const setCurrentGame = createAction(actions.SET_CURRENT_GAME, (payload) => payload);
+export const showModal = createAction(actions.SHOW_MODAL);
 
 export function startSoloGame() {
   return function (dispatch, getState) {
@@ -39,6 +44,13 @@ export function startSoloGame() {
   }
 }
 
+export function resetGame() {
+  return function(dispatch) {
+    dispatch(reset());
+    dispatch(appActions.changePage('menu'));
+  }
+}
+
 export function dropCoin(colId) {
   return function(dispatch, getState) {
     dispatch(loading());
@@ -57,8 +69,9 @@ export function dropCoin(colId) {
         if (gameInstance.turn !== getState().user.username) {
           setTimeout(() => {
             const colId = gameInstance.getOpenColumn();
+            console.log('*** CPU DROPPING COIN ***', colId);
             dispatch(dropCoin(colId));
-          }, 5000);
+          }, 3000);
         }
       }
     } else {
@@ -69,5 +82,11 @@ export function dropCoin(colId) {
         dispatch(loaded());
       });
     }
+  }
+}
+
+export function showResultsModal() {
+  return function(dispatch) {
+    dispatch(showModal());
   }
 }
