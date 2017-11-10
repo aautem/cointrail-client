@@ -71,7 +71,7 @@ class AppContainer extends React.Component {
 
 AppContainer.propTypes = {
   loadConfig: PropTypes.func,
-  page: PropTypes.string,
+  page: PropTypes.oneOf(['auth', 'menu', 'series', 'game', 'solo', 'test']),
   authLoading: PropTypes.bool,
   authAuthenticated: PropTypes.bool,
   authError: PropTypes.string,

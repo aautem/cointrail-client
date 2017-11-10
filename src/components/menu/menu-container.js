@@ -109,7 +109,8 @@ class MenuContainer extends React.Component {
                 </Row>
               </Col>
             </Row>
-            <Row size={8/10} style={{ paddingBottom: 10 }}>
+
+            <Row size={8/10} style={{ paddingBottom: 5 }}>
               <Carousel
                 ref={(c) => { this._carousel = c }}
                 data={this.state.friends}
@@ -119,6 +120,7 @@ class MenuContainer extends React.Component {
                 activeSlideAlignment='start'
                 inactiveSlideOpacity={0.60}
                 inactiveSlideScale={0.80}
+                inactiveSlideShift={-15}
               />
             </Row>
           </Col>
@@ -158,7 +160,7 @@ class MenuContainer extends React.Component {
                   iconRight={{ type: 'material-community', name: 'account-multiple', color: 'black' }}
                   title='JOIN'
                   loading={this.props.seriesLoading}
-                  onPress={() => {}}
+                  onPress={() => { alert('Joining game...') }}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
                   containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 100, borderBottomLeftRadius: 5, paddingBottom: 5 }}
                   buttonStyle={{ width: viewportWidth / 2.25, height: viewportHeight / 10, borderTopLeftRadius: 100, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
@@ -180,7 +182,7 @@ class MenuContainer extends React.Component {
                   iconRight={{ type: 'ionicon', name: 'md-stats', color: 'black' }}
                   title='LEADERS'
                   loading={false}
-                  onPress={() => {}}
+                  onPress={() => { alert('Fetching leaderboard...') }}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
                   containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, paddingBottom: 5 }}
                   buttonStyle={{ width: viewportWidth / 2.25, height: viewportHeight / 10, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
@@ -191,7 +193,7 @@ class MenuContainer extends React.Component {
                   iconRight={{ type: 'material-community', name: 'message-text-outline', color: 'black' }}
                   title='INBOX'
                   loading={false}
-                  onPress={() => {}}
+                  onPress={() => { alert('Fetching messages...') }}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
                   containerOverlayStyle={{ paddingBottom: 20 }}
                   containerViewStyle={{ marginRight: 0, borderBottomLeftRadius: 100, borderTopLeftRadius: 5 }}

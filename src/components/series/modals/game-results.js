@@ -195,8 +195,11 @@ export default class GameResultsModal extends React.Component {
 
           {/* NEXT BUTTON */}
           <Row size={2/24} style={[{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#eee' }]}>
+            {this.props.loading &&
+            <ActivityIndicator size='small' animating={true} color='#aaa' />
+            }
             <TouchableHighlight onPress={this.props.handleButtonPress}>
-              <Text style={{ color: '#aaa' }}>Next Game</Text>
+              <Text style={{ color: '#aaa' }}>Menu</Text>
             </TouchableHighlight>
           </Row>
         </Col>

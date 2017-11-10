@@ -33,15 +33,24 @@ function mapDispatchToProps(dispatch) {
 class SoloGameContainer extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      drawerClosed: true,
+    };
+  }
+
+  componentDidMount() {
+    this.closeDrawer();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.resultsModal && nextProps.game.gameOver) {
+    if (nextProps.game.gameOver && !nextProps.game.showResultsModal) {
       if (nextProps.game.winByPoints || nextProps.game.draw) {
-        setTimeout(this.props.showResultsModal, 3000);
-      } else if (nextProps.game.winByConnection) {
+        setTimeout(this.props.showResultsModal, 2500);
+      } else if (nextProps.game.winByConnect) {
         // trigger animation to highlight winning pieces
-        setTimeout(this.props.showResultsModal, 3000);
+        console.log('*** WIN BY CONNECTION, SETTING TIMEOUT ***');
+        // setTimeout(this.props.showWinningConnection, 2000);
+        setTimeout(this.props.showResultsModal, 2500);
       }
     }
   }
@@ -67,15 +76,19 @@ class SoloGameContainer extends React.Component {
         ref={(ref) => { this._drawer = ref }}
         side='bottom'
         type='overlay'
+        initializeOpen={true}
+        closedDrawerOffset={3.5/14}
+        openDrawerOffset={(viewport) => (viewport.height / 10 )}
+        onOpen={() => { this.setState({ drawerClosed: false }) }}
+        onClose={() => { this.setState({ drawerClosed: true }) }}
+        panThreshold={1/12}
         content={<BottomDrawer
+          drawerClosed={this.state.drawerClosed}
           series={this.props.series}
           game={this.props.game}
           openDrawer={this.openDrawer.bind(this)}
           closeDrawer={this.closeDrawer.bind(this)}
         />}
-        openDrawerOffset={155}
-        closedDrawerOffset={140}
-        open={false}
       >
         <Col size={14/14}>
           
@@ -97,11 +110,10 @@ class SoloGameContainer extends React.Component {
 
           {/* MODAL OVERLAYS */}
           <GameResultsModal
-            showModal={this.props.resultsModal}
-            handleButtonPress={this.props.resetGame}
             game={this.props.game}
             loading={this.props.loading}
-            startNextGame={() => { }}
+            showModal={this.props.resultsModal}
+            handleButtonPress={this.props.resetGame}
           />
           {/* <SeriesResultsModal /> */}
         </Col>

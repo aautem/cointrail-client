@@ -46,8 +46,10 @@ export function startSoloGame() {
 
 export function resetGame() {
   return function(dispatch) {
+    dispatch(loading());
     dispatch(reset());
     dispatch(appActions.changePage('menu'));
+    dispatch(loaded());
   }
 }
 
@@ -71,7 +73,7 @@ export function dropCoin(colId) {
             const colId = gameInstance.getOpenColumn();
             console.log('*** CPU DROPPING COIN ***', colId);
             dispatch(dropCoin(colId));
-          }, 3000);
+          }, 1500);
         }
       }
     } else {

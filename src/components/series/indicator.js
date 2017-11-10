@@ -15,7 +15,7 @@ export default class Indicator extends React.Component {
         backgroundColor: this.props.color,
         marginLeft: 5,
         marginRight: 5,
-        borderColor: '#fff',
+        borderColor: '#aaa',
         borderWidth: 0.5
       }} />
     );

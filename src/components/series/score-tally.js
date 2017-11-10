@@ -8,16 +8,22 @@ const appSS = require('../../styles/app');
 
 export default class ScoreTally extends React.Component {
   render () {
+    if (!this.props.player) {
+      return null;
+    }
+
+    const pos = this.props.position;
     return (
-      <Row size={2.5/5}>
-        <Col size={4/10} style={appSS.center}>
-          <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16 }}>
-            {this.props.player ? this.props.player.username.toUpperCase() : ''}
+      <Row size={7/7}>
+        <Col size={5/10} style={{ justifyContent: pos === 'top' ? 'flex-end' : 'flex-start' }}>
+          <Text style={{ color: '#aaa', fontWeight: 'bold', fontSize: 16, paddingLeft: 10, paddingBottom: pos === 'top' ? 20 : 0 }}>
+            {this.props.player.username}
           </Text>
         </Col>
 
-        {/* WIN INDICATORS */}
-        <WinIndicators player={this.props.player} series={this.props.series} />
+        {/* WIN INDICATORS // TODO: FIX PROPS */}
+        {this.props.series &&
+        <WinIndicators position={pos} player={this.props.player} series={null} />}
 
       </Row>
     );
@@ -27,4 +33,5 @@ export default class ScoreTally extends React.Component {
 ScoreTally.propTypes = {
   player: PropTypes.object,
   series: PropTypes.object,
+  position: PropTypes.oneOf(['top', 'bottom']),
 };

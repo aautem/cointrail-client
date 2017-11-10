@@ -100,8 +100,7 @@ export default class Game {
     if (!player2) {
       const players = {};
       const cpu = this._getRandomProfile();
-      console.log('*** CPU ***', cpu);
-      players['cpu'] = new GamePlayer(cpu);
+      players[cpu.username] = new GamePlayer(cpu);
       players[player1.username] = new GamePlayer(player1);
       this.players = players;
       this.turn = player1.username;

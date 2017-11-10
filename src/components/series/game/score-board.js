@@ -33,15 +33,21 @@ export default class ScoreBoard extends React.Component {
               type='material'
               color={this.props.game.turn === usernames[0] ? '#fff' : '#aaa'}
             />}
-            <Col style={{ alignItems: 'flex-end', justifyContent: 'center', paddingRight: 30 }}>
-              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 24 }}>{players[usernames[0]].points}</Text>
+            <Col style={{ alignItems: 'flex-end', justifyContent: 'center' }}>
+              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 24, paddingRight: 10 }}>
+                {players[usernames[0]].points}
+              </Text>
+              <Text style={{ color: '#fff', fontWeight: 'bold', paddingRight: 10 }}>{usernames[0]}</Text>
             </Col>
           </Row>
         </Col>
         <Col size={7/14} style={[{ backgroundColor: players[usernames[1]].color }]}>
           <Row size={2/2} style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
-            <Col style={{ alignItems: 'flex-start', justifyContent: 'center', paddingLeft: 30 }}>
-              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 24 }}>{players[usernames[1]].points}</Text>
+            <Col style={{ alignItems: 'flex-start', justifyContent: 'center' }}>
+              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 24, paddingLeft: 10 }}>
+                {players[usernames[1]].points}
+              </Text>
+              <Text style={{ color: '#fff', fontWeight: 'bold', paddingLeft: 10 }}>{usernames[1]}</Text>
             </Col>
             {this.props.game.turn === usernames[1] &&
             <Icon

@@ -9,9 +9,6 @@ const appSS = require('../../styles/app');
 export default class BottomDrawer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      drawerOpen: false,
-    };
   }
   
   render () {
@@ -22,45 +19,39 @@ export default class BottomDrawer extends React.Component {
     const players = this.props.game.players;
     const usernames = Object.keys(players);
     return (
-      <Col size={14/14} style={{ backgroundColor: '#aaa' }}>
+      <Col size={14/14} style={{ backgroundColor: '#eee' }}>
 
         {/* VISIBLE DRAWER */}
-        <Row size={7/24}>
+        <Row size={8/24}>
           <Col size={14/14}>
 
             {/* SLIDE UP ARROW BUTTON */}
-            <Row size={1/7} style={{
+            <Row size={1/8} style={{
               justifyContent: 'center',
               borderStyle: 'solid',
-              borderBottomColor: '#fff',
+              borderBottomColor: '#aaa',
               borderBottomWidth: 0.5,
               marginLeft: 160,
-              marginRight: 160
+              marginRight: 160,
             }}>
               <Icon
-                name={this.state.drawerOpen ? 'ios-arrow-down' : 'ios-arrow-up'}
+                name={this.props.drawerClosed ? 'ios-arrow-up' : 'ios-arrow-down'}
                 type='ionicon'
-                color='#fff'
-                onPress={() => {
-                  // HANDLE CASE WHERE DRAWER IS SLID OPEN AND DOESN'T CALL THIS FUNCTION
-
-                  // this.state.drawerOpen ? this.props.closeDrawer() : this.props.openDrawer();
-                  // this.setState((prevState) => {
-                  //   return { drawerOpen: !prevState.drawerOpen };
-              }}/>
+                color='#aaa'
+              />
             </Row>
 
             {/* SERIES SCORE CONTAINER */}
-            <Row size={5/7}>
+            <Row size={7/8}>
 
               {/* SCORE BOARD */}
               <Col size={10/14}>
-                {/* <ScoreTally player={players[usernames[0]]} series={this.props.series} />
-                <ScoreTally player={players[usernames[1]]} series={this.props.series} /> */}
+                <ScoreTally position='top' player={players[usernames[0]]} game={this.props.game} series={true} />
+                <ScoreTally position='bottom' player={players[usernames[1]]} game={this.props.game} series={true} />
               </Col>
 
               {/* TIME LIMIT */}
-              <Col size={4/14} style={[appSS.center]}>
+              <Col size={4/14} style={{ alignItems: 'center', justifyContent: 'center', paddingBottom: 20 }}>
                 <View style={{
                   backgroundColor: '#fff',
                   margin: 20,
@@ -75,14 +66,11 @@ export default class BottomDrawer extends React.Component {
               </Col>
 
             </Row>
-
-            {/* BOTTOM MARGIN */}
-            <Row size={1/7} style={{ backgroundColor: '#aaa' }}></Row>
           </Col>
         </Row>
 
         {/* HIDDEN DRAWER */}
-        <Row size={17/24} style={{ backgroundColor: '#aaa' }}></Row>
+        <Row size={16/24} style={{ backgroundColor: '#aaa' }}></Row>
 
       </Col>
     );
@@ -93,4 +81,5 @@ BottomDrawer.propTypes = {
   series: PropTypes.object,
   game: PropTypes.object,
   openDrawer: PropTypes.func,
+  closeDrawer: PropTypes.func,
 };
