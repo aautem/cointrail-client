@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import WinIndicators from './win-indicators';
 
-const appSS = require('../../styles/app');
+const appSS = require('../../../styles/app');
 
 function mapStateToProps(state) {
   return {

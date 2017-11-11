@@ -5,7 +5,7 @@ import GameRow from './game-row';
 
 const appSS = require('../../../styles/app');
 
-class GameBoard extends React.Component {
+export default class GameBoard extends React.Component {
   render() {
     if (!this.props.game.roomName) {
       return null;

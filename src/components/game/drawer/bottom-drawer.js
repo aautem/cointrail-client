@@ -6,7 +6,7 @@ import { Header, Button, Icon } from 'react-native-elements';
 import SeriesWinsContainer from './series-wins-container';
 
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
-const appSS = require('../../styles/app');
+const appSS = require('../../../styles/app');
 
 export default class BottomDrawer extends React.Component {
   constructor(props) {
@@ -18,8 +18,6 @@ export default class BottomDrawer extends React.Component {
       return null;
     }
     
-    const players = this.props.game.players;
-    const usernames = Object.keys(players);
     return (
       <Col size={14/14} style={{ backgroundColor: '#eee' }}>
 

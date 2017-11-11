@@ -5,10 +5,10 @@ import DropButton from './drop-button';
 
 export default class DropZone extends React.Component {
   render() {
-    if (!this.props.username) {
+    if (!this.props.game.roomName) {
       return null;
     }
-    
+
     const dropButtons = [];
     for (let count = 0; count < this.props.game.boardSize; count ++) {
       dropButtons.push(
@@ -28,5 +28,5 @@ export default class DropZone extends React.Component {
 }
 
 DropZone.propTypes = {
-  //
+  game: PropTypes.object,
 };

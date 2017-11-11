@@ -4,7 +4,7 @@ import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Text, View } from 'react-native';
 import { Header, Button, Icon } from 'react-native-elements';
 
-const appSS = require('../../styles/app');
+const appSS = require('../../../styles/app');
 
 export default class WinIndicators extends React.Component {
   render () {

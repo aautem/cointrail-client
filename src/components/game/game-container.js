@@ -8,7 +8,6 @@ import BottomDrawer from './drawer/bottom-drawer';
 import ScoreBoard from './board/score-board';
 import DropZone from './board/drop-zone';
 import GameBoard from './board/game-board';
-
 import GameResultsModal from '../series/modals/game-results';
 import * as appActions from '../../store/actions/app';
 import * as gameActions from '../../store/actions/game';
@@ -111,7 +110,7 @@ class GameContainer extends React.Component {
             <Col size={14/14} style={{ backgroundColor: '#fff' }}>
              
               {/* DROP BUTTONS */}
-              <DropZone />
+              <DropZone game={this.props.game} />
 
               {/* GAME BOARD */}
               <GameBoard game={this.props.game} />
