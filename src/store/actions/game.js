@@ -15,7 +15,7 @@ export const actions = {
   ERROR: 'game/ERROR',
 };
 
-const upsertGame = createAction(actions.UPSERT_GAME, (payload) => payload);
+export const upsertGame = createAction(actions.UPSERT_GAME, (payload) => payload);
 const reset = createAction(actions.RESET);
 const loading = createAction(actions.LOADING);
 const loaded = createAction(actions.LOADED);

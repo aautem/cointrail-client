@@ -25,16 +25,19 @@ export default class WinIndicators extends React.Component {
         color = '#bbb';
       }
       indicators.push(
-        <View style={{
-          height: 15,
-          width: 15,
-          borderRadius: 100,
-          backgroundColor: color,
-          marginLeft: 5,
-          marginRight: 5,
-          borderColor: '#aaa',
-          borderWidth: 0.5
-        }} />
+        <View
+          key={`${this.props.player.username}-${color}-${count}`}
+          style={{
+            height: 15,
+            width: 15,
+            borderRadius: 100,
+            backgroundColor: color,
+            marginLeft: 5,
+            marginRight: 5,
+            borderColor: '#aaa',
+            borderWidth: 0.5
+          }}
+        />
       );
     }
 

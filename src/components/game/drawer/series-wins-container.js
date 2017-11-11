@@ -2,6 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Text } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import WinIndicators from './win-indicators';
 
