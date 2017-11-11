@@ -19,7 +19,7 @@ export default class GameRequestModal extends React.Component {
             size='large'
             color='steelblue'
           />
-          <Text style={{ paddingTop: 10 }}>Finding Game</Text>
+          <Text style={{ paddingTop: 10, paddingBottom: 10 }}>Finding Game</Text>
           <Button
             backgroundColor='#eee'
             color='grey'
@@ -27,7 +27,6 @@ export default class GameRequestModal extends React.Component {
             loading={false}
             onPress={this.props.cancel}
             borderRadius={5}
-            style={{ paddingTop: 10 }}
           />
         </Col>
       </Modal>
