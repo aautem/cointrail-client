@@ -21,8 +21,7 @@ export function loadStats(username) {
       dispatch(setStats(res.data));
       dispatch(loaded());
     }).catch((err) => {
-      console.warn('Error loading stats:', err);
-      dispatch(error('Error loading stats'));
+      dispatch(error('Error loading stats.'));
     });
   }
 }

@@ -33,8 +33,7 @@ export function loadSettings(username) {
       dispatch(setSettings(res.data));
       dispatch(loaded());
     }).catch((err) => {
-      console.warn('Error loading settings:', err);
-      dispatch(error('Error loading settings'));
+      dispatch(error('Error loading settings.'));
     });
   }
 }

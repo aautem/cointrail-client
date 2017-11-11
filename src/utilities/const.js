@@ -13,6 +13,7 @@ export const APP_PAGES = {
   MENU: 'menu',
   SERIES: 'series',
   SOLO: 'solo',
+  TEST: 'test',
 };
 
 export const AUTH_PAGES = {

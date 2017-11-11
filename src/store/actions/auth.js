@@ -20,34 +20,67 @@ const error = createAction(actions.ERROR, (payload) => payload);
 
 export const changePage = createAction(actions.CHANGE_PAGE, (payload) => payload);
 
-export function loginUser(user) {
+export function launchAuth0(config) {
   return function(dispatch) {
-    dispatch(loading());
+    dispatch(loading()); 
 
-    console.log('*** LOGGING IN ***', user);
-
-    if(!user.nickname) {
-      dispatch(error('Authentication error: missing profile username'));
+    if (!config) {
+      dispatch(error('Missing app config.'));
     } else {
-      // load user stats and settings
-      dispatch(statsActions.loadStats(user.nickname));
-      dispatch(settingsActions.loadSettings(user.nickname));
-
-      // start socket connection
-      socketUtility.createSocketConnection();
-      socketUtility.socket.on('user-request', (socketId, respond) => {
-        const player = {
-          id: socketId,
-          username: user.nickname,
-          avatarUrl: user.picture,
-          inGame: false,
-        };
-        dispatch(userActions.setUser(player));
-        respond(player);
+      const auth0 = new Auth0({
+        domain: config.auth0Domain,
+        clientId: config.auth0Id,
       });
-
-      dispatch(appActions.changePage('menu'));
-      dispatch(authenticated());
+      
+      auth0.webAuth.authorize({
+        scope: 'openid profile email',
+        audience: 'https://app77626749.auth0.com/userinfo'
+      }).then((res) => {
+        console.log('*** TOKEN ***', res);
+  
+        if (res.accessToken) {
+          auth0.auth.userInfo({ token: res.accessToken }).then((user) => {
+            console.log('*** USER ***', user);
+  
+            if (user.nickname) {
+              dispatch(login(user));
+            } else {
+              dispatch(error('No username.'));
+            }
+          });
+        } else {
+          dispatch(error('No auth token.'));
+        }
+      }).catch((err) => {
+        console.log('AuthError:', err);
+        dispatch(error(err.error_description));
+      });
     }
+  }
+}
+
+function login(user) {
+  return function(dispatch) {
+    dispatch(settingsActions.loadSettings(user.nickname));
+    dispatch(statsActions.loadStats(user.nickname));
+    // load friends list
+    // load messages
+
+    // start socket connection
+    socketUtility.createSocketConnection();
+    socketUtility.socket.on('user-request', (socketId, respond) => {
+      const player = {
+        id: socketId,
+        username: user.nickname,
+        avatarUrl: user.picture,
+        inGame: false,
+      };
+
+      dispatch(userActions.setUser(player));
+      respond(player);
+    });
+
+    dispatch(appActions.changePage('menu'));
+    dispatch(authenticated());
   }
 }
