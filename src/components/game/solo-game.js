@@ -9,6 +9,7 @@ import ScoreBoard from '../series/game/score-board';
 import DropZone from '../series/game/drop-zone';
 import GameContainer from '../series/game/game-container';
 import GameResultsModal from '../series/modals/game-results';
+import * as appActions from '../../store/actions/app';
 import * as gameActions from '../../store/actions/game';
 const appSS = require('../../styles/app');
 
@@ -27,6 +28,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     showResultsModal: gameActions.showResultsModal,
     resetGame: gameActions.resetGame,
+    changePage: appActions.changePage,
   }, dispatch);
 };
 
@@ -63,6 +65,11 @@ class SoloGameContainer extends React.Component {
     this._drawer.close();
   }
 
+  quitGame() {
+    // confirm forfeit
+    this.props.changePage('menu');
+  }
+
   render () {
     if (!this.props.game) {
       return null;
@@ -88,6 +95,7 @@ class SoloGameContainer extends React.Component {
           game={this.props.game}
           openDrawer={this.openDrawer.bind(this)}
           closeDrawer={this.closeDrawer.bind(this)}
+          quitGame={this.quitGame.bind(this)}
         />}
       >
         <Col size={14/14}>

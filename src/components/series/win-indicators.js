@@ -51,20 +51,16 @@ export default class WinIndicators extends React.Component {
     // }
 
     return (
-      <Col size={5/10}>
-        <Row style={{
-          alignItems: this.props.position === 'top' ? 'flex-end' : 'flex-start',
-          paddingBottom: this.props.position === 'top' ? 20 : 0,
-        }}>
-          { indicators }
-        </Row>
-      </Col>
+      <Row size={3.5/7} style={{
+        alignItems: this.props.position === 'top' ? 'flex-end' : 'flex-start',
+        paddingBottom: 20 }}>
+        { indicators }
+      </Row>
     );
   }
 }
 
 WinIndicators.propTypes = {
-  position: PropTypes.oneOf(['top', 'bottom']),
   // series: PropTypes.object,
   player: PropTypes.object,
 };

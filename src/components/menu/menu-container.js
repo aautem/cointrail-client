@@ -120,7 +120,7 @@ class MenuContainer extends React.Component {
                 activeSlideAlignment='start'
                 inactiveSlideOpacity={0.60}
                 inactiveSlideScale={0.80}
-                inactiveSlideShift={-15}
+                inactiveSlideShift={0}
               />
             </Row>
           </Col>

@@ -16,7 +16,7 @@ export default class ScoreTally extends React.Component {
     return (
       <Row size={7/7}>
         <Col size={5/10} style={{ justifyContent: pos === 'top' ? 'flex-end' : 'flex-start' }}>
-          <Text style={{ color: '#aaa', fontWeight: 'bold', fontSize: 16, paddingLeft: 10, paddingBottom: pos === 'top' ? 20 : 0 }}>
+          <Text style={{ color: '#aaa', fontWeight: 'bold', fontSize: 16, paddingLeft: 15, paddingBottom: pos === 'top' ? 20 : 0 }}>
             {this.props.player.username}
           </Text>
         </Col>
