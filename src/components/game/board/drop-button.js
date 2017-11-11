@@ -8,7 +8,8 @@ import { Icon } from 'react-native-elements';
 
 function mapStateToProps(state) {
   return {
-    //
+    game: state.game,
+    username: state.user.username,
   };
 };
 
@@ -48,8 +49,6 @@ class DropButton extends React.Component {
 
 DropButton.propTypes = {
   colId: PropTypes.number,
-  game: PropTypes.object,
-  username: PropTypes.string,
   dropCoin: PropTypes.func,
 };
 

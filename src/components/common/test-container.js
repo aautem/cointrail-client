@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 import { ActivityIndicator } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { Grid, Col, Row } from 'react-native-easy-grid';
-import BottomDrawer from '../series/bottom-drawer';
+import BottomDrawer from '../game/drawer/bottom-drawer';
 import ScoreBoard from '../series/game/score-board';
 import DropZone from '../series/game/drop-zone';
-import GameContainer from '../series/game/game-container';
+import GameBoard from '../series/game/game-board';
 import GameResultsModal from '../series/modals/game-results';
 const appSS = require('../../styles/app');
 
@@ -173,7 +173,7 @@ class SeriesContainer extends React.Component {
               <DropZone game={game} username={username} />
 
               {/* GAME BOARD */}
-              <GameContainer game={game} />
+              <GameBoard game={game} />
             
             </Col>
           </Row>

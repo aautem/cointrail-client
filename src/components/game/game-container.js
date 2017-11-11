@@ -4,13 +4,15 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import Drawer from 'react-native-drawer';
-import BottomDrawer from '../series/bottom-drawer';
-import ScoreBoard from '../series/game/score-board';
-import DropZone from '../series/game/drop-zone';
-import GameContainer from '../series/game/game-container';
+import BottomDrawer from './drawer/bottom-drawer';
+import ScoreBoard from './board/score-board';
+import DropZone from './board/drop-zone';
+import GameBoard from './board/game-board';
+
 import GameResultsModal from '../series/modals/game-results';
 import * as appActions from '../../store/actions/app';
 import * as gameActions from '../../store/actions/game';
+
 const appSS = require('../../styles/app');
 
 function mapStateToProps(state) {
@@ -32,7 +34,7 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 };
 
-class SoloGameContainer extends React.Component {
+class GameContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -49,8 +51,9 @@ class SoloGameContainer extends React.Component {
       if (nextProps.game.winByPoints || nextProps.game.draw) {
         setTimeout(this.props.showResultsModal, 2500);
       } else if (nextProps.game.winByConnect) {
-        // trigger animation to highlight winning pieces
         console.log('*** WIN BY CONNECTION, SETTING TIMEOUT ***');
+
+        // trigger animation to highlight winning pieces
         // setTimeout(this.props.showWinningConnection, 2000);
         setTimeout(this.props.showResultsModal, 3000);
       }
@@ -67,17 +70,16 @@ class SoloGameContainer extends React.Component {
 
   quitGame() {
     // confirm forfeit
+    // reset series and game in state
     this.props.changePage('menu');
   }
 
   render () {
-    if (!this.props.game) {
+    if (!this.props.game.roomName) {
       return null;
     }
 
-    // ISSUE WITH DRAWER NOT BEING IN THE RIGHT POSITION ON LOAD
     // SERIES RESETS AFTER FIRST MOVE OF SECOND GAME???
-
     return (
       <Drawer
         ref={(ref) => { this._drawer = ref }}
@@ -89,14 +91,15 @@ class SoloGameContainer extends React.Component {
         onOpen={() => { this.setState({ drawerClosed: false }) }}
         onClose={() => { this.setState({ drawerClosed: true }) }}
         panThreshold={1/12}
-        content={<BottomDrawer
-          drawerClosed={this.state.drawerClosed}
-          series={this.props.series}
-          game={this.props.game}
-          openDrawer={this.openDrawer.bind(this)}
-          closeDrawer={this.closeDrawer.bind(this)}
-          quitGame={this.quitGame.bind(this)}
-        />}
+        content={
+          <BottomDrawer
+            gameMode={this.props.game.mode}
+            drawerClosed={this.state.drawerClosed}
+            openDrawer={this.openDrawer.bind(this)}
+            closeDrawer={this.closeDrawer.bind(this)}
+            quitGame={this.quitGame.bind(this)}
+          />
+        }
       >
         <Col size={14/14}>
           
@@ -108,10 +111,10 @@ class SoloGameContainer extends React.Component {
             <Col size={14/14} style={{ backgroundColor: '#fff' }}>
              
               {/* DROP BUTTONS */}
-              <DropZone game={this.props.game} username={this.props.user.username} />
+              <DropZone />
 
               {/* GAME BOARD */}
-              <GameContainer game={this.props.game} />
+              <GameBoard game={this.props.game} />
             
             </Col>
           </Row>
@@ -123,14 +126,15 @@ class SoloGameContainer extends React.Component {
             showModal={this.props.resultsModal}
             handleButtonPress={this.props.resetGame}
           />
-          {/* <SeriesResultsModal /> */}
+
+          {/* <SeriesResultsModal /> OR DOES THIS GO IN SERIES CONTAINER? */}
         </Col>
       </Drawer>
     );
   }
 }
 
-SoloGameContainer.propTypes = {
+GameContainer.propTypes = {
   showResultsModal: PropTypes.func,
   resultsModal: PropTypes.bool,
   series: PropTypes.object,
@@ -141,4 +145,4 @@ SoloGameContainer.propTypes = {
   error: PropTypes.string,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SoloGameContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(GameContainer);

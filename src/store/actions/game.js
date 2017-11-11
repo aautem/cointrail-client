@@ -1,11 +1,12 @@
 import { createAction } from 'redux-actions';
+import { APP_PAGES } from '../../utilities/const';
 import Game from '../../utilities/game';
 import socketUtility from '../../utilities/socket';
 import * as appActions from './app';
 import * as seriesActions from './series';
 
 export const actions = {
-  SET_CURRENT_GAME: 'game/SET_CURRENT_GAME',
+  UPSERT_GAME: 'game/UPSERT_GAME',
   RESET: 'game/RESET',
   SHOW_MODAL: 'game/SHOW_MODAL',
   HIDE_MODAL: 'game/HIDE_MODAL',
@@ -14,11 +15,12 @@ export const actions = {
   ERROR: 'game/ERROR',
 };
 
+const upsertGame = createAction(actions.UPSERT_GAME, (payload) => payload);
 const reset = createAction(actions.RESET);
 const loading = createAction(actions.LOADING);
 const loaded = createAction(actions.LOADED);
 const error = createAction(actions.ERROR, (payload) => payload);
-export const setCurrentGame = createAction(actions.SET_CURRENT_GAME, (payload) => payload);
+
 export const showModal = createAction(actions.SHOW_MODAL);
 
 export function startSoloGame() {
@@ -37,9 +39,9 @@ export function startSoloGame() {
       avatarUrl: getState().user.avatarUrl,
       color: getState().settings.color,
     };
-    game.initializeSoloGame(player);
-    dispatch(setCurrentGame(game));
-    dispatch(appActions.changePage('solo'));
+    game.initializeGame(player);
+    dispatch(upsertGame(game));
+    dispatch(appActions.changePage(APP_PAGES.SOLO));
     dispatch(loaded());
   }
 }
@@ -63,8 +65,9 @@ export function dropCoin(colId) {
     // DO ALL CALCULATION ON FRONT END AND SEND UPDATED GAME/SERIES TO SERVER
     // just have to turn it back into a game class instance
     // (do this now so we don't mutate the state)
+
     if (gameInstance.mode === 'solo') {
-      dispatch(setCurrentGame(gameInstance));
+      dispatch(upsertGame(gameInstance));
       dispatch(loaded());
 
       if (!gameInstance.gameOver) {
@@ -79,10 +82,8 @@ export function dropCoin(colId) {
     } else {
       // emit dropcoin event to room
       const socket = socketUtility.socket;
-      socket.emit('drop-coin', { game: game, colId: colId }, (ack) => {
-        console.log('*** DROP COIN ACK ***', ack);
-        dispatch(loaded());
-      });
+      socket.emit('drop-coin', gameInstance);
+      dispatch(loaded());
     }
   }
 }

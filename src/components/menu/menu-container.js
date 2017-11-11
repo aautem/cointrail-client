@@ -41,7 +41,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     joinGame: seriesActions.joinGame,
-    cancelGame: seriesActions.cancelGame,
+    cancelGameRequest: seriesActions.cancelGameRequest,
     openSettingsModal: settingsActions.openModal,
     openProfileModal: userActions.openModal,
     startSoloGame: gameActions.startSoloGame,
@@ -161,7 +161,7 @@ class MenuContainer extends React.Component {
                   iconRight={{ type: 'material-community', name: 'account-multiple', color: 'black' }}
                   title='JOIN'
                   loading={this.props.seriesLoading}
-                  onPress={() => { alert('Join Game') }}
+                  onPress={() => { this.props.joinGame(this.props.user, this.props.settings) }}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
                   containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 100, borderBottomLeftRadius: 5, paddingBottom: 5 }}
                   buttonStyle={{ width: viewportWidth / 2.25, height: viewportHeight / 10, borderTopLeftRadius: 100, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
@@ -210,7 +210,7 @@ class MenuContainer extends React.Component {
         <ProfileModal />
         <GameRequestModal
           showModal={this.props.seriesLoading}
-          cancel={() => { console.log('Cancelling game request...') }}
+          cancel={this.props.cancelGameRequest}
         />
       </Col>
     );

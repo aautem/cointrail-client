@@ -4,12 +4,8 @@ const initialState = getInitialState().game;
 
 export default function reducer(state = initialState, action) {
 
-  if (action.type === actions.SET_CURRENT_GAME) {
-    // console.log('\x1b[32m', '*** CURRENT GAME REDUCER', action.payload);
-    if (typeof action.payload === 'object') {
-      return Object.assign({}, state, action.payload);
-    }
-    return state;
+  if (action.type === actions.UPSERT_GAME) {
+    return Object.assign({}, state, action.payload);
   }
 
   if (action.type === actions.RESET) {

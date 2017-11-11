@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ScoreTally from './score-tally';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Text, View, Dimensions } from 'react-native';
 import { Header, Button, Icon } from 'react-native-elements';
-import WinIndicators from './win-indicators';
+import SeriesWinsContainer from './series-wins-container';
+
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 const appSS = require('../../styles/app');
 
@@ -14,7 +14,7 @@ export default class BottomDrawer extends React.Component {
   }
   
   render () {
-    if (!this.props.game.roomName) {
+    if (!this.props.gameMode) {
       return null;
     }
     
@@ -47,39 +47,14 @@ export default class BottomDrawer extends React.Component {
             <Row size={7/8}>
 
               {/* SOLO MODE */}
-              {!this.props.series &&
+              {this.props.gameMode === 'solo' &&
               <Col size={10/14} style={{ justifyContent: 'center', alignItems: 'center' }}>
                 <Text style={{ fontWeight: 'bold', paddingBottom: 30, fontSize: 26 }}>SOLO MODE</Text>
               </Col>}
-              
-              {/* SERIES MODE PLAYERS */}
-              {this.props.series &&
-              <Col size={4/14} style={{ justifyContent: 'center', alignItems: 'flex-start', paddingBottom: 20 }}>
-                <Text style={{
-                  color: '#aaa',
-                  fontWeight: 'bold',
-                  fontSize: 16,
-                  paddingLeft: 15,
-                  paddingBottom: 10,
-                }}>
-                  {usernames[0]}
-                </Text>
-                <Text style={{
-                  color: '#aaa',
-                  fontWeight: 'bold',
-                  fontSize: 16,
-                  paddingLeft: 15,
-                }}>
-                  {usernames[1]}
-                </Text>
-              </Col>}
 
-              {/* WIN INDICATORS // TODO: FIX PROPS */}
-              {this.props.series &&
-              <Col size={6/14} style={{ alignItems: 'center' }}>
-                <WinIndicators position='top' player={players[usernames[0]]} series={null} />
-                <WinIndicators position='bottom' player={players[usernames[1]]} series={null} />
-              </Col>}
+              {/* SERIES MODE */}
+              {this.props.gameMode === 'series' &&
+              <SeriesWinsContainer />}
 
               {/* SHOT CLOCK */}
               <Col size={4/14} style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 20 }}>
@@ -193,8 +168,9 @@ export default class BottomDrawer extends React.Component {
 }
 
 BottomDrawer.propTypes = {
-  series: PropTypes.object,
-  game: PropTypes.object,
+  gameMode: PropTypes.string,
+  drawerClosed: PropTypes.bool,
   openDrawer: PropTypes.func,
   closeDrawer: PropTypes.func,
+  quitGame: PropTypes.func,
 };

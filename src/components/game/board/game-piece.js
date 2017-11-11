@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import * as Animatable from 'react-native-animatable';
 import { Text, Dimensions } from 'react-native';
 
+const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
+
+// USE VIEWPORT DIMENSIONS IN ANIMATION SETTINGS
 const animateDrop = {
   from: { translateY: -500, opacity: 0.25,},
   to: { translateY: 0, opacity: 1 },
 };
-const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
 export default class GamePiece extends React.Component {
   constructor(props) {

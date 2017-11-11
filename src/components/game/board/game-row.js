@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import GameColumn from './game-column';
 import { Row } from 'react-native-easy-grid';
-const _appSS = require('../../../styles/app');
+import GameColumn from './game-column';
+
+const appSS = require('../../../styles/app');
 
 export default class GameRow extends React.Component {
   render() {
+    
     const columns = [];
     for (let count = 0; count < this.props.game.boardSize; count ++) {
       columns.push(
@@ -19,7 +21,7 @@ export default class GameRow extends React.Component {
     }
 
     return (
-      <Row>
+      <Row size={12/12}>
         { columns }
       </Row>
     );

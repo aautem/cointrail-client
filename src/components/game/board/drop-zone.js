@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import DropButton from './drop-button';
 import { Row } from 'react-native-easy-grid';
+import DropButton from './drop-button';
 
 export default class DropZone extends React.Component {
   render() {
@@ -15,8 +15,6 @@ export default class DropZone extends React.Component {
         <DropButton
           key={`drop-btn-${count}`}
           colId={count}
-          game={this.props.game}
-          username={this.props.username}
         />
       );
     }
@@ -30,6 +28,5 @@ export default class DropZone extends React.Component {
 }
 
 DropZone.propTypes = {
-  game: PropTypes.object,
-  username: PropTypes.string,
+  //
 };

@@ -4,17 +4,8 @@ const initialState = getInitialState().series;
 
 export default function reducer(state = initialState, action) {
 
-  if (action.type === actions.INITIALIZE_SERIES) {
-    if (typeof action.payload === 'object') {
-      return Object.assign({}, state, action.payload);
-    }
-    return state;
-  }
-
-  if (action.type === actions.UPSERT_GAME) {
-    const games = state.games.slice();
-    games[games.length - 1] = action.payload;
-    return Object.assign({}, state, { games: games });
+  if (action.type === actions.UPSERT_SERIES) {
+    return Object.assign({}, state, action.payload);
   }
 
   if (action.type === actions.LOADING) {

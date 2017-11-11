@@ -39,16 +39,11 @@ export default class Game {
     }
   }
 
-  initializeSoloGame(player) {
+  // solo games only require p1 arg
+  initializeGame(p1, p2) {
     this._initializeBoard();
     this._initializeBoardPoints();
-    this._initializePlayers(player);
-  }
-
-  initializeSeriesGame(player1, player2) {
-    this._initializeBoard();
-    this._initializeBoardPoints();
-    this._initializePlayers(player1, player2);
+    this._initializePlayers(p1, p2);
   }
 
   _pointValues() {
@@ -96,19 +91,21 @@ export default class Game {
     this.boardPoints = boardPoints;
   }
 
-  _initializePlayers(player1, player2) {
-    if (!player2) {
-      const players = {};
+  _initializePlayers(p1, p2) {
+    const players = {};
+
+    if (!p2) {
+      // solo game
       const cpu = this._getRandomProfile();
       players[cpu.username] = new GamePlayer(cpu);
-      players[player1.username] = new GamePlayer(player1);
+      players[p1.username] = new GamePlayer(p1);
+      this.turn = p1.username;
       this.players = players;
-      this.turn = player1.username;
     } else {
-      const players = {};
-      players[player1.username] = new GamePlayer(player1);
-      players[player2.username] = new GamePlayer(player2);
-      this.turn = player1.username;
+      // series game
+      players[p1.username] = new GamePlayer(p1);
+      players[p2.username] = new GamePlayer(p2);
+      this.turn = p1.username;
       this.players = players;
     }
   }

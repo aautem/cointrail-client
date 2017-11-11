@@ -1,147 +1,118 @@
 import { createAction } from 'redux-actions';
 import { APP_PAGES } from '../../utilities/const';
+import Series from '../../utilities/series';
 import socketUtility from '../../utilities/socket';
 import * as appActions from './app';
 import * as gameActions from './game';
 
+// timeout when waiting to 'join-game' response
+let joinGameTimeout = null;
+
 export const actions = {
-  INITIALIZE_SERIES: 'series/INITIALIZE_SERIES',
-  UPSERT_GAME: 'series/UPSERT_GAME',
   UPSERT_SERIES: 'series/UPSERT_SERIES',
   LOADING: 'series/LOADING',
   LOADED: 'series/LOADED',
   ERROR: 'series/ERROR',
 };
 
-const initializeSeries = createAction(actions.INITIALIZE_SERIES, (payload) => payload);
+const upsertSeries = createAction(actions.UPSERT_SERIES, (payload) => payload);
 const loading = createAction(actions.LOADING);
 const loaded = createAction(actions.LOADED);
 const error = createAction(actions.ERROR, (payload) => payload);
-
-export const upsertGame = createAction(actions.UPSERT_GAME, (payload) => payload);
-export const upsertSeries = createAction(actions.UPSERT_SERIES, (payload) => payload);
-
-export function startNextGame(series) {
-  return function(dispatch) {
-    dispatch(loading());
-    const socket = socketUtility.socket;
-
-    // emit start-next-game event
-    socket.emit('start-next-game', series, (updatedSeries) => {
-      // check if gameover in container to show SeriesResultsModal
-
-      console.log('\x1b[31m', '*** UPDATED SERIES', updatedSeries);
-
-      dispatch(upsertSeries(updatedSeries));
-
-      console.log('\x1b[32m', '*** SENDING TO CURRENT GAME REDUCER', updatedSeries.games[updatedSeries.games.length - 1]);
-
-      dispatch(gameActions.setCurrentGame(updatedSeries.games[updatedSeries.games.length - 1]));
-      dispatch(loaded());
-    });
-  }
-}
 
 export function joinGame(user, settings) {
   return function(dispatch) {
     dispatch(loading());
 
-    const player = Object.assign({}, user, { settings: settings });
-    console.log('*** PLAYER ***', player.username);
+    console.log('\x1b[32m', user.username, 'joining game...');
 
+    const player = Object.assign({}, user, { settings: settings });
     const socket = socketUtility.socket;
 
-    // Lisenter for series response
-    socket.on('series-created', (series) => {
-      console.log('*** SERIES CREATED ***', series);
+    // set up listener for 'game-joined' event
+    socket.on('game-joined', (players) => {
+      clearTimeout(joinGameTimeout);
 
-      socket.emit('join-room', series.roomName);
-      dispatch(initializeSeries(series));
-      dispatch(gameActions.setCurrentGame(series.games[series.games.length - 1]));
+      // join the game room to subscribe to its events: [P1_USERNAME]-vs-[P2_USERNAME]
+      const roomName = `${players.p1.username}-vs-${players.p2.username}`;
+      socket.emit('join-room', roomName);
+      
+      // initialize the series
+      const seriesConfig = {
+        roomName: roomName,
+        seriesLength: players.p1.settings.seriesLength,
+        boardSize: players.p1.settings.boardSize,
+        timeLimit: players.p1.settings.timeLimit,
+      };
+      const series = new Series(seriesConfig);
+      series.initializeSeries(players.p1, players.p2);
+
+      // listen for game and series updates in joined room
+      dispatch(upsertSeries(series));
+      dispatch(gameActions.upsertGame(series.games[series.games.length - 1]));
       dispatch(appActions.changePage(APP_PAGES.SERIES));
       dispatch(loaded());
-
-      // MOVE THESE INTO THE SOCKET UTILITY CLASS!!!
-      socket.on('game-update', (updatedGame) => {
-        dispatch(upsertGame(updatedGame));
-        dispatch(gameActions.setCurrentGame(updatedGame));
-      });
-  
-      socket.on('series-update', (updatedSeries) => {
-        dispatch(upsertSeries(updatedSeries));
-        dispatch(gameActions.setCurrentGame(updatedSeries.games[updatedSeries.games.length - 1]));
-      });
     });
 
-    socket.emit('join-game', player, (response) => {
-      console.log('*** JOIN GAME RESPONSE ***', response);
+    // wait up to 20 seconds for opponent
+    joinGameTimeout = window.setTimeout(() => {
+      socket.emit('cancel-game-request', player.username);
+      dispatch(error('Game request timeout.'));
+    }, 20000);
+    console.log('\x1b[33m', 'Game request timeout set.');
 
-      // players{}
-      // roomName
-      // seriesLength
-      // boardSize
-      // timeLimit
-      // gamesPlayed
-      // games[]
-      // winner
-      // draw
-      // seriesOver
-      // winByPoints
+    // emit the game request
+    socket.emit('join-game', player);
 
-      if (response === 'waiting') {
-        let joined = false;
-
-        socket.on('series-created', (series) => {
-          console.log('*** SERIES CREATED ***', series);
-
-          joined = true;
-          socket.emit('join-room', series.roomName);
-
-          dispatch(initializeSeries(series));
-          dispatch(gameActions.setCurrentGame(series.games[series.games.length - 1]));
-          dispatch(appActions.changePage(APP_PAGES.SERIES));
-          dispatch(loaded());
-
-          // MOVE THESE INTO THE SOCKET UTILITY CLASS!!!
-          socket.on('game-update', (updatedGame) => {
-            dispatch(upsertGame(updatedGame));
-            dispatch(gameActions.setCurrentGame(updatedGame));
-          });
-      
-          socket.on('series-update', (updatedSeries) => {
-            dispatch(upsertSeries(updatedSeries));
-            dispatch(gameActions.setCurrentGame(updatedSeries.games[updatedSeries.games.length - 1]));
-          });
-        });
-
-        // wait up to 20 seconds for opponent
-        window.setTimeout(() => {
-          if (!joined) {
-            dispatch(error('Game request timeout.'));
-            socket.emit('game-request-timeout', player.id, (ack) => {
-              console.log('*** GAME REQUEST CANCELLED ***', ack);
-            });
-          }
-        }, 20000);
-
-        console.log('*** TIMEOUT SET ***');
-
-        // try again later alert to return to menu
-        // socket emit remove socket from waiting room
-        // else configure series and settings from new response
-      }
+    // move these listeners into the socket utility
+    // how to dispatch actions from utility?
+    socket.on('game-update', (updatedGame) => {
+      dispatch(gameActions.upsertGame(updatedGame));
     });
+
+    socket.on('series-update', (updatedSeries) => {
+      dispatch(upsertSeries(updatedSeries));
+      dispatch(gameActions.upsertGame(updatedSeries.games[updatedSeries.games.length - 1]));
+    });
+
+    // Lisenter for series response
+    // socket.on('series-created', (series) => {
+    //   console.log('*** SERIES CREATED ***', series);
+
+    //   socket.emit('join-room', series.roomName);
+
+    //   dispatch(initializeSeries(series));
+    //   dispatch(gameActions.setCurrentGame(series.games[series.games.length - 1]));
+    //   dispatch(appActions.changePage(APP_PAGES.SERIES));
+    //   dispatch(loaded());
   }
 }
 
-export function cancelGame(username) {
-  return function(dispatch) {
+export function cancelGameRequest() {
+  return function(dispatch, getState) {
     const socket = socketUtility.socket;
-
-    socket.emit('cancel-game', username, (ack) => {
-      console.log('*** GAME REQUEST CANCELLED ***', ack);
-    });
-
+    socket.emit('cancel-game-request', getState().user.username);
     dispatch(error('Game request cancelled.'));
   }
 }
+
+// export function startNextGame(series) {
+//   return function(dispatch) {
+//     dispatch(loading());
+//     const socket = socketUtility.socket;
+
+//     // emit start-next-game event
+//     socket.emit('start-next-game', series, (updatedSeries) => {
+//       // check if gameover in container to show SeriesResultsModal
+
+//       console.log('\x1b[31m', '*** UPDATED SERIES', updatedSeries);
+
+//       dispatch(upsertSeries(updatedSeries));
+
+//       console.log('\x1b[32m', '*** SENDING TO CURRENT GAME REDUCER', updatedSeries.games[updatedSeries.games.length - 1]);
+
+//       dispatch(gameActions.setCurrentGame(updatedSeries.games[updatedSeries.games.length - 1]));
+//       dispatch(loaded());
+//     });
+//   }
+// }
