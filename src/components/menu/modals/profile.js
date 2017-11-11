@@ -66,7 +66,7 @@ class ProfileModal extends React.Component {
                 {this.props.username ? this.props.username.toUpperCase() : null}
               </Text>
             </Col>
-            <Col size={8/14} style={{ justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 15 }}>
+            <Col size={8/14} style={{ justifyContent: 'center', alignItems: 'center' }}>
               <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>{this.props.stats.gamesPlayed}</Text>
               <Text style={{ color: '#fff' }}>Games Played</Text>
               <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20, paddingTop: 20 }}>{this.props.stats.totalPoints}</Text>
@@ -128,18 +128,22 @@ class ProfileModal extends React.Component {
 
           {/* MENU / LOGOUT */}
           <Row size={2/24} style={{ backgroundColor: '#eee' }}>
-            <Col size={7/14} style={appSS.center}>
-              <TouchableHighlight
-                onPress={this.props.closeModal}>
-                <Text style={{ color: '#aaa' }}>Menu</Text>
-              </TouchableHighlight>
-            </Col>
-            <Col size={7/14} style={appSS.center}>
-              <TouchableHighlight
-                onPress={() => { }}>
-                <Text style={{ color: '#aaa' }}>Logout</Text>
-              </TouchableHighlight>
-            </Col>
+            <TouchableHighlight
+              underlayColor='#ddd'
+              activeOpacity={0.9}
+              style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
+              onPress={this.props.closeModal}
+            >
+              <Text style={{ color: '#aaa', fontWeight: 'bold' }}>Menu</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              underlayColor='#ddd'
+              activeOpacity={0.9}
+              style={{ justifyContent: 'center', alignItems: 'center', flex: 1, borderLeftWidth: 1, borderColor: '#aaa' }}
+              onPress={() => { alert('Logging out...') }}
+            >
+              <Text style={{ color: '#aaa', fontWeight: 'bold' }}>Logout</Text>
+            </TouchableHighlight>
           </Row>
 
         </Col>

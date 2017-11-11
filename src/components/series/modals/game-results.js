@@ -194,12 +194,18 @@ export default class GameResultsModal extends React.Component {
           </Row>
 
           {/* NEXT BUTTON */}
-          <Row size={2/24} style={[{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#eee' }]}>
-            {this.props.loading &&
-            <ActivityIndicator size='small' animating={true} color='#aaa' />
-            }
-            <TouchableHighlight onPress={this.props.handleButtonPress}>
-              <Text style={{ color: '#aaa' }}>Menu</Text>
+          <Row size={2/24}>
+            <TouchableHighlight
+              style={{ alignItems: 'center', flex: 1, backgroundColor: '#eee' }}
+              underlayColor='#ddd'
+              activeOpacity={0.9}
+              onPress={this.props.handleButtonPress}
+            >
+              <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
+                {this.props.loading &&
+                <ActivityIndicator animating={true} color='#aaa' size='small' />}
+                <Text style={{ color: '#aaa', fontWeight: 'bold' }}>Menu</Text>
+              </Row>
             </TouchableHighlight>
           </Row>
         </Col>

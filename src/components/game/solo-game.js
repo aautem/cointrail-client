@@ -52,7 +52,7 @@ class SoloGameContainer extends React.Component {
         // trigger animation to highlight winning pieces
         console.log('*** WIN BY CONNECTION, SETTING TIMEOUT ***');
         // setTimeout(this.props.showWinningConnection, 2000);
-        setTimeout(this.props.showResultsModal, 2500);
+        setTimeout(this.props.showResultsModal, 3000);
       }
     }
   }

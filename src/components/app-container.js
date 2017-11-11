@@ -10,9 +10,9 @@ import AuthContainer from './auth/auth-container';
 import MenuContainer from './menu/menu-container';
 import SeriesContainer from './series/series-container';
 import SoloGameContainer from './game/solo-game';
-const appSS = require('../styles/app');
-
 import TestContainer from './common/test-container';
+
+const appSS = require('../styles/app');
 
 function mapStateToProps(state) {
   return {

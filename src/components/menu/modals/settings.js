@@ -15,6 +15,9 @@ function mapStateToProps(state) {
   return {
     user: state.user,
     settings: state.settings,
+    loading: state.settings.loading,
+    loaded: state.settings.loaded,
+    error: state.settings.error,
   };
 };
 
@@ -174,12 +177,18 @@ class SettingsModal extends React.Component {
 
           {/* SAVE BUTTON */}
           <Row size={2/24}>
-            <Col size={14/14} style={[appSS.center, { backgroundColor: '#eee' }]}>
-              <TouchableHighlight
-                onPress={() => { this.props.saveSettings(this.props.user.username, this.props.settings) }}>
-                <Text style={{ color: '#aaa' }}>Save</Text>
-              </TouchableHighlight>
-            </Col>
+            <TouchableHighlight
+              style={{ alignItems: 'center', flex: 1, backgroundColor: '#eee' }}
+              underlayColor='#ddd'
+              activeOpacity={0.9}
+              onPress={() => { this.props.saveSettings(this.props.user.username, this.props.settings) }}
+            >
+              <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
+                {this.props.loading &&
+                <ActivityIndicator animating={true} color='#aaa' size='small' />}
+                <Text style={{ color: '#aaa', fontWeight: 'bold' }}>Save</Text>
+              </Row>
+            </TouchableHighlight>
           </Row>
 
         </Col>}
@@ -195,8 +204,11 @@ class SettingsModal extends React.Component {
               defaultColor={this.state.selectingAltColor ? this.props.settings.altColor : this.props.settings.color}
             />
           </Row>
-          <Row size={2/24} style={{ backgroundColor: '#eee', justifyContent: 'center', alignItems: 'center' }}>
+          <Row size={2/24}>
             <TouchableHighlight
+              style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#eee' }}
+              underlayColor='#ddd'
+              activeOpacity={0.9}
               onPress={() => { this.setState({ selectingColor: false, selectingAltColor: false }) }}>
               <Text style={{ color: '#aaa' }}>Cancel</Text>
             </TouchableHighlight>

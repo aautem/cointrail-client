@@ -45,8 +45,15 @@ export default class BottomDrawer extends React.Component {
 
             {/* SERIES SCORE CONTAINER */}
             <Row size={7/8}>
+
+              {/* SOLO MODE */}
+              {!this.props.series &&
+              <Col size={10/14} style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ fontWeight: 'bold', paddingBottom: 30, fontSize: 26 }}>SOLO MODE</Text>
+              </Col>}
               
-              {/* PLAYERS */}
+              {/* SERIES MODE PLAYERS */}
+              {this.props.series &&
               <Col size={4/14} style={{ justifyContent: 'center', alignItems: 'flex-start', paddingBottom: 20 }}>
                 <Text style={{
                   color: '#aaa',
@@ -65,18 +72,13 @@ export default class BottomDrawer extends React.Component {
                 }}>
                   {usernames[1]}
                 </Text>
-              </Col>
+              </Col>}
 
               {/* WIN INDICATORS // TODO: FIX PROPS */}
               {this.props.series &&
               <Col size={6/14} style={{ alignItems: 'center' }}>
                 <WinIndicators position='top' player={players[usernames[0]]} series={null} />
                 <WinIndicators position='bottom' player={players[usernames[1]]} series={null} />
-              </Col>}
-
-              {!this.props.series &&
-              <Col size={6/14} style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ fontWeight: 'bold', paddingBottom: 30, fontSize: 18 }}>SOLO MODE</Text>
               </Col>}
 
               {/* SHOT CLOCK */}

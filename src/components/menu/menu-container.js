@@ -20,6 +20,7 @@ import FriendsContainer from './friends/friends-container';
 import MenuButton from './menu-button';
 import GameRequestModal from './modals/game-request';
 import FriendComponent from './friends/friend';
+
 const appSS = require('../../styles/app');
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
