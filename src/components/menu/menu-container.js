@@ -13,6 +13,7 @@ import Carousel from 'react-native-snap-carousel';
 import { Text, View, Dimensions } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Header, Button, Icon } from 'react-native-elements';
+import CointrailIcon from '../common/cointrail_icon';
 import HeaderIcon from './header-icon';
 import SettingsModal from './modals/settings';
 import ProfileModal from './modals/profile';
@@ -130,23 +131,34 @@ class MenuContainer extends React.Component {
         <Row size={14/24}>
           <Col size={6/14}>
 
-            {/* HELP & INFO ICONS */}
-            <Row size={14/14} style={{ justifyContent: 'flex-start', alignItems: 'flex-end', backgroundColor: '#fff', paddingLeft: 10, paddingBottom: 10 }}>
-              <Icon
-                size={32}
-                name='help-circle'
-                type='material-community'
-                color='#ddd'
-                onPress={() => { alert('Help') }}
-              />
-              <Icon
-                size={32}
-                name='information'
-                type='material-community'
-                color='#ddd'
-                style={{ paddingLeft: 5 }}
-                onPress={() => { alert('(c) 2017 Alex Autem') }}
-              />
+            <Row size={14/14}>
+              <Col size={6/6} style={{ backgroundColor: '#fff' }}>
+
+                {/* COINTRAIL ICON */}
+                <Row size={12/14} style={{ justifyContent: 'center', alignItems: 'center' }}>
+                  <CointrailIcon />
+                </Row>
+
+                {/* HELP AND INFO ICONS */}
+                <Row size={2/14} style={{ justifyContent: 'flex-start', alignItems: 'flex-end', backgroundColor: '#fff', paddingLeft: 10, paddingBottom: 10 }}>
+                  <Icon
+                    size={32}
+                    name='help-circle'
+                    type='material-community'
+                    color='#ddd'
+                    onPress={() => { alert('Help') }}
+                  />
+                  <Icon
+                    size={32}
+                    name='information'
+                    type='material-community'
+                    color='#ddd'
+                    style={{ paddingLeft: 5 }}
+                    onPress={() => { alert('(c) 2017 Alex Autem') }}
+                  />
+                </Row>
+              
+              </Col>
             </Row>
 
           </Col>

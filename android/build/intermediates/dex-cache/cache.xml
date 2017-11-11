@@ -201,6 +201,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/exploded-aar/ContrailConnect4/react-native-svg/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="8baa9f0cf3d1ba024f32f6562e7e087ad4cda46d">
+        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/ContrailConnect4-react-native-svg-unspecified_7c8fe9169f04f794f10489204e3b441d04a14aae.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/exploded-aar/com.facebook.fresco/drawee/1.3.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
