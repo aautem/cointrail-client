@@ -10,7 +10,7 @@ export default function getInitialState() {
     auth: {
       page: 'login', // login | signup | forgot-password
       loading: false,
-      authenticated: false,
+      loaded: false,
       error: null,
     },
     user: {

@@ -22,8 +22,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     launchAuth0: authActions.launchAuth0,
-    // loginUser: authActions.loginUser,
-    // loginError: authActions.loginError,
   }, dispatch);
 };
 
@@ -35,48 +33,7 @@ class AuthContainer extends React.Component {
     }
   }
 
-  // login(user) {
-  //   this.props.loginUser(user);
-  //   this.setState({ loading: false });
-  // }
-
-  // loginError(error) {
-  //   this.props.loginError(error);
-  //   this.setState({ loading: false });
-  // }
-
   render() {
-    // if (this.props.config) {
-    //   console.log('*** AUTH CONFIG ***', this.props.config);
-
-    //   this.props.launchAuth0(this.props.config);
-
-      // const auth0 = new Auth0({
-      //   domain: this.props.config.auth0Domain,
-      //   clientId: this.props.config.auth0Id,
-      // });
-      // auth0.webAuth.authorize({
-      //   scope: 'openid profile email',
-      //   audience: 'https://app77626749.auth0.com/userinfo'
-      // }).then((res) => {
-      //   console.log('*** TOKEN ***', res);
-
-      //   if (res.accessToken) {
-      //     auth0.auth.userInfo({ token: res.accessToken }).then((user) => {
-      //       console.log('*** USER ***', user);
-
-      //       this.login(user);
-      //     });
-      //   } else {
-      //     this.loginError('No auth token.');
-      //   }
-      // }).catch((error) => {
-      //   console.warn('Authentication error:', error);
-        
-      //   // this.loginError(error);
-      // });
-    // }
-
     if (this.props.loading) {
       return (
         <Col size={14/14} style={[appSS.center, { backgroundColor: '#aaa' }]}>
@@ -107,9 +64,10 @@ class AuthContainer extends React.Component {
 
 AuthContainer.propTypes = {
   config: PropTypes.object,
-  loginUser: PropTypes.func,
-  appLoading: PropTypes.bool,
-  authLoading: PropTypes.bool,
+  launchAuth0: PropTypes.func,
+  loading: PropTypes.bool,
+  loaded: PropTypes.bool,
+  error: PropTypes.string,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthContainer);

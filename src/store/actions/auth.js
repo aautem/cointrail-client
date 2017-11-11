@@ -8,17 +8,14 @@ import { API_URL } from '../../utilities/const';
 import socketUtility from '../../utilities/socket';
 
 export const actions = {
-  CHANGE_PAGE: 'auth/CHANGE_PAGE',
   LOADING: 'auth/LOADING',
-  AUTHENTICATED: 'auth/AUTHENTICATED',
+  LOADED: 'auth/LOADED',
   ERROR: 'auth/ERROR',
 };
 
 const loading = createAction(actions.LOADING);
-const authenticated = createAction(actions.AUTHENTICATED);
+const loaded = createAction(actions.LOADED);
 const error = createAction(actions.ERROR, (payload) => payload);
-
-export const changePage = createAction(actions.CHANGE_PAGE, (payload) => payload);
 
 export function launchAuth0(config) {
   return function(dispatch) {
@@ -81,6 +78,6 @@ function login(user) {
     });
 
     dispatch(appActions.changePage('menu'));
-    dispatch(authenticated());
+    dispatch(loaded());
   }
 }
