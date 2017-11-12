@@ -1,12 +1,36 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as Animatable from 'react-native-animatable';
 import { View, Modal, Text, ActivityIndicator, TouchableHighlight, Platform } from 'react-native';
 import { Grid, Row, Col } from 'react-native-easy-grid';
 import { Button, Avatar } from 'react-native-elements';
+import * as seriesActions from '../../../store/actions/series';
+import * as gameActions from '../../../store/actions/game';
 const appSS = require('../../../styles/app');
 
-export default class GameResultsModal extends React.Component {
+function mapStateToProps(state) {
+  return {
+    game: state.game,
+    loading: state.game.loading,
+    loaded: state.game.loaded,
+    error: state.game.error,
+  };
+};
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    endGame: gameActions.endGame,
+    continueSeries: seriesActions.continueSeries,
+  }, dispatch);
+};
+
+class GameResultsModal extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     if (!this.props.game.gameOver) {
       return null;
@@ -21,7 +45,7 @@ export default class GameResultsModal extends React.Component {
     return (
       <Modal
         animationType='fade'
-        visible={this.props.showModal}
+        visible={this.props.game.gameOver}
         onRequestClose={() => { }}
       >
         <Col size={14/14}>
@@ -199,7 +223,7 @@ export default class GameResultsModal extends React.Component {
               style={{ alignItems: 'center', flex: 1, backgroundColor: '#eee' }}
               underlayColor='#ddd'
               activeOpacity={0.9}
-              onPress={this.props.handleButtonPress}
+              onPress={this.props.game.mode === 'solo' ? this.props.endGame : this.props.continueSeries}
             >
               <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
                 {this.props.loading &&
@@ -217,9 +241,10 @@ export default class GameResultsModal extends React.Component {
 }
 
 GameResultsModal.propTypes = {
-  handleButtonPress: PropTypes.func,
-  showModal: PropTypes.bool,
   game: PropTypes.object,
-  startNextGame: PropTypes.func,
   loading: PropTypes.bool,
+  endGame: PropTypes.func,
+  continueSeries: PropTypes.func,
 };
+
+export default connect(mapStateToProps, mapDispatchToProps)(GameResultsModal);

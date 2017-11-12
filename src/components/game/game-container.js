@@ -3,12 +3,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Grid, Col, Row } from 'react-native-easy-grid';
+import { ActivityIndicator } from 'react-native';
 import Drawer from 'react-native-drawer';
 import BottomDrawer from './drawer/bottom-drawer';
 import ScoreBoard from './board/score-board';
 import DropZone from './board/drop-zone';
 import GameBoard from './board/game-board';
-import SeriesResultsModal from '../series/modals/series-results';
 import GameResultsModal from '../series/modals/game-results';
 import * as appActions from '../../store/actions/app';
 import * as seriesActions from '../../store/actions/series';
@@ -20,7 +20,6 @@ function mapStateToProps(state) {
   return {
     game: state.game,
     user: state.user,
-    resultsModal: state.game.showResultsModal,
     loading: state.game.loading,
     loaded: state.game.loaded,
     error: state.game.error,
@@ -29,9 +28,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    showResultsModal: gameActions.showResultsModal,
-    endGame: gameActions.endGame,
-    continueSeries: seriesActions.continueSeries,
     changePage: appActions.changePage,
   }, dispatch);
 };
@@ -49,17 +45,8 @@ class GameContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.game.gameOver && !nextProps.game.showResultsModal) {
-      if (nextProps.game.winByPoints || nextProps.game.draw) {
-        setTimeout(this.props.showResultsModal, 2500);
-      } else if (nextProps.game.winByConnect) {
-        console.log('*** WIN BY CONNECTION, SETTING TIMEOUT ***');
-
-        // trigger animation to highlight winning pieces
-        // setTimeout(this.props.showWinningConnection, 2000);
-        setTimeout(this.props.showResultsModal, 3000);
-      }
-    }
+      // trigger animation to highlight winning pieces
+      // setTimeout(this.props.showWinningConnection, 2000);
   }
 
   openDrawer() {
@@ -122,14 +109,8 @@ class GameContainer extends React.Component {
           </Row>
 
           {/* MODAL OVERLAYS */}
-          <GameResultsModal
-            game={this.props.game}
-            loading={this.props.loading}
-            showModal={this.props.resultsModal}
-            handleButtonPress={this.props.game.mode === 'solo' ? this.props.endGame : this.props.continueSeries}
-          />
-
-          <SeriesResultsModal />
+          <GameResultsModal />
+          
         </Col>
       </Drawer>
     );
@@ -137,8 +118,7 @@ class GameContainer extends React.Component {
 }
 
 GameContainer.propTypes = {
-  showResultsModal: PropTypes.func,
-  resultsModal: PropTypes.bool,
+  changePage: PropTypes.func,
   series: PropTypes.object,
   game: PropTypes.object,
   username: PropTypes.string,

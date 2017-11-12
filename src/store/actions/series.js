@@ -12,15 +12,12 @@ let joinGameTimeout = null;
 export const actions = {
   UPSERT_SERIES: 'series/UPSERT_SERIES',
   RESET: 'series/RESET',
-  SHOW_MODAL: 'series/SHOW_MODAL',
-  HIDE_MODAL: 'series/HIDE_MODAL',
   LOADING: 'series/LOADING',
   LOADED: 'series/LOADED',
   ERROR: 'series/ERROR',
 };
 
 const upsertSeries = createAction(actions.UPSERT_SERIES, (payload) => payload);
-const showModal = createAction(actions.SHOW_MODAL);
 const reset = createAction(actions.RESET);
 const loading = createAction(actions.LOADING);
 const loaded = createAction(actions.LOADED);
@@ -30,7 +27,6 @@ export function endSeries() {
   return function(dispatch, getState) {
     dispatch(loading());
     dispatch(statsActions.saveStats(getState().series));
-    dispatch(gameActions.resetGame());
     dispatch(reset());
     dispatch(appActions.changePage('menu'));
     dispatch(loaded());
@@ -55,10 +51,11 @@ export function continueSeries() {
       // emit updated series to game room
       const socket = socketUtility.socket;
       socket.emit('updated-series', series);
+      dispatch(loaded());
     } else {
       // series over -- upsert on own
+      dispatch(gameActions.resetGame());
       dispatch(upsertSeries(series));
-      dispatch(gameActions.hideResultsModal());
       dispatch(loaded());
     }
 
@@ -132,11 +129,5 @@ export function cancelGameRequest() {
     const socket = socketUtility.socket;
     socket.emit('cancel-game-request', getState().user.username);
     dispatch(error('Game request cancelled.'));
-  }
-}
-
-export function showResultsModal() {
-  return function(dispatch) {
-    dispatch(showModal());
   }
 }

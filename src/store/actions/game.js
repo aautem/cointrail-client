@@ -8,16 +8,12 @@ import * as seriesActions from './series';
 export const actions = {
   UPSERT_GAME: 'game/UPSERT_GAME',
   RESET: 'game/RESET',
-  SHOW_MODAL: 'game/SHOW_MODAL',
-  HIDE_MODAL: 'game/HIDE_MODAL',
   LOADING: 'game/LOADING',
   LOADED: 'game/LOADED',
   ERROR: 'game/ERROR',
 };
 
 const reset = createAction(actions.RESET);
-const showModal = createAction(actions.SHOW_MODAL);
-const hideModal = createAction(actions.HIDE_MODAL);
 const loading = createAction(actions.LOADING);
 const loaded = createAction(actions.LOADED);
 const error = createAction(actions.ERROR, (payload) => payload);
@@ -90,19 +86,7 @@ export function dropCoin(colId) {
       // emit dropcoin event to room
       const socket = socketUtility.socket;
       socket.emit('drop-coin', gameInstance);
-      // dispatch(loaded());
+      dispatch(loaded());
     }
-  }
-}
-
-export function showResultsModal() {
-  return function(dispatch) {
-    dispatch(showModal());
-  }
-}
-
-export function hideResultsModal() {
-  return function(dispatch) {
-    dispatch(hideModal());
   }
 }

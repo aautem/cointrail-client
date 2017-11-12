@@ -3,11 +3,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as seriesActions from '../../store/actions/series';
-import { ActivityIndicator } from 'react-native';
-import Drawer from 'react-native-drawer';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import GameContainer from '../game/game-container';
-import GameResultsModal from './modals/game-results';
+import SeriesResultsModal from './modals/series-results';
+
 const appSS = require('../../styles/app');
 
 function mapStateToProps(state) {
@@ -33,9 +32,7 @@ class SeriesContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.series.seriesOver && !nextProps.series.showResultsModal) {
-      this.props.showResultsModal();
-    }
+    //
   }
 
   render () {
@@ -44,7 +41,15 @@ class SeriesContainer extends React.Component {
     }
 
     return (
-      <GameContainer />
+      <Col size={14/14}>
+        <Row size={24/24}>
+        
+          <GameContainer />
+
+          <SeriesResultsModal />
+
+        </Row>
+      </Col>
     );
   }
 }

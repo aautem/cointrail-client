@@ -12,7 +12,6 @@ const appSS = require('../../../styles/app');
 function mapStateToProps(state) {
   return {
     series: state.series,
-    showModal: state.series.showResultsModal,
     loading: state.series.loading,
     loaded: state.series.loaded,
     error: state.series.error,
@@ -31,7 +30,7 @@ class SeriesResultsModal extends React.Component {
   }
 
   render() {
-    if (!this.props.series.gameOver) {
+    if (!this.props.series.seriesOver) {
       return null;
     }
 
@@ -44,7 +43,7 @@ class SeriesResultsModal extends React.Component {
     return (
       <Modal
         animationType='fade'
-        visible={this.props.showModal}
+        visible={this.props.series.seriesOver}
         onRequestClose={() => {}}
       >
         <Col size={14/14}>
@@ -145,7 +144,6 @@ class SeriesResultsModal extends React.Component {
 
 SeriesResultsModal.propTypes = {
   series: PropTypes.object,
-  showModal: PropTypes.bool,
   loading: PropTypes.bool,
   loaded: PropTypes.bool,
   error: PropTypes.string,
