@@ -5,7 +5,7 @@ const initialState = getInitialState().game;
 export default function reducer(state = initialState, action) {
 
   if (action.type === actions.UPSERT_GAME) {
-    return Object.assign({}, state, action.payload);
+    return Object.assign({}, state, action.payload, { loading: false, loaded: true, error: null });
   }
 
   if (action.type === actions.RESET) {

@@ -46,15 +46,21 @@ export function continueSeries() {
     dispatch(loading());
 
     // update series object with stats from completed game
-    const series = new Series(getState().series);
-    series.updateSeries(getState().game);
+    const series = new Series(Object.assign({}, getState().series));
+    series.updateSeries(Object.assign(getState().game));
+
+    console.log('\x1b[32m', 'Continuing Series', series);
 
     if (!series.seriesOver) {
       // emit updated series to game room
       const socket = socketUtility.socket;
       socket.emit('updated-series', series);
+    } else {
+      // series over -- upsert on own
+      dispatch(upsertSeries(series));
+      dispatch(gameActions.hideResultsModal());
+      dispatch(loaded());
     }
-    dispatch(loaded());
 
     // if seriesOver
       // leave socket room

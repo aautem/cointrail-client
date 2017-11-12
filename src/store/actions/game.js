@@ -15,13 +15,14 @@ export const actions = {
   ERROR: 'game/ERROR',
 };
 
-export const upsertGame = createAction(actions.UPSERT_GAME, (payload) => payload);
 const reset = createAction(actions.RESET);
+const showModal = createAction(actions.SHOW_MODAL);
+const hideModal = createAction(actions.HIDE_MODAL);
 const loading = createAction(actions.LOADING);
 const loaded = createAction(actions.LOADED);
 const error = createAction(actions.ERROR, (payload) => payload);
 
-export const showModal = createAction(actions.SHOW_MODAL);
+export const upsertGame = createAction(actions.UPSERT_GAME, (payload) => payload);
 
 export function startSoloGame() {
   return function (dispatch, getState) {
@@ -89,7 +90,7 @@ export function dropCoin(colId) {
       // emit dropcoin event to room
       const socket = socketUtility.socket;
       socket.emit('drop-coin', gameInstance);
-      dispatch(loaded());
+      // dispatch(loaded());
     }
   }
 }
@@ -97,5 +98,11 @@ export function dropCoin(colId) {
 export function showResultsModal() {
   return function(dispatch) {
     dispatch(showModal());
+  }
+}
+
+export function hideResultsModal() {
+  return function(dispatch) {
+    dispatch(hideModal());
   }
 }

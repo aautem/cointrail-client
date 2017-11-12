@@ -150,3 +150,5 @@ SeriesResultsModal.propTypes = {
   loaded: PropTypes.bool,
   error: PropTypes.string,
 };
+
+export default connect(mapStateToProps, mapDispatchToProps)(SeriesResultsModal);
