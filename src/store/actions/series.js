@@ -4,21 +4,63 @@ import Series from '../../utilities/series';
 import socketUtility from '../../utilities/socket';
 import * as appActions from './app';
 import * as gameActions from './game';
+import * as statsActions from './stats';
 
 // timeout when waiting to 'join-game' response
 let joinGameTimeout = null;
 
 export const actions = {
   UPSERT_SERIES: 'series/UPSERT_SERIES',
+  RESET: 'series/RESET',
+  SHOW_MODAL: 'series/SHOW_MODAL',
+  HIDE_MODAL: 'series/HIDE_MODAL',
   LOADING: 'series/LOADING',
   LOADED: 'series/LOADED',
   ERROR: 'series/ERROR',
 };
 
 const upsertSeries = createAction(actions.UPSERT_SERIES, (payload) => payload);
+const showModal = createAction(actions.SHOW_MODAL);
+const reset = createAction(actions.RESET);
 const loading = createAction(actions.LOADING);
 const loaded = createAction(actions.LOADED);
 const error = createAction(actions.ERROR, (payload) => payload);
+
+export function endSeries() {
+  return function(dispatch, getState) {
+    dispatch(loading());
+    dispatch(statsActions.saveStats(getState().series));
+    dispatch(gameActions.resetGame());
+    dispatch(reset());
+    dispatch(appActions.changePage('menu'));
+    dispatch(loaded());
+  }
+}
+
+// ON SERIES UPDATE
+// EMIT 'updated-series' SOCKET EVENT TO GAMEROOM WITH SERIES TO SYNC BOARD POINTS
+// server side will keep track of if series has been sent out to players
+// so that both users don't trigger the 'series-update' listener on the client
+export function continueSeries() {
+  return function(dispatch, getState) {
+    dispatch(loading());
+
+    // update series object with stats from completed game
+    const series = new Series(getState().series);
+    series.updateSeries(getState().game);
+
+    if (!series.seriesOver) {
+      // emit updated series to game room
+      const socket = socketUtility.socket;
+      socket.emit('updated-series', series);
+    }
+    dispatch(loaded());
+
+    // if seriesOver
+      // leave socket room
+      // dispatch showResultsModal
+  }
+}
 
 export function joinGame(user, settings) {
   return function(dispatch) {
@@ -49,7 +91,8 @@ export function joinGame(user, settings) {
 
       // listen for game and series updates in joined room
       dispatch(upsertSeries(series));
-      dispatch(gameActions.upsertGame(series.games[series.games.length - 1]));
+      const newGame = Object.assign({}, series.games[series.games.length - 1]);
+      dispatch(gameActions.upsertGame(newGame));
       dispatch(appActions.changePage(APP_PAGES.SERIES));
       dispatch(loaded());
     });
@@ -72,19 +115,9 @@ export function joinGame(user, settings) {
 
     socket.on('series-update', (updatedSeries) => {
       dispatch(upsertSeries(updatedSeries));
-      dispatch(gameActions.upsertGame(updatedSeries.games[updatedSeries.games.length - 1]));
+      const updatedGame = Object.assign({}, updatedSeries.games[updatedSeries.games.length - 1]);
+      dispatch(gameActions.upsertGame(updatedGame));
     });
-
-    // Lisenter for series response
-    // socket.on('series-created', (series) => {
-    //   console.log('*** SERIES CREATED ***', series);
-
-    //   socket.emit('join-room', series.roomName);
-
-    //   dispatch(initializeSeries(series));
-    //   dispatch(gameActions.setCurrentGame(series.games[series.games.length - 1]));
-    //   dispatch(appActions.changePage(APP_PAGES.SERIES));
-    //   dispatch(loaded());
   }
 }
 
@@ -96,23 +129,8 @@ export function cancelGameRequest() {
   }
 }
 
-// export function startNextGame(series) {
-//   return function(dispatch) {
-//     dispatch(loading());
-//     const socket = socketUtility.socket;
-
-//     // emit start-next-game event
-//     socket.emit('start-next-game', series, (updatedSeries) => {
-//       // check if gameover in container to show SeriesResultsModal
-
-//       console.log('\x1b[31m', '*** UPDATED SERIES', updatedSeries);
-
-//       dispatch(upsertSeries(updatedSeries));
-
-//       console.log('\x1b[32m', '*** SENDING TO CURRENT GAME REDUCER', updatedSeries.games[updatedSeries.games.length - 1]);
-
-//       dispatch(gameActions.setCurrentGame(updatedSeries.games[updatedSeries.games.length - 1]));
-//       dispatch(loaded());
-//     });
-//   }
-// }
+export function showResultsModal() {
+  return function(dispatch) {
+    dispatch(showModal());
+  }
+}

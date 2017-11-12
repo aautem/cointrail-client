@@ -8,8 +8,10 @@ import BottomDrawer from './drawer/bottom-drawer';
 import ScoreBoard from './board/score-board';
 import DropZone from './board/drop-zone';
 import GameBoard from './board/game-board';
+import SeriesResultsModal from '../series/modals/series-results';
 import GameResultsModal from '../series/modals/game-results';
 import * as appActions from '../../store/actions/app';
+import * as seriesActions from '../../store/actions/series';
 import * as gameActions from '../../store/actions/game';
 
 const appSS = require('../../styles/app');
@@ -28,7 +30,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     showResultsModal: gameActions.showResultsModal,
-    resetGame: gameActions.resetGame,
+    endGame: gameActions.endGame,
+    continueSeries: seriesActions.continueSeries,
     changePage: appActions.changePage,
   }, dispatch);
 };
@@ -123,10 +126,10 @@ class GameContainer extends React.Component {
             game={this.props.game}
             loading={this.props.loading}
             showModal={this.props.resultsModal}
-            handleButtonPress={this.props.resetGame}
+            handleButtonPress={this.props.game.mode === 'solo' ? this.props.endGame : this.props.continueSeries}
           />
 
-          {/* <SeriesResultsModal /> OR DOES THIS GO IN SERIES CONTAINER? */}
+          <SeriesResultsModal />
         </Col>
       </Drawer>
     );

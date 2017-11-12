@@ -10,15 +10,15 @@ export default function reducer(state = initialState, action) {
   }
 
   if (action.type === actions.LOADING) {
-    return Object.assign({}, state, { loading: true, loaded: false });
+    return Object.assign({}, state, { loading: true, loaded: false, error: null });
   }
 
   if (action.type === actions.LOADED) {
-    return Object.assign({}, state, { loading: false, loaded: true });
+    return Object.assign({}, state, { loading: false, loaded: true, error: null });
   }
 
   if (action.type === actions.ERROR) {
-    return Object.assign({}, state, { loading: false, error: action.payload });
+    return Object.assign({}, state, { loading: false, loaded: false, error: action.payload });
   }
 
   return state;

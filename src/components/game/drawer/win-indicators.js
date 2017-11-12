@@ -19,10 +19,10 @@ export default class WinIndicators extends React.Component {
         if (this.props.series.games[count].winner === this.props.player.username) {
           color = this.props.player.color;
         } else {
-          color = '#bbb';
+          color = '#ccc';
         }
       } else if (this.props.series.games[count] && this.props.series.games[count].draw) {
-        color = '#bbb';
+        color = '#ccc';
       }
       indicators.push(
         <View

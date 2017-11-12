@@ -33,7 +33,7 @@ export default class GameResultsModal extends React.Component {
                 fontWeight: 'bold',
                 color: this.props.game.players[winner].color,
               }}>
-                {this.props.game.winner.toUpperCase()} WINS BY {this.props.game.winByPoints ? 'POINTS' : 'CONNECTION'}
+                {this.props.game.winner.toUpperCase()} WINS BY {this.props.game.winByPoints ? 'POINTS' : 'COINTRAIL'}
               </Text>
             </Col>
           </Row>
@@ -204,7 +204,9 @@ export default class GameResultsModal extends React.Component {
               <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
                 {this.props.loading &&
                 <ActivityIndicator animating={true} color='#aaa' size='small' />}
-                <Text style={{ color: '#aaa', fontWeight: 'bold' }}>Menu</Text>
+                <Text style={{ color: '#aaa', fontWeight: 'bold' }}>
+                  {this.props.game.mode === 'solo' ? 'Menu' : 'Next Game'}
+                </Text>
               </Row>
             </TouchableHighlight>
           </Row>

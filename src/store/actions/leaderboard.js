@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+// *** Leaderboard pulls all records from stats table and sorts data accordingly ***
+
 export function getUser(userId) {
   return function(dispatch) {
     axios.get('/api/users/' + userId)

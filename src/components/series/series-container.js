@@ -6,7 +6,6 @@ import * as seriesActions from '../../store/actions/series';
 import { ActivityIndicator } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { Grid, Col, Row } from 'react-native-easy-grid';
-
 import GameContainer from '../game/game-container';
 import GameResultsModal from './modals/game-results';
 const appSS = require('../../styles/app');
@@ -24,7 +23,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    startNextGame: seriesActions.startNextGame,
+    showResultsModal: seriesActions.showResultsModal,
   }, dispatch);
 };
 
@@ -34,13 +33,10 @@ class SeriesContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // if series over
-      // show series results modal
+    if (nextProps.series.seriesOver && !nextProps.series.showResultsModal) {
+      this.props.showResultsModal();
+    }
   }
-
-  // startNextGame() {
-  //   this.props.startNextGame(this.props.series);
-  // }
 
   render () {
     if (!this.props.series.roomName) {

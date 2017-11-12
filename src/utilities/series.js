@@ -76,7 +76,7 @@ export default class Series {
     this.games.push(game);
   }
 
-  _createInSeriesInstance(props) {
+  _buildSeriesInProgress(props) {
     this.seriesLength = props.seriesLength;
     this.boardSize = props.boardSize;
     this.timeLimit = props.timeLimit;
@@ -86,22 +86,24 @@ export default class Series {
     this.draw = props.draw;
     this.seriesOver = props.seriesOver;
     this.winByPoints = props.winByPoints;
+    this.winByConnect = props.winByConnect;
     this.players = props.players;
     this.roomName = props.roomName;
-    this._updateSeries();
+    this.disconnection = props.disconnection;
+    const usernames = this._getUsernames();
+    const newTurn = this.turn === usernames[0] ? usernames[1] : usernames[0];
+    this.turn = newTurn;
   }
 
-  _updateSeries() {
-    // add stats from last game to series stats and seriesPlayers
-    const game = this.games[this.gamesPlayed];
+  updateSeries(game) {
+    // update finished game in games array
+    this.games[this.gamesPlayed] = game;
     const usernames = this._getUsernames();
 
-    // update game count and series player W/L/D/points
+    // update game count and series player W/L/T/Points
     this.gamesPlayed += 1;
     this.players[usernames[0]].points += game.players[usernames[0]].points;
     this.players[usernames[1]].points += game.players[usernames[1]].points;
-
-    console.log('\x1b[33m', 'Checkpoint :: gamesPlayed =', this.gamesPlayed);
 
     if (game.winner) {
       const loser = game.winner === usernames[0] ? usernames[1] : usernames[0];
@@ -113,16 +115,19 @@ export default class Series {
     }
 
     // check for series winner
-    if (this._seriesClosedOut()) {
+    if (this.gamesPlayed === this.seriesLength || this._seriesClosedOut()) {
+      console.log('\x1b[33m', 'Series complete.');
+
       this.seriesOver = true;
-      this.winner = this._determineSeriesWinner();
+      this._addWinnerToSeries();
     } else {
-      console.log('\x1b[33m', 'Checkpoint :: starting new game...', this.players[game.winner]);
-      this._startNewGame(this.players[usernames[0]], this.players[usernames[1]]);
+      console.log('\x1b[33m', 'Starting next game in series.');
+
+      this._startNewGame({ boardSize: this.boardSize, timeLimit: this.timeLimit });
     }
   }
 
-  _determineSeriesWinner() {
+  _addWinnerToSeries() {
     const usernames = this._getUsernames();
     const p1 = this.players[usernames[0]];
     const p2 = this.players[usernames[1]];
@@ -134,6 +139,7 @@ export default class Series {
         this.winByPoints = true;
       }
     } else {
+      this.winByConnect = true;
       const winThreshold = this._getWinsNeededToClose();
       if (p1.wins >= winThreshold) {
         this.winner = p1.username;

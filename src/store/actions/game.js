@@ -46,12 +46,17 @@ export function startSoloGame() {
   }
 }
 
-export function resetGame() {
+export function endGame() {
   return function(dispatch) {
     dispatch(loading());
-    dispatch(reset());
     dispatch(appActions.changePage('menu'));
     dispatch(loaded());
+  }
+}
+
+export function resetGame() {
+  return function(dispatch) {
+    dispatch(reset());
   }
 }
 
@@ -71,6 +76,7 @@ export function dropCoin(colId) {
       dispatch(loaded());
 
       if (!gameInstance.gameOver) {
+        // cpu drop coin
         if (gameInstance.turn !== getState().user.username) {
           setTimeout(() => {
             const colId = gameInstance.getOpenColumn();
