@@ -67,6 +67,13 @@ export function joinGame() {
       const roomName = `${players.p1.username}-vs-${players.p2.username}`;
       socket.emit('join-room', roomName);
 
+      socket.on('game-over', (username) => {
+        alert(`${username} has left the game.`);
+        socket.emit('end-game', roomName);
+        dispatch(reset());
+        dispatch(appActions.changePage('menu'));
+      });
+
       // set player colors
       players.p1.color = players.p1.settings.color;
       players.p2.color = players.p2.settings.color === players.p1.color ? players.p2.settings.altColor : players.p2.settings.color;
@@ -131,11 +138,20 @@ export function playOnlineAgain() {
 }
 
 export function endGame() {
-  return function(dispatch) {
+  return function(dispatch, getState) {
     dispatch(loading());
+
+    const roomName = getState().game.roomName;
+    const gameMode = getState().game.mode;
+
     dispatch(reset());
     dispatch(appActions.changePage('menu'));
     dispatch(loaded());
+
+    if (gameMode === 'online') {
+      const socket = socketUtility.socket;
+      socket.emit('end-game', roomName);
+    }
   }
 }
 
@@ -173,6 +189,7 @@ export function dropCoin(colId) {
     }
   }
 }
+
 export function cancelGameRequest() {
   return function(dispatch, getState) {
     dispatch(loading());

@@ -75,17 +75,15 @@ class MenuContainer extends React.Component {
         <Row size={10/24} style={[appSS.center, { backgroundColor: '#eee' }]}>
           <Col size={14/14}>
             <Row size={2/10}>
-              <Col size={4/14} style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
-                <Text style={{ color: '#aaa', fontWeight: 'bold', paddingLeft: 10 }}>
-                  3/12
-                </Text>
-                <Text style={{ color: '#aaa', fontWeight: 'bold', paddingLeft: 10 }}>
-                  Friends Online
-                </Text>
+              <Col size={7/14}>
+                <Row size={2/2} style={{ paddingLeft: 10, paddingRight: 10, backgroundColor: '#ddd' }}>
+                  <Text style={{ textAlign: 'left', textAlignVertical: 'center', fontWeight: 'bold', color: 'black', fontSize: 16 }}>
+                    {this.props.user.username.toUpperCase()}
+                  </Text>
+                </Row>
               </Col>
-              <Col size={10/14}>
-                <Row size={2/2} style={{ justifyContent: 'flex-end', alignItems: 'center', paddingRight: 10, backgroundColor: '#ddd', borderBottomLeftRadius: 50, borderColor: '#aaa', borderWidth: 2, borderTopWidth: 0, borderRightWidth: 0 }}>
-                  <Text style={{ fontWeight: 'bold', color: 'black', fontSize: 20, paddingRight: 10 }}>{this.props.user.username}</Text>
+              <Col size={7/14}>
+                <Row size={2/2} style={{ paddingLeft: 10, paddingRight: 10, backgroundColor: '#ddd', justifyContent: 'flex-end', alignItems: 'center' }}>
                   <Icon
                     size={24}
                     name='account-circle'
@@ -105,7 +103,7 @@ class MenuContainer extends React.Component {
               </Col>
             </Row>
 
-            <Row size={8/10} style={{ paddingBottom: 5 }}>
+            <Row size={8/10} style={{ paddingBottom: 3, paddingTop: 5, borderColor: 'black', borderTopWidth: 3, borderBottomWidth: 5, borderLeftWidth: 0, borderRightWidth: 0 }}>
               <Carousel
                 ref={(c) => { this._carousel = c }}
                 data={this.state.friends}
@@ -127,9 +125,15 @@ class MenuContainer extends React.Component {
             <Row size={14/14}>
               <Col size={8/8} style={{ backgroundColor: '#fff' }}>
 
-                {/* COINTRAIL ICON */}
+                {/* ONLINE INFO */}
                 <Row size={12/14} style={{ justifyContent: 'center', alignItems: 'center', paddingLeft: 20, paddingTop: 20 }}>
-                  <CointrailIcon />
+                  <Col size={8/14} style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ color: 'black', fontSize: 16 }}>Players Online</Text>
+                    <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 24, paddingBottom: 20 }}>62</Text>
+
+                    <Text style={{ color: 'black', fontSize: 16 }}>Friends Online</Text>
+                    <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 24 }}>8 / 12</Text>
+                  </Col>
                 </Row>
 
                 {/* HELP AND INFO ICONS */}
