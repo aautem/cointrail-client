@@ -9,7 +9,7 @@ import BottomDrawer from './drawer/bottom-drawer';
 import ScoreBoard from './board/score-board';
 import DropZone from './board/drop-zone';
 import GameBoard from './board/game-board';
-import GameResultsModal from '../series/modals/game-results';
+import GameResultsModal from './game-results-modal';
 import * as appActions from '../../store/actions/app';
 import * as seriesActions from '../../store/actions/series';
 import * as gameActions from '../../store/actions/game';

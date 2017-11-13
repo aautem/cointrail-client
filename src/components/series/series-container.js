@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import * as seriesActions from '../../store/actions/series';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import GameContainer from '../game/game-container';
-import SeriesResultsModal from './modals/series-results';
+import SeriesResultsModal from './series-results-modal';
 
 const appSS = require('../../styles/app');
 
