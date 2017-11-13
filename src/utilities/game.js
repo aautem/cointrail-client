@@ -1,6 +1,6 @@
 import { GamePlayer } from './player';
 
-// mode: null, // series | solo
+// mode: null, // online | solo
 // roomName: null,
 // boardSize: null,
 // timeLimit: null,
@@ -102,7 +102,7 @@ export default class Game {
       this.turn = p1.username;
       this.players = players;
     } else {
-      // series game
+      // online game
       players[p1.username] = new GamePlayer(p1);
       players[p2.username] = new GamePlayer(p2);
       this.turn = p1.username;

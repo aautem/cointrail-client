@@ -25,7 +25,6 @@ export default function getInitialState() {
     },
     settings: {
       boardSize: 4, // 4 | 5 | 6
-      seriesLength: 2, // 2 | 4 | 6
       timeLimit: false,
       color: '#5B08C6',
       altColor: '#000BFC',
@@ -43,32 +42,12 @@ export default function getInitialState() {
       winsByPoints: 0,
       winsByConnect: 0,
       gamesPlayed: 0,
-      seriesPlayed: 0,
-      loading: false,
-      loaded: false,
-      error: null,
-    },
-    series: {
-      players: null,
-      roomName: null,
-      seriesLength: 7,
-      boardSize: 4,
-      timeLimit: false,
-      gamesPlayed: 0,
-      games: [],
-      winner: null,
-      draw: null,
-      seriesOver: null,
-      winByPoints: null,
-      winByConnect: null,
-      disconnection: false,
-      showResultsModal: false,
       loading: false,
       loaded: false,
       error: null,
     },
     game: {
-      mode: null, // series | solo
+      mode: null, // online | solo
       roomName: null,
       boardSize: null,
       timeLimit: null,
@@ -82,6 +61,7 @@ export default function getInitialState() {
       players: null,
       turn: null,
       disconnection: false,
+      showRequestModal: false,
       showResultsModal: false,
       loading: false,
       loaded: false,

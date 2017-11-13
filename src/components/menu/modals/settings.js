@@ -81,20 +81,20 @@ class SettingsModal extends React.Component {
                 {this.props.user.username}
               </Text>
             </Col>
-            <Col size={8/14} style={{ justifyContent: 'flex-end', alignItems: 'flex-end', paddingBottom: 20, paddingRight: 20 }}>
+            <Col size={8/14} style={{ justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 20, paddingRight: 20 }}>
               <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>GAME</Text>
               <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>PREFERENCES</Text>
             </Col>
           </Row>
 
           {/* GAME SETTINGS */}
-          <Row size={8/24}>
-            <Col size={14/14} style={{ justifyContent: 'center', paddingTop: 10 }}>
+          <Row size={14/24}>
+            <Col size={14/14} style={{ justifyContent: 'center', paddingTop: 10, paddingBottom: 30 }}>
 
               {/* BOARD SIZE */}
-              <Row size={3/8}>
+              <Row size={4/14}>
                 <Col size={14/14} style={{ justifyContent: 'center' }}>
-                  <Text style={[{ textAlign: 'center', color: 'black' }]}>
+                  <Text style={[{ textAlign: 'center', color: 'black', fontWeight: 'bold' }]}>
                     Gameboard Size: {this.props.settings.boardSize} x {this.props.settings.boardSize}
                   </Text>
                   <Slider
@@ -108,70 +108,53 @@ class SettingsModal extends React.Component {
                 </Col>
               </Row>
 
-              {/* SERIES LENGTH */}
-              <Row size={3/8}>
-                <Col size={14/14} style={{ justifyContent: 'center' }}>
-                  <Text style={[{ textAlign: 'center', color: 'black' }]}>
-                    Series Length: {this.props.settings.seriesLength}
-                  </Text>
-                  <Slider
-                    minimumValue={2}
-                    maximumValue={6}
-                    value={this.props.settings.seriesLength}
-                    step={2}
-                    onSlidingComplete={(length) => { this.props.changeLength(length) }}
-                    style={{ marginLeft: 30, marginRight: 30 }}
+              {/* TIME LIMIT */}
+              <Row size={4/14}>
+                <Col size={14/14} style={{ alignItems: 'center', paddingTop: 5 }}>
+                  <Text style={{ color: 'black', fontWeight: 'bold', paddingBottom: 5 }}>15 Second Limit</Text>
+                  <Switch
+                    value={this.props.settings.timeLimit}
+                    onValueChange={() => { this.props.toggleTimer() }}
                   />
                 </Col>
               </Row>
 
-              {/* TIME LIMIT */}
-              <Row size={2/10} style={appSS.center}>
-                <Text style={{ paddingRight: 10, color: 'black' }}>15 Second Limit</Text>
-                <Switch
-                  value={this.props.settings.timeLimit}
-                  onValueChange={() => { this.props.toggleTimer() }}
-                />
+              {/* COLOR SELECTION */}
+              <Row size={6/14} style={[appSS.center, { paddingLeft: 25, paddingRight: 25 }]}>
+                <Col size={7/14} style={{ justifyContent: 'center', alignItems: 'center' }}>
+                  <Text style={{ color: 'black', paddingBottom: 10, fontWeight: 'bold' }}>Coin Color</Text>
+                  <TouchableOpacity onPress={() => {
+                    this.setState({ selectingColor: true });
+                  }}>
+                    <View style={{
+                      height: viewportHeight / 6,
+                      width: viewportHeight / 6,
+                      backgroundColor: this.props.settings.color,
+                      borderRadius: 100,
+                      borderWidth: 1,
+                      borderColor: 'black',
+                      borderStyle: 'solid',
+                  }} />
+                  </TouchableOpacity>
+                </Col>
+                <Col size={7/14} style={{ justifyContent: 'center', alignItems: 'center' }}>
+                  <Text style={{ color: 'black', paddingBottom: 10, fontWeight: 'bold' }}>Alternate Color</Text>
+                  <TouchableOpacity onPress={() => {
+                    this.setState({ selectingAltColor: true });
+                  }}>
+                    <View style={{
+                      height: viewportHeight / 6,
+                      width: viewportHeight / 6,
+                      backgroundColor: this.props.settings.altColor,
+                      borderRadius: 100,
+                      borderWidth: 1,
+                      borderColor: 'black',
+                      borderStyle: 'solid',
+                    }}/>
+                  </TouchableOpacity>
+                </Col>
               </Row>
             
-            </Col>
-          </Row>
-
-          {/* COLOR SELECTION */}
-          <Row size={6/24} style={{ paddingLeft: 20, paddingRight: 20, marginTop: 5 }}>
-            <Col size={5/14} style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
-              <TouchableOpacity onPress={() => {
-                this.setState({ selectingColor: true });
-              }}>
-                <View style={{
-                  height: viewportHeight / 6,
-                  width: viewportHeight / 6,
-                  backgroundColor: this.props.settings.color,
-                  borderRadius: 100,
-                  borderWidth: 1,
-                  borderColor: 'black',
-                  borderStyle: 'solid',
-              }} />
-              </TouchableOpacity>
-            </Col>
-            <Col size={4/14} style={[appSS.center]}>
-              <Text style={{ color: 'black', paddingBottom: 10 }}>{`< Primary`}</Text>
-              <Text style={{ color: 'black' }}>{`Alternate >`}</Text>
-            </Col>
-            <Col size={5/14} style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
-              <TouchableOpacity onPress={() => {
-                this.setState({ selectingAltColor: true });
-              }}>
-                <View style={{
-                  height: viewportHeight / 6,
-                  width: viewportHeight / 6,
-                  backgroundColor: this.props.settings.altColor,
-                  borderRadius: 100,
-                  borderWidth: 1,
-                  borderColor: 'black',
-                  borderStyle: 'solid',
-                }}/>
-              </TouchableOpacity>
             </Col>
           </Row>
 

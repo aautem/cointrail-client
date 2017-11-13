@@ -15,6 +15,9 @@ export default class ScoreBoard extends React.Component {
 
     const players = this.props.game.players;
     const usernames = Object.keys(players);
+
+    console.log('Players/Usernames:', players, usernames);
+    
     return (
       <Row size={2/16}>
         <Col size={7/14} style={[{ backgroundColor: players[usernames[0]].color }]}>

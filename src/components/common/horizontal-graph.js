@@ -11,7 +11,7 @@ export default class HorizontalGraph extends React.Component {
     return (
       <Col size={14/14}>
         <Row size={1.5/4}>
-          <Col size={14/14} style={{ justifyContent: 'center', alignItems: 'flex-start', paddingLeft: 20 }}>
+          <Col size={14/14} style={{ justifyContent: 'center', alignItems: 'center', paddingLeft: 20 }}>
             <Text style={{ color: 'black' }}>{this.props.title}</Text>
           </Col>
         </Row>
@@ -42,7 +42,7 @@ export default class HorizontalGraph extends React.Component {
               flex: this.props.rightValue,
             }}
           >
-            <Text style={{ color: '#aaa', paddingRight: 10, fontWeight: 'bold', textAlign: 'right' }}>
+            <Text style={{ color: '#fff', paddingLeft: 10, paddingRight: 10, fontWeight: 'bold', textAlign: 'right' }}>
               {this.props.rightText}
             </Text>
           </Animatable.View>

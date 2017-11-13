@@ -18,18 +18,4 @@ export class GamePlayer {
     this.points = 0;
     this.winner = false;
   }
-
-  redeemPoints(points) {
-    this.points += points;
-  }
-}
-
-export class SeriesPlayer extends GamePlayer {
-  constructor(props) {
-    super(props);
-    this.wins = 0;
-    this.losses = 0;
-    this.draws = 0;
-    this.disconnected = false;
-  }
 }

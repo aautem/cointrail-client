@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Col, Row } from 'react-native-easy-grid';
-import { Text, View, Dimensions } from 'react-native';
+import { Text, View, Dimensions, TouchableHighlight } from 'react-native';
 import { Header, Button, Icon } from 'react-native-elements';
-import SeriesWinsContainer from './series-wins-container';
+import CointrailIcon from '../../common/cointrail_icon';
 
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 const appSS = require('../../../styles/app');
@@ -35,26 +35,32 @@ export default class BottomDrawer extends React.Component {
               marginRight: 160,
             }}>
               <Icon
-                name={this.props.drawerClosed ? 'ios-arrow-up' : 'ios-arrow-down'}
-                type='ionicon'
+                name={'drag-handle'}
+                type='material'
                 color='#aaa'
+                // onPress={this.props.drawerClosed ? this.props.openDrawer : this.props.closeDrawer}
               />
             </Row>
 
-            {/* SERIES SCORE CONTAINER */}
+            {/* TEXT CONTAINER */}
             <Row size={7/8}>
 
               {/* SOLO MODE */}
               {this.props.gameMode === 'solo' &&
               <Col size={10/14} style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ fontWeight: 'bold', paddingBottom: 30, fontSize: 26 }}>SOLO MODE</Text>
+                <Text style={{ fontWeight: 'bold', fontSize: 26 }}>SOLO MODE</Text>
+                <Text style={{ paddingBottom: 30 }}>Stats won't be saved.</Text>
               </Col>}
 
-              {/* SERIES MODE */}
-              {this.props.gameMode === 'series' &&
-              <SeriesWinsContainer />}
+              {/* ONLINE MODE */}
+              {this.props.gameMode === 'online' &&
+              <Col size={10/14} style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ fontWeight: 'bold', fontSize: 26 }}>ONLINE MODE</Text>
+                <Text style={{ paddingBottom: 30 }}>Stats will be saved.</Text>
+              </Col>}
 
-              {/* SHOT CLOCK */}
+              {/* SHOT CLOCK / NO LOGO */}
+              {this.props.timeLimit &&
               <Col size={4/14} style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 20 }}>
                 <View style={{
                   backgroundColor: '#fff',
@@ -64,9 +70,15 @@ export default class BottomDrawer extends React.Component {
                     padding: 20,
                     fontSize: 16,
                     color: '#aaa'
-                  }}>:00</Text>
+                  }}>:15</Text>
                 </View>
-              </Col>
+              </Col>}
+
+              {/* LOGO / NO SHOT CLOCK */}
+              {!this.props.timeLimit &&
+              <Col size={4/14} style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 20 }}>
+                <CointrailIcon size='small' />
+              </Col>}
 
             </Row>
           </Col>

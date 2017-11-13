@@ -21,10 +21,6 @@ export default function reducer(state = initialState, action) {
     return Object.assign({}, state, { boardSize: action.payload });
   }
 
-  if (action.type === actions.SET_LENGTH) {
-    return Object.assign({}, state, { seriesLength: action.payload });
-  }
-
   if (action.type === actions.SET_TIMER) {
     const timeLimit = !state.timeLimit;
     return Object.assign({}, state, { timeLimit: timeLimit });

@@ -6,8 +6,10 @@ import * as Animatable from 'react-native-animatable';
 import { View, Modal, Text, ActivityIndicator, TouchableHighlight, Platform } from 'react-native';
 import { Grid, Row, Col } from 'react-native-easy-grid';
 import { Button, Avatar } from 'react-native-elements';
-import * as seriesActions from '../../store/actions/series';
+import HorizontalGraph from '../common/horizontal-graph';
+import CointrailIcon from '../common/cointrail_icon';
 import * as gameActions from '../../store/actions/game';
+
 const appSS = require('../../styles/app');
 
 function mapStateToProps(state) {
@@ -22,7 +24,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     endGame: gameActions.endGame,
-    continueSeries: seriesActions.continueSeries,
+    startSoloGame: gameActions.startSoloGame,
+    playOnlineAgain: gameActions.playOnlineAgain,
   }, dispatch);
 };
 
@@ -51,13 +54,12 @@ class GameResultsModal extends React.Component {
         <Col size={14/14}>
           
           {/* HEADER */}
-          <Row size={1/24}>
+          <Row size={2/24}>
             <Col size={14/14} style={[appSS.center, { backgroundColor: '#fff' }]}>
               <Text style={{
-                fontWeight: 'bold',
-                color: this.props.game.players[winner].color,
+                fontWeight: 'bold'
               }}>
-                {this.props.game.winner.toUpperCase()} WINS BY {this.props.game.winByPoints ? 'POINTS' : 'COINTRAIL'}
+                GAME RESULTS
               </Text>
             </Col>
           </Row>
@@ -77,7 +79,7 @@ class GameResultsModal extends React.Component {
                   overlayContainerStyle={{ borderTopRightRadius: 50, overflow: 'hidden' }}
                 />
                 <View style={{ backgroundColor: player1 ? player1.color : '#aaa', width: 80, height: 30, alignSelf: 'flex-end', justifyContent: 'center', marginTop: -30, borderTopLeftRadius: 30, overflow: 'hidden' }}>
-                  <Text style={{ color: '#fff', textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>{player1 ? player1.points : 0}</Text>
+                  <Text style={{ color: '#fff', textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>{winner === player1.username ? 'Win' : 'Loss'}</Text>
                 </View>
               </Animatable.View>
             </Col>
@@ -110,128 +112,52 @@ class GameResultsModal extends React.Component {
                   overlayContainerStyle={{ borderTopLeftRadius: 50, overflow: 'hidden' }}
                 />
                 <View style={{ backgroundColor: player2 ? player2.color : '#aaa', width: 80, height: 30, alignSelf: 'flex-start', justifyContent: 'center', marginTop: -30, borderTopRightRadius: 30, overflow: 'hidden' }}>
-                  <Text style={{ color: '#fff', textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>{player2 ? player2.points : 0}</Text>
+                  <Text style={{ color: '#fff', textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>{winner === player2.username ? 'Win' : 'Loss'}</Text>
                 </View>
               </Animatable.View>
             </Col>
           </Row>
 
           {/* PREVIOUS GAMES */}
-          <Row size={13/24}>
+          <Row size={12/24}>
             <Col size={14/14}>
-              <Row size={4/13} style={{ backgroundColor: '#fff' }}>
+              <Row size={4/12} style={{ backgroundColor: '#fff' }}>
                 <Col size={14/14}>
-                  <Row size={1.5/4}>
-                    <Col size={14/14} style={{ justifyContent: 'center', alignItems: 'center' }}>
-                      <Text>Current Game</Text>
-                    </Col>
-                  </Row>
-                  <Row size={2.5/4} style={{ paddingLeft: 20, paddingRight: 20 }}>
-                    <Animatable.View
-                      animation={'slideInRight'}
-                      style={{
-                        backgroundColor: player1 ? player1.color : '#aaa',
-                        borderTopLeftRadius: 5,
-                        borderBottomLeftRadius: 5,
-                        overflow: 'hidden',
-                        justifyContent: 'center',
-                        flex: player1 ? player1.points : 1,
-                      }}
-                    >
-                      <Text style={{ color: '#fff', paddingLeft: 10, fontWeight: 'bold' }}>{player1 ? player1.points : 0}</Text>
-                    </Animatable.View>
-                    <Animatable.View
-                      animation={'slideInLeft'}
-                      style={{
-                        backgroundColor: player2 ? player2.color : '#aaa',
-                        borderTopRightRadius: 5,
-                        borderBottomRightRadius: 5,
-                        overflow: 'hidden',
-                        justifyContent: 'center',
-                        flex: player2 ? player2.points : 1,
-                      }}
-                    >
-                      <Text style={{ color: '#fff', paddingRight: 10, fontWeight: 'bold', textAlign: 'right' }}>{player2 ? player2.points : 0}</Text>
-                    </Animatable.View>
-                  </Row>
+                  <HorizontalGraph
+                    title={`${player1.username} vs. ${player2.username}`}
+                    leftText={this.props.game.winByConnect && winner === player1.username ? `${player1.points} + Cointrail` : `${player1.points}`}
+                    leftValue={player1.points}
+                    leftColor={player1.color}
+                    rightText={this.props.game.winByConnect && winner === player2.username ? `Cointrail + ${player2.points}` : `${player2.points}`}
+                    rightValue={player2.points}
+                    rightColor={player2.color}
+                  />
                 </Col>
               </Row>
-              <Row size={4/13} style={{ backgroundColor: '#fff' }}>
-                <Col size={14/14}>
-                  <Row size={1.5/4}>
-                    <Col size={14/14} style={{ justifyContent: 'center', alignItems: 'center' }}>
-                      <Text>Game 5</Text>
-                    </Col>
-                  </Row>
-                  <Row size={2.5/4} style={{ paddingLeft: 20, paddingRight: 20 }}>
-                    <Col size={206} style={{
-                      backgroundColor: player1 ? player1.color : '#aaa',
-                      borderTopLeftRadius: 5,
-                      borderBottomLeftRadius: 5,
-                      overflow: 'hidden',
-                      justifyContent: 'center'
-                    }}>
-                      <Text style={{ color: '#fff', paddingLeft: 10, fontWeight: 'bold' }}>206</Text>
-                    </Col>
-                    <Col size={301} style={{
-                      backgroundColor: player2 ? player2.color : '#aaa',
-                      borderTopRightRadius: 5,
-                      borderBottomRightRadius: 5,
-                      overflow: 'hidden',
-                      justifyContent: 'center'
-                    }}>
-                      <Text style={{ color: '#fff', paddingRight: 10, fontWeight: 'bold', textAlign: 'right' }}>301</Text>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-              <Row size={4/13} style={{ backgroundColor: '#fff' }}>
-                <Col size={14/14}>
-                  <Row size={1.5/4}>
-                    <Col size={14/14} style={{ justifyContent: 'center', alignItems: 'center' }}>
-                      <Text>Game 6</Text>
-                    </Col>
-                  </Row>
-                  <Row size={2.5/4} style={{ paddingLeft: 20, paddingRight: 20 }}>
-                    <Col size={121} style={{
-                      backgroundColor: player1 ? player1.color : '#aaa',
-                      borderTopLeftRadius: 5,
-                      borderBottomLeftRadius: 5,
-                      overflow: 'hidden',
-                      justifyContent: 'center'
-                    }}>
-                      <Text style={{ color: '#fff', paddingLeft: 10, fontWeight: 'bold' }}>121</Text>
-                    </Col>
-                    <Col size={98} style={{
-                      backgroundColor: player2 ? player2.color : '#aaa',
-                      borderTopRightRadius: 5,
-                      borderBottomRightRadius: 5,
-                      overflow: 'hidden',
-                      justifyContent: 'center'
-                    }}>
-                      <Text style={{ color: '#fff', paddingRight: 10, fontWeight: 'bold', textAlign: 'right' }}>98</Text>
-                    </Col>
-                  </Row>
-                </Col>
+
+              <Row size={8/12} style={{ backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
+                <CointrailIcon />
               </Row>
             </Col>
           </Row>
 
-          {/* NEXT BUTTON */}
-          <Row size={2/24}>
+          {/* PLAY AGAIN / MAIN MENU */}
+          <Row size={2/24} style={{ backgroundColor: '#eee' }}>
             <TouchableHighlight
-              style={{ alignItems: 'center', flex: 1, backgroundColor: '#eee' }}
               underlayColor='#ddd'
               activeOpacity={0.9}
-              onPress={this.props.game.mode === 'solo' ? this.props.endGame : this.props.continueSeries}
+              style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
+              onPress={this.props.game.mode === 'solo' ? this.props.startSoloGame : this.props.playOnlineAgain}
             >
-              <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
-                {this.props.loading &&
-                <ActivityIndicator animating={true} color='#aaa' size='small' />}
-                <Text style={{ color: '#aaa', fontWeight: 'bold' }}>
-                  {this.props.game.mode === 'solo' ? 'Menu' : 'Continue'}
-                </Text>
-              </Row>
+              <Text style={{ color: '#aaa', fontWeight: 'bold' }}>Play Again</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              underlayColor='#ddd'
+              activeOpacity={0.9}
+              style={{ justifyContent: 'center', alignItems: 'center', flex: 1, borderLeftWidth: 1, borderColor: '#aaa' }}
+              onPress={this.props.endGame}
+            >
+              <Text style={{ color: '#aaa', fontWeight: 'bold' }}>Main Menu</Text>
             </TouchableHighlight>
           </Row>
         </Col>
@@ -242,9 +168,12 @@ class GameResultsModal extends React.Component {
 
 GameResultsModal.propTypes = {
   game: PropTypes.object,
-  loading: PropTypes.bool,
+  startSoloGame: PropTypes.func,
+  playOnlineAgain: PropTypes.func,
   endGame: PropTypes.func,
-  continueSeries: PropTypes.func,
+  loading: PropTypes.bool,
+  loaded: PropTypes.bool,
+  error: PropTypes.string,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameResultsModal);

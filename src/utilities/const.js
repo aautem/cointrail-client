@@ -1,4 +1,4 @@
-export const APP_TITLE = '.~::  C O N T R A I L  ::~.';
+export const APP_TITLE = '.~::  C O I N T R A I L  ::~.';
 export const API_URL = 'https://contrail-api.herokuapp.com';
 export const POINTS = [5, 10, 25, 50, 100, 150];
 
@@ -11,8 +11,7 @@ export const POINT_COUNTS = {
 export const APP_PAGES = {
   AUTH: 'auth',
   MENU: 'menu',
-  SERIES: 'series',
-  SOLO: 'solo',
+  GAME: 'game',
   TEST: 'test',
 };
 

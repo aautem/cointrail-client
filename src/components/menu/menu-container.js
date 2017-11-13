@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import * as settingsActions from '../../store/actions/settings';
 import * as userActions from '../../store/actions/user';
 import * as appActions from '../../store/actions/app';
-import * as seriesActions from '../../store/actions/series';
 import * as gameActions from '../../store/actions/game';
 import * as constants from '../../utilities/const';
 import * as Animatable from 'react-native-animatable';
@@ -28,11 +27,7 @@ const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window'
 function mapStateToProps(state) {
   return {
     user: state.user,
-    settings: state.settings,
-    seriesLoading: state.series.loading,
-    settingsModal: state.settings.showModal,
-    profileModal: state.user.showModal,
-
+    showRequestModal: state.game.showRequestModal,
     gameLoading: state.game.loading,
     gameLoaded: state.game.loaded,
     gameError: state.game.error,
@@ -41,13 +36,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    joinGame: seriesActions.joinGame,
-    cancelGameRequest: seriesActions.cancelGameRequest,
+    startSoloGame: gameActions.startSoloGame,
+    joinGame: gameActions.joinGame,
+    cancelGameRequest: gameActions.cancelGameRequest,
     openSettingsModal: settingsActions.openModal,
     openProfileModal: userActions.openModal,
-    startSoloGame: gameActions.startSoloGame,
-    // changePage: appActions.changePage,
-    // logout: authActions.logout,
   }, dispatch);
 };
 
@@ -129,13 +122,13 @@ class MenuContainer extends React.Component {
         </Row>
 
         <Row size={14/24}>
-          <Col size={6/14}>
+          <Col size={8/14}>
 
             <Row size={14/14}>
-              <Col size={6/6} style={{ backgroundColor: '#fff' }}>
+              <Col size={8/8} style={{ backgroundColor: '#fff' }}>
 
                 {/* COINTRAIL ICON */}
-                <Row size={12/14} style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Row size={12/14} style={{ justifyContent: 'center', alignItems: 'center', paddingLeft: 20, paddingTop: 20 }}>
                   <CointrailIcon />
                 </Row>
 
@@ -162,55 +155,51 @@ class MenuContainer extends React.Component {
             </Row>
 
           </Col>
-          <Col size={8/14}>
+          <Col size={6/14}>
 
             {/* BUTTONS CONTAINER */}
             <Row size={14/14} style={[{ backgroundColor: '#fff' }]}>
-              <Col size={8/8} style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
+              <Col size={6/6} style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
                 <Button
                   backgroundColor='#ddd'
                   color='black'
                   iconRight={{ type: 'material-community', name: 'account-multiple', color: 'black' }}
                   title='JOIN'
-                  loading={this.props.seriesLoading}
-                  onPress={() => { this.props.joinGame(this.props.user, this.props.settings) }}
+                  onPress={this.props.joinGame}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
                   containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 100, borderBottomLeftRadius: 5, paddingBottom: 5 }}
-                  buttonStyle={{ width: viewportWidth / 2.25, height: viewportHeight / 10, borderTopLeftRadius: 100, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
+                  buttonStyle={{ width: '100%', height: 60, borderTopLeftRadius: 100, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
                 />
                 <Button
                   backgroundColor='#ddd'
                   color='black'
                   iconRight={{ type: 'material-community', name: 'account', color: 'black' }}
                   title='SOLO'
-                  loading={this.props.gameLoading}
                   onPress={this.props.startSoloGame}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
                   containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, paddingBottom: 5 }}
-                  buttonStyle={{ width: viewportWidth / 2.25, height: viewportHeight / 10, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
+                  buttonStyle={{ width: '100%', height: 60, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
                 />
                 <Button
                   backgroundColor='#ddd'
                   color='black'
                   iconRight={{ type: 'ionicon', name: 'md-stats', color: 'black' }}
                   title='LEADERS'
-                  loading={false}
                   onPress={() => { alert('Leaderboard') }}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
                   containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, paddingBottom: 5 }}
-                  buttonStyle={{ width: viewportWidth / 2.25, height: viewportHeight / 10, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
+                  buttonStyle={{ width: '100%', height: 60, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
                 /> 
                 <Button
                   backgroundColor='#ddd'
                   color='black'
                   iconRight={{ type: 'material-community', name: 'message-text-outline', color: 'black' }}
                   title='INBOX'
-                  loading={false}
                   onPress={() => { alert('Messages') }}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
                   containerOverlayStyle={{ paddingBottom: 20 }}
                   containerViewStyle={{ marginRight: 0, borderBottomLeftRadius: 100, borderTopLeftRadius: 5 }}
-                  buttonStyle={{ width: viewportWidth / 2.25, height: viewportHeight / 10, borderBottomLeftRadius: 100, borderTopLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
+                  buttonStyle={{ width: '100%', height: 60, borderBottomLeftRadius: 100, borderTopLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
                 />
               </Col>
             </Row>
@@ -221,7 +210,7 @@ class MenuContainer extends React.Component {
         <SettingsModal />
         <ProfileModal />
         <GameRequestModal
-          showModal={this.props.seriesLoading}
+          showModal={this.props.showRequestModal}
           cancel={this.props.cancelGameRequest}
         />
       </Col>
@@ -230,12 +219,16 @@ class MenuContainer extends React.Component {
 }
 
 MenuContainer.propTypes = {
-  joinGame: PropTypes.func,
   user: PropTypes.object,
-  settings: PropTypes.object,
-  seriesLoading: PropTypes.bool,
-  settingsModal: PropTypes.bool,
-  profileModal: PropTypes.bool,
+  startSoloGame: PropTypes.func,
+  joinGame: PropTypes.func,
+  cancelGameRequest: PropTypes.func,
+  openSettingsModal: PropTypes.func,
+  openProfileModal: PropTypes.func,
+  showRequestModal: PropTypes.bool,
+  gameLoading: PropTypes.bool,
+  gameLoaded: PropTypes.bool,
+  gameError: PropTypes.string,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuContainer);

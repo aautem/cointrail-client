@@ -73,7 +73,7 @@ class ProfileModal extends React.Component {
               <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>{this.props.stats.gamesPlayed}</Text>
 
               <Text style={{ color: '#fff', paddingTop: 10 }}>Points per Game</Text>
-              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>{this.props.stats.totalPoints / this.props.stats.gamesPlayed}</Text>
+              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>{this.props.stats.gamesPlayed ? (this.props.stats.totalPoints / this.props.stats.gamesPlayed) : 'N/A'}</Text>
 
               <Text style={{ color: '#fff', paddingTop: 10 }}>Total Points</Text>
               <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>{this.props.stats.totalPoints}</Text>
@@ -114,7 +114,7 @@ class ProfileModal extends React.Component {
                   leftColor={this.props.color}
                   rightText={`${100}%`}
                   rightValue={100 - ((this.props.stats.wins / this.props.stats.gamesPlayed) * 100)}
-                  rightColor={'#eee'}
+                  rightColor={'#aaa'}
                 />
               </Row>
               <Row size={4/12} style={{ backgroundColor: '#fff' }}>
@@ -122,10 +122,10 @@ class ProfileModal extends React.Component {
                   title={'Wins by Points'}
                   leftText={`${this.props.stats.winsByPoints}`}
                   leftValue={this.props.stats.winsByPoints}
-                  leftColor={this.props.color}
+                  leftColor={this.props.stats.winsByPoints ? this.props.color : '#aaa'}
                   rightText={`${this.props.stats.wins}`}
                   rightValue={this.props.stats.wins - this.props.stats.winsByPoints}
-                  rightColor='#eee'
+                  rightColor={this.props.stats.winsByPoints === this.props.stats.wins ? this.props.color : '#aaa'}
                 />
               </Row>
               <Row size={4/12} style={{ backgroundColor: '#fff' }}>
@@ -133,10 +133,10 @@ class ProfileModal extends React.Component {
                   title={'Wins by Cointrail'}
                   leftText={`${this.props.stats.winsByConnect}`}
                   leftValue={this.props.stats.winsByConnect}
-                  leftColor={this.props.color}
+                  leftColor={this.props.stats.winsByConnect ? this.props.color : '#aaa'}
                   rightText={`${this.props.stats.wins}`}
                   rightValue={this.props.stats.wins - this.props.stats.winsByConnect}
-                  rightColor='#eee'
+                  rightColor={this.props.stats.winsByConnect === this.props.stats.wins ? this.props.color : '#aaa'}
                 />
               </Row>
             </Col>

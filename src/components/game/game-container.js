@@ -11,7 +11,6 @@ import DropZone from './board/drop-zone';
 import GameBoard from './board/game-board';
 import GameResultsModal from './game-results-modal';
 import * as appActions from '../../store/actions/app';
-import * as seriesActions from '../../store/actions/series';
 import * as gameActions from '../../store/actions/game';
 
 const appSS = require('../../styles/app');
@@ -59,7 +58,7 @@ class GameContainer extends React.Component {
 
   quitGame() {
     // confirm forfeit
-    // reset series and game in state
+    // game in state
     this.props.changePage('menu');
   }
 
@@ -68,7 +67,6 @@ class GameContainer extends React.Component {
       return null;
     }
 
-    // SERIES RESETS AFTER FIRST MOVE OF SECOND GAME???
     return (
       <Drawer
         ref={(ref) => { this._drawer = ref }}
@@ -83,6 +81,7 @@ class GameContainer extends React.Component {
         content={
           <BottomDrawer
             gameMode={this.props.game.mode}
+            timeLimit={this.props.game.timeLimit}
             drawerClosed={this.state.drawerClosed}
             openDrawer={this.openDrawer.bind(this)}
             closeDrawer={this.closeDrawer.bind(this)}
@@ -119,7 +118,6 @@ class GameContainer extends React.Component {
 
 GameContainer.propTypes = {
   changePage: PropTypes.func,
-  series: PropTypes.object,
   game: PropTypes.object,
   username: PropTypes.string,
   loading: PropTypes.bool,

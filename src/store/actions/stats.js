@@ -26,26 +26,25 @@ export function loadStats(username) {
   }
 }
 
-export function saveStats(series) {
+export function saveStats(game) {
   return function(dispatch, getState) {
     dispatch(loading());
 
     const username = getState().user.username;
     const stats = Object.assign({}, getState().stats);
-    stats.seriesPlayed += 1;
-    stats.gamesPlayed += series.gamesPlayed;
-    stats.totalPoints += series.players[username].points;
+    stats.gamesPlayed += 1;
+    stats.totalPoints += game.players[username].points;
 
-    if (series.winner === username) {
+    if (game.winner === username) {
       stats.wins += 1;
-      if (series.winByPoints) {
+      if (game.winByPoints) {
         stats.winsByPoints += 1;
-      } else if (series.winByConnect) {
+      } else if (game.winByConnect) {
         stats.winsByConnect += 1;
-      } else if (series.disconnection) {
+      } else if (game.disconnection) {
         stats.winsByDefault += 1;
       }
-    } else if (series.draw) {
+    } else if (game.draw) {
       stats.draws += 1;
     } else {
       stats.losses += 1;
