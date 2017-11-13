@@ -8,8 +8,7 @@ import { Button, Avatar } from 'react-native-elements';
 import HorizontalGraph from '../../common/horizontal-graph';
 import * as userActions from '../../../store/actions/user';
 import * as statsActions from '../../../store/actions/stats';
-const styles = require('../../../styles/modals');
-const appSS = require('../../../styles/app');
+
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
 function mapStateToProps(state) {
@@ -67,63 +66,85 @@ class ProfileModal extends React.Component {
               </Text>
             </Col>
             <Col size={8/14} style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>{this.props.stats.gamesPlayed}</Text>
+              {/* <Text style={{ color: '#fff' }}>Overall Rank</Text>
+              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>12</Text> */}
+
               <Text style={{ color: '#fff' }}>Games Played</Text>
-              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20, paddingTop: 20 }}>{this.props.stats.totalPoints}</Text>
-              <Text style={{ color: '#fff' }}>Total Points</Text>
+              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>{this.props.stats.gamesPlayed}</Text>
+
+              <Text style={{ color: '#fff', paddingTop: 10 }}>Points per Game</Text>
+              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>{this.props.stats.totalPoints / this.props.stats.gamesPlayed}</Text>
+
+              <Text style={{ color: '#fff', paddingTop: 10 }}>Total Points</Text>
+              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>{this.props.stats.totalPoints}</Text>
             </Col>
           </Row>
 
           {/* WIN - LOSS - DRAW */}
           <Row size={2/24} style={{ backgroundColor: '#eee', justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{
-              color: 'black',
-              fontSize: 26,
-            }}>
-              {this.props.stats.wins} W - {this.props.stats.losses} L - {this.props.stats.draws} T
+            <Text style={{color: 'black', fontSize: 26, fontWeight: 'bold' }}>
+              {this.props.stats.wins + ' '}
+            </Text>
+            <Text style={{ fontSize: 26 }}>
+              {'W / '}
+            </Text>
+            <Text style={{ color: 'black', fontSize: 26, fontWeight: 'bold' }}>
+              {this.props.stats.losses + ' '}
+            </Text>
+            <Text style={{ fontSize: 26 }}>
+              {'L / '}
+            </Text>
+            <Text style={{color: 'black', fontSize: 26, fontWeight: 'bold' }}>
+              {this.props.stats.draws + ' '}
+            </Text>
+            <Text style={{ fontSize: 26 }}>
+              {'T'}
             </Text>
           </Row>
 
-          {/* USER VS HIGH SCORE GRAPHS */}
-          {this.props.stats.gamesPlayed > 0 &&
+          {/* USER STATS/SCORE GRAPHS */}
+          {this.props.stats.wins > 0 &&
           <Row size={12/24}>
             <Col size={14/14} style={{ paddingBottom: 15 }}>
               <Row size={4/12} style={{ backgroundColor: '#fff' }}>
                 <HorizontalGraph
-                  percentage={true}
-                  title={'Win Pct Rank: 8'}
+                  title={'Win Percentage'}
+                  leftText={`${((this.props.stats.wins / this.props.stats.gamesPlayed) * 100).toFixed(1)}%`}
+                  leftValue={(this.props.stats.wins / this.props.stats.gamesPlayed) * 100}
                   leftColor={this.props.color}
-                  leftValue={Math.round((this.props.stats.wins / this.props.stats.gamesPlayed) * 100)}
-                  rightColor='#fff'
-                  rightValue={(Math.round(0.835 * 100)) - (Math.round((this.props.stats.wins / this.props.stats.gamesPlayed) * 100))}
+                  rightText={`${100}%`}
+                  rightValue={100 - ((this.props.stats.wins / this.props.stats.gamesPlayed) * 100)}
+                  rightColor={'#eee'}
                 />
               </Row>
               <Row size={4/12} style={{ backgroundColor: '#fff' }}>
                 <HorizontalGraph
-                  percentage={false}
-                  title={'Pts/Gm Rank: 12'}
+                  title={'Wins by Points'}
+                  leftText={`${this.props.stats.winsByPoints}`}
+                  leftValue={this.props.stats.winsByPoints}
                   leftColor={this.props.color}
-                  leftValue={this.props.stats.totalPoints / this.props.stats.gamesPlayed}
-                  rightColor='#fff'
-                  rightValue={134 - (this.props.stats.totalPoints / this.props.stats.gamesPlayed)}
+                  rightText={`${this.props.stats.wins}`}
+                  rightValue={this.props.stats.wins - this.props.stats.winsByPoints}
+                  rightColor='#eee'
                 />
               </Row>
               <Row size={4/12} style={{ backgroundColor: '#fff' }}>
                 <HorizontalGraph
-                  percentage={true}
-                  title={'Connections/Gm Rank: 4'}
+                  title={'Wins by Cointrail'}
+                  leftText={`${this.props.stats.winsByConnect}`}
+                  leftValue={this.props.stats.winsByConnect}
                   leftColor={this.props.color}
-                  leftValue={(Math.round((((this.props.stats.wins - this.props.stats.winsByPoints) / this.props.stats.gamesPlayed) * 100)))}
-                  rightColor='#fff'
-                  rightValue={(Math.round(43.2)) - (Math.round((((this.props.stats.wins - this.props.stats.winsByPoints) / this.props.stats.gamesPlayed) * 100)))}
+                  rightText={`${this.props.stats.wins}`}
+                  rightValue={this.props.stats.wins - this.props.stats.winsByConnect}
+                  rightColor='#eee'
                 />
               </Row>
             </Col>
           </Row>}
 
-          {!this.props.stats.gamesPlayed &&
+          {!this.props.stats.wins &&
           <Row size={12/24} style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Get out there and play some games already!</Text>
+            <Text>Get out there and get some wins already!</Text>
           </Row>}
 
           {/* MENU / LOGOUT */}

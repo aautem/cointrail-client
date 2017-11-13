@@ -4,7 +4,7 @@ import * as Animatable from 'react-native-animatable';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Text, View } from 'react-native';
 import { Header, Button, Icon } from 'react-native-elements';
-const appSS = require('../../styles/app');
+// const s = require('../../styles/horizontal-graph');
 
 export default class HorizontalGraph extends React.Component {
   render () {
@@ -27,8 +27,8 @@ export default class HorizontalGraph extends React.Component {
               flex: this.props.leftValue,
             }}
           >
-            <Text style={{ color: '#fff', paddingLeft: 10, fontWeight: 'bold' }}>
-              {`${this.props.leftValue}${this.props.percentage ? '%' : ''}`}
+            <Text style={{ color: '#fff', paddingLeft: 10, paddingRight: 10, fontWeight: 'bold' }}>
+              {this.props.leftText}
             </Text>
           </Animatable.View>
           <Animatable.View
@@ -43,7 +43,7 @@ export default class HorizontalGraph extends React.Component {
             }}
           >
             <Text style={{ color: '#aaa', paddingRight: 10, fontWeight: 'bold', textAlign: 'right' }}>
-              {`${this.props.leftValue + this.props.rightValue}${this.props.percentage ? '%' : ''}`}
+              {this.props.rightText}
             </Text>
           </Animatable.View>
         </Row>
@@ -54,9 +54,10 @@ export default class HorizontalGraph extends React.Component {
 
 HorizontalGraph.propTypes = {
   title: PropTypes.string,
-  leftColor: PropTypes.string,
+  leftText: PropTypes.string,
   leftValue: PropTypes.number,
-  rightColor: PropTypes.string,
+  leftColor: PropTypes.string,
+  rightText: PropTypes.string,
   rightValue: PropTypes.number,
-  percentage: PropTypes.bool,
+  rightColor: PropTypes.string,
 };

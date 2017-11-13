@@ -20,6 +20,7 @@ export default class ScoreBoard extends React.Component {
         <Col size={7/14} style={[{ backgroundColor: players[usernames[0]].color }]}>
           <Row size={2/2} style={{ alignItems: 'center' }}>
             <Avatar
+              rounded
               height={viewportHeight / 12}
               source={{uri: players[usernames[0]].avatarUrl}}
               activeOpacity={0.7}
@@ -55,6 +56,7 @@ export default class ScoreBoard extends React.Component {
               color='#fff'
             />}
             <Avatar
+              rounded
               height={viewportHeight / 12}
               source={{uri: players[usernames[1]].avatarUrl}}
               activeOpacity={0.7}

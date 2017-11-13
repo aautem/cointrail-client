@@ -6,8 +6,8 @@ import * as Animatable from 'react-native-animatable';
 import { View, Modal, Text, ActivityIndicator, TouchableHighlight, Platform } from 'react-native';
 import { Grid, Row, Col } from 'react-native-easy-grid';
 import { Button, Avatar } from 'react-native-elements';
-import * as seriesActions from '../../../store/actions/series';
-const appSS = require('../../../styles/app');
+import * as seriesActions from '../../store/actions/series';
+const appSS = require('../../styles/app');
 
 function mapStateToProps(state) {
   return {
