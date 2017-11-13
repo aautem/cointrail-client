@@ -27,6 +27,9 @@ const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window'
 function mapStateToProps(state) {
   return {
     user: state.user,
+    onlineCount: state.app.onlineCount,
+    friends: state.friends.data,
+    friendsOnline: state.friends.onlineCount,
     showRequestModal: state.game.showRequestModal,
     gameLoading: state.game.loading,
     gameLoaded: state.game.loaded,
@@ -47,27 +50,30 @@ function mapDispatchToProps(dispatch) {
 class MenuContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      friends: [
-        {username: 'aautem', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583, color: 'green'},
-        {username: 'cdturner', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg', points: 583, color: 'purple'},
-        {username: 'kaitheguy', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583, color: 'red'},
-        {username: 'billybob', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg', points: 583, color: 'powderblue'},
-        {username: 'chocolaterain', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583, color: 'grey'},
-        {username: 'timmytwoshoes', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg', points: 583, color: 'pink'},
-        {username: 'kipperdom', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg', points: 583, color: 'steelblue'},
-        {username: 'hazyhank', avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg', points: 583, color: 'lime'},
-      ],
-    };
   }
 
   renderItem ({item, index}) {
+    if (item.btn) {
+      return (
+        <Button
+          title='Add Friend'
+          icon={{ name: 'add-circle', type: 'material', color: '#fff' }}
+          onPress={() => { alert('Adding friend') }}
+          containerViewStyle={{ borderRadius: 5, paddingTop: viewportHeight / 8 }}
+          buttonStyle={{ borderRadius: 5 }}
+        />
+      );
+    }
     return (
-      <FriendComponent username={item.username} image={item.avatar} text={item.points} color={item.color} />
+      <FriendComponent username={item.username} image={item.avatar} color={item.color} />
     );
   }
 
   render() {
+    if (!this.props.user.username) {
+      return null;
+    }
+
     return (
       <Col size={14/14}>
 
@@ -104,9 +110,12 @@ class MenuContainer extends React.Component {
             </Row>
 
             <Row size={8/10} style={{ paddingBottom: 3, paddingTop: 5, borderColor: 'black', borderTopWidth: 3, borderBottomWidth: 5, borderLeftWidth: 0, borderRightWidth: 0 }}>
+              
+              {/* FRIENDS CAROUSEL */}
+              {!!this.props.friends.length &&
               <Carousel
                 ref={(c) => { this._carousel = c }}
-                data={this.state.friends}
+                data={this.props.friends.concat([{ btn: true }])}
                 renderItem={this.renderItem}
                 sliderWidth={viewportWidth}
                 itemWidth={150}
@@ -114,7 +123,21 @@ class MenuContainer extends React.Component {
                 inactiveSlideOpacity={0.60}
                 inactiveSlideScale={0.80}
                 inactiveSlideShift={0}
-              />
+              />}
+              
+              {/* NO FRIENDS MESSAGE */}
+              {!this.props.friends.length &&
+              <Col size={14/14} style={appSS.center}>
+                <Text style={{ paddingBottom: 10 }}>Your friends will be displayed here!</Text>
+                <Button
+                  title='Add Friend'
+                  icon={{ name: 'add-circle', type: 'material', color: '#fff' }}
+                  onPress={() => { alert('Adding friend') }}
+                  containerViewStyle={{ borderRadius: 5 }}
+                  buttonStyle={{ borderRadius: 5 }}
+                />
+              </Col>}
+
             </Row>
           </Col>
         </Row>
@@ -129,10 +152,14 @@ class MenuContainer extends React.Component {
                 <Row size={12/14} style={{ justifyContent: 'center', alignItems: 'center', paddingLeft: 20, paddingTop: 20 }}>
                   <Col size={8/14} style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={{ color: 'black', fontSize: 16 }}>Players Online</Text>
-                    <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 24, paddingBottom: 20 }}>62</Text>
+                    <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 24, paddingBottom: 20 }}>
+                      {this.props.onlineCount}
+                    </Text>
 
                     <Text style={{ color: 'black', fontSize: 16 }}>Friends Online</Text>
-                    <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 24 }}>8 / 12</Text>
+                    <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 24 }}>
+                      {`${this.props.friendsOnline} / ${this.props.friends.length}`}
+                    </Text>
                   </Col>
                 </Row>
 

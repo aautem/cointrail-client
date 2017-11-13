@@ -2,6 +2,8 @@ export default function getInitialState() {
   return {
     app: {
       config: null,
+      onlineCount: 0,
+      playersOnline: [],
       page: 'auth', // auth | menu | game | solo | test
       loading: false,
       loaded: false,
@@ -80,13 +82,8 @@ export default function getInitialState() {
       error: null,
     },
     friends: {
-      data: [], // Array of user objects
-      loading: false,
-      loaded: false,
-      error: null,
-    },
-    history: {
-      data: [], // Array of game result objects
+      data: [], // Array of friend objects
+      onlineCount: 0,
       loading: false,
       loaded: false,
       error: null,

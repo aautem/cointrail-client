@@ -4,6 +4,7 @@ import * as appActions from './app';
 import * as userActions from './user';
 import * as statsActions from './stats';
 import * as settingsActions from './settings';
+import * as friendsActions from './friends';
 import { API_URL } from '../../utilities/const';
 import socketUtility from '../../utilities/socket';
 
@@ -19,7 +20,7 @@ const error = createAction(actions.ERROR, (payload) => payload);
 
 export function launchAuth0(config) {
   return function(dispatch) {
-    dispatch(loading()); 
+    dispatch(loading());
 
     if (!config) {
       dispatch(error('Missing app config.'));
@@ -60,11 +61,17 @@ function login(user) {
   return function(dispatch) {
     dispatch(settingsActions.loadSettings(user.nickname));
     dispatch(statsActions.loadStats(user.nickname));
-    // load friends list
+    dispatch(friendsActions.loadFriends(user.nickname));
     // load messages
 
     // start socket connection
     socketUtility.createSocketConnection();
+
+    socketUtility.socket.on('online-players-update', (onlinePlayers) => {
+      // check if that player is a friend!
+      dispatch(appActions.upsertOnlinePlayers(onlinePlayers));
+    });
+
     socketUtility.socket.on('user-request', (socketId, respond) => {
       const player = {
         id: socketId,
@@ -72,7 +79,6 @@ function login(user) {
         avatarUrl: user.picture,
         inGame: false,
       };
-
       dispatch(userActions.setUser(player));
       respond(player);
     });

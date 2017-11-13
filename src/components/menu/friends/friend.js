@@ -85,8 +85,9 @@ class FriendComponent extends React.Component {
 }
 
 FriendComponent.propTypes = {
+  username: PropTypes.string,
+  image: PropTypes.string,
   color: PropTypes.string,
-  username: PropTypes.string
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FriendComponent);
