@@ -11,7 +11,7 @@ export const actions = {
   ERROR: 'messages/ERROR',
 };
 
-const setMessages = createAction(action.SET_MESSAGES, (payload) => payload);
+const setMessages = createAction(actions.SET_MESSAGES, (payload) => payload);
 const showModal = createAction(actions.SHOW_MODAL);
 const hideModal = createAction(actions.HIDE_MODAL);
 const loading = createAction(actions.LOADING);
@@ -41,7 +41,7 @@ export function sendFriendRequest(username) {
       msg: `${getState().user.username} wants to be your friend!`,
     }
 
-    axios.post(`${API_URL}/api/messages/${username}`)
+    axios.post(`${API_URL}/api/messages/${username}`, { message: message })
     .then((res) => {
       console.log('Friend request response:', res);
       dispatch(loaded());

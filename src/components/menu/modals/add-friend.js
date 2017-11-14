@@ -39,6 +39,7 @@ class AddFriendModal extends React.Component {
 
   componentWillUnmount() {
     this.setState({ username: '' });
+    // CLEAR ERRORS FROM FRIENDS STATE
   }
 
   sendFriendRequest() {
