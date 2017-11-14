@@ -71,12 +71,15 @@ export default function getInitialState() {
     },
     leaderboard: {
       data: [], // Array of stats objects
+      showLeaderboardModal: false,
       loading: false,
       loaded: false,
       error: null,
     },
     messages: {
       data: [], // Array of message objects
+      messageCount: 0,
+      showMessagesModal: false,
       loading: false,
       loaded: false,
       error: null,
@@ -84,6 +87,7 @@ export default function getInitialState() {
     friends: {
       data: [], // Array of friend objects
       onlineCount: 0,
+      showAddFriendModal: false,
       loading: false,
       loaded: false,
       error: null,

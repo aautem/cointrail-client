@@ -17,6 +17,21 @@ const error = createAction(actions.ERROR, (payload) => payload);
 
 export const setUser = createAction(actions.SET_USER, (payload) => payload);
 
+export function saveUser(user) {
+  return function(dispatch) {
+    dispatch(loading());
+    axios.put(`${API_URL}/api/user/${user.username}`, { user: user })
+    .then((res) => {
+      console.log('*** SAVE USER RES ***', res);
+      dispatch(loaded());
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch(error('Error saving user.'));
+    });
+  }
+}
+
 export function openModal() {
   return function(dispatch) {
     dispatch({

@@ -182,7 +182,7 @@ class SettingsModal extends React.Component {
           <Row size={22/24} style={{ paddingLeft: 50, paddingRight: 50 }}>
             <ColorPicker
               onColorSelected={this.selectColor.bind(this)}
-              style={{flex: 1 }}
+              style={{ flex: 1 }}
               hideSliders={true}
               defaultColor={this.state.selectingAltColor ? this.props.settings.altColor : this.props.settings.color}
             />

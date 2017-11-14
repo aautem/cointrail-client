@@ -9,6 +9,14 @@ export default function reducer(state = initialState, action) {
     return Object.assign({}, state, { data: action.payload.friends });
   }
 
+  if (action.type === actions.SHOW_MODAL) {
+    return Object.assign({}, state, { showAddFriendModal: true });
+  }
+
+  if (action.type === actions.HIDE_MODAL) {
+    return Object.assign({}, state, { showAddFriendModal: false });
+  }
+
   if (action.type === actions.LOADING) {
     return Object.assign({}, state, { loading: true, loaded: false, error: null });
   }

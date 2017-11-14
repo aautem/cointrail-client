@@ -6,6 +6,7 @@ import * as settingsActions from '../../store/actions/settings';
 import * as userActions from '../../store/actions/user';
 import * as appActions from '../../store/actions/app';
 import * as gameActions from '../../store/actions/game';
+import * as friendsActions from '../../store/actions/friends';
 import * as constants from '../../utilities/const';
 import * as Animatable from 'react-native-animatable';
 import Carousel from 'react-native-snap-carousel';
@@ -16,6 +17,7 @@ import CointrailIcon from '../common/cointrail_icon';
 import HeaderIcon from './header-icon';
 import SettingsModal from './modals/settings';
 import ProfileModal from './modals/profile';
+import AddFriendModal from './modals/add-friend';
 import FriendsContainer from './friends/friends-container';
 import MenuButton from './menu-button';
 import GameRequestModal from './modals/game-request';
@@ -44,6 +46,7 @@ function mapDispatchToProps(dispatch) {
     cancelGameRequest: gameActions.cancelGameRequest,
     openSettingsModal: settingsActions.openModal,
     openProfileModal: userActions.openModal,
+    openAddFriendModal: friendsActions.openAddFriendModal,
   }, dispatch);
 };
 
@@ -52,13 +55,13 @@ class MenuContainer extends React.Component {
     super(props);
   }
 
-  renderItem ({item, index}) {
+  renderItem({item, index}) {
     if (item.btn) {
       return (
         <Button
           title='Add Friend'
           icon={{ name: 'add-circle', type: 'material', color: '#fff' }}
-          onPress={() => { alert('Adding friend') }}
+          onPress={this.props.openAddFriendModal}
           containerViewStyle={{ borderRadius: 5, paddingTop: viewportHeight / 8 }}
           buttonStyle={{ borderRadius: 5 }}
         />
@@ -116,7 +119,7 @@ class MenuContainer extends React.Component {
               <Carousel
                 ref={(c) => { this._carousel = c }}
                 data={this.props.friends.concat([{ btn: true }])}
-                renderItem={this.renderItem}
+                renderItem={this.renderItem.bind(this)}
                 sliderWidth={viewportWidth}
                 itemWidth={150}
                 activeSlideAlignment='start'
@@ -132,7 +135,7 @@ class MenuContainer extends React.Component {
                 <Button
                   title='Add Friend'
                   icon={{ name: 'add-circle', type: 'material', color: '#fff' }}
-                  onPress={() => { alert('Adding friend') }}
+                  onPress={this.props.openAddFriendModal}
                   containerViewStyle={{ borderRadius: 5 }}
                   buttonStyle={{ borderRadius: 5 }}
                 />
@@ -240,6 +243,7 @@ class MenuContainer extends React.Component {
         {/* MODALS */}
         <SettingsModal />
         <ProfileModal />
+        <AddFriendModal />
         <GameRequestModal
           showModal={this.props.showRequestModal}
           cancel={this.props.cancelGameRequest}

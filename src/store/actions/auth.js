@@ -5,6 +5,7 @@ import * as userActions from './user';
 import * as statsActions from './stats';
 import * as settingsActions from './settings';
 import * as friendsActions from './friends';
+import * as messagesActions from './messages';
 import { API_URL } from '../../utilities/const';
 import socketUtility from '../../utilities/socket';
 
@@ -62,7 +63,7 @@ function login(user) {
     dispatch(settingsActions.loadSettings(user.nickname));
     dispatch(statsActions.loadStats(user.nickname));
     dispatch(friendsActions.loadFriends(user.nickname));
-    // load messages
+    dispatch(messagesActions.loadMessages(user.nickname));
 
     // start socket connection
     socketUtility.createSocketConnection();
@@ -79,6 +80,7 @@ function login(user) {
         avatarUrl: user.picture,
         inGame: false,
       };
+      dispatch(userActions.saveUser(player));
       dispatch(userActions.setUser(player));
       respond(player);
     });

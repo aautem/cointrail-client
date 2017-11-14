@@ -71,13 +71,18 @@ class FriendComponent extends React.Component {
           />
         </Row>
         <Row size={1} style={{ backgroundColor: this.props.color, borderBottomRightRadius: 18, justifyContent: 'center', alignItems: 'center' }}>
-          <Icon
+          
+          {/* ONLINE INDICATOR */}
+          {/* <Icon
             size={14}
             name='circle'
             type='font-awesome'
             color='lightgreen'
-          />
-          <Text style={{ color: '#fff', fontWeight: 'bold', paddingLeft: 10 }}>{this.props.username ? this.props.username.toUpperCase() : ''}</Text>
+          /> */}
+          
+          <Text style={{ color: '#fff', fontWeight: 'bold', paddingLeft: 10 }}>
+            {this.props.username ? this.props.username.toUpperCase() : ''}
+          </Text>
         </Row>
       </View>
     );
