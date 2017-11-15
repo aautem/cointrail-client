@@ -7,10 +7,11 @@ import * as userActions from '../../store/actions/user';
 import * as appActions from '../../store/actions/app';
 import * as gameActions from '../../store/actions/game';
 import * as friendsActions from '../../store/actions/friends';
+import * as messagesActions from '../../store/actions/messages';
 import * as constants from '../../utilities/const';
 import * as Animatable from 'react-native-animatable';
 import Carousel from 'react-native-snap-carousel';
-import { Text, View, Dimensions } from 'react-native';
+import { Text, View, Dimensions, ActivityIndicator } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Header, Button, Icon } from 'react-native-elements';
 import CointrailIcon from '../common/cointrail_icon';
@@ -18,6 +19,7 @@ import HeaderIcon from './header-icon';
 import SettingsModal from './modals/settings';
 import ProfileModal from './modals/profile';
 import AddFriendModal from './modals/add-friend';
+import MessagesModal from './modals/messages';
 import FriendsContainer from './friends/friends-container';
 import MenuButton from './menu-button';
 import GameRequestModal from './modals/game-request';
@@ -33,6 +35,10 @@ function mapStateToProps(state) {
     friends: state.friends.data,
     friendsOnline: state.friends.onlineCount,
     showRequestModal: state.game.showRequestModal,
+
+    userLoading: state.user.loading,
+    userLoaded: state.user.loaded,
+    userError: state.user.error,
     gameLoading: state.game.loading,
     gameLoaded: state.game.loaded,
     gameError: state.game.error,
@@ -47,6 +53,7 @@ function mapDispatchToProps(dispatch) {
     openSettingsModal: settingsActions.openModal,
     openProfileModal: userActions.openModal,
     openAddFriendModal: friendsActions.openAddFriendModal,
+    openMessagesModal: messagesActions.openMessagesModal,
   }, dispatch);
 };
 
@@ -73,8 +80,21 @@ class MenuContainer extends React.Component {
   }
 
   render() {
-    if (!this.props.user.username) {
-      return null;
+    if (this.props.userLoading || this.props.gameLoading) {
+      return (
+        <Col size={14/14} style={[appSS.center, { backgroundColor: '#aaa' }]}>
+          <ActivityIndicator animating={true} color='#fff' size='large' />
+          <Text style={{ color: '#fff' }}>Loading</Text>
+        </Col>
+      );
+    }
+
+    if (this.props.userError || this.props.gameError) {
+      return (
+        <Col size={14/14} style={[appSS.center, { backgroundColor: '#aaa' }]}>
+          <Text style={{ color: 'red' }}>{this.props.userError || this.props.gameError}</Text>
+        </Col>
+      );
     }
 
     return (
@@ -113,9 +133,15 @@ class MenuContainer extends React.Component {
             </Row>
 
             <Row size={8/10} style={{ paddingBottom: 3, paddingTop: 5, borderColor: 'black', borderTopWidth: 3, borderBottomWidth: 5, borderLeftWidth: 0, borderRightWidth: 0 }}>
+
+              {/* FRIENDS ARE LOADING */}
+              {this.props.friends.loading &&
+              <Col size={14/14} style={appSS.center}>
+                <ActivityIndicator animating={true} color='black' size='large' />
+              </Col>}
               
               {/* FRIENDS CAROUSEL */}
-              {!!this.props.friends.length &&
+              {!this.props.friends.loading && this.props.friends.length > 0 &&
               <Carousel
                 ref={(c) => { this._carousel = c }}
                 data={this.props.friends.concat([{ btn: true }])}
@@ -129,7 +155,7 @@ class MenuContainer extends React.Component {
               />}
               
               {/* NO FRIENDS MESSAGE */}
-              {!this.props.friends.length &&
+              {!this.props.friends.loading && !this.props.friends.length &&
               <Col size={14/14} style={appSS.center}>
                 <Text style={{ paddingBottom: 10 }}>Your friends will be displayed here!</Text>
                 <Button
@@ -229,7 +255,7 @@ class MenuContainer extends React.Component {
                   color='black'
                   iconRight={{ type: 'material-community', name: 'message-text-outline', color: 'black' }}
                   title='INBOX'
-                  onPress={() => { alert('Messages') }}
+                  onPress={this.props.openMessagesModal}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
                   containerOverlayStyle={{ paddingBottom: 20 }}
                   containerViewStyle={{ marginRight: 0, borderBottomLeftRadius: 100, borderTopLeftRadius: 5 }}
@@ -244,6 +270,7 @@ class MenuContainer extends React.Component {
         <SettingsModal />
         <ProfileModal />
         <AddFriendModal />
+        <MessagesModal />
         <GameRequestModal
           showModal={this.props.showRequestModal}
           cancel={this.props.cancelGameRequest}

@@ -6,7 +6,7 @@ const initialState = getInitialState().messages;
 export default function reducer(state = initialState, action) {
 
   if (action.type === actions.SET_MESSAGES) {
-    return Object.assign({}, state, { data: action.payload.messages });
+    return Object.assign({}, state, { data: action.payload });
   }
 
   if (action.type === actions.SHOW_MODAL) {

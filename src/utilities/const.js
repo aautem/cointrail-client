@@ -14,9 +14,3 @@ export const APP_PAGES = {
   GAME: 'game',
   TEST: 'test',
 };
-
-export const AUTH_PAGES = {
-  LOGIN: 'login',
-  SIGNUP: 'signup',
-  FORGOT_PASSWORD: 'forgot-password',
-};

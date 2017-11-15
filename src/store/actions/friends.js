@@ -5,19 +5,43 @@ import * as messagesActions from './messages';
 
 export const actions = {
   SET_FRIENDS: 'friends/SET_FRIENDS',
-  SHOW_MODAL: 'friends/SHOW_MODAL',
-  HIDE_MODAL: 'friends/HIDE_MODAL',
+  
+  // SHOW_MODAL: 'friends/SHOW_MODAL',
+  // HIDE_MODAL: 'friends/HIDE_MODAL',
+
   LOADING: 'friends/LOADING',
   LOADED: 'friends/LOADED',
   ERROR: 'friends/ERROR',
 };
 
 const setFriends = createAction(actions.SET_FRIENDS, (payload) => payload);
-const showModal = createAction(actions.SHOW_MODAL);
-const hideModal = createAction(actions.HIDE_MODAL);
 const loading = createAction(actions.LOADING);
 const loaded = createAction(actions.LOADED);
 const error = createAction(actions.ERROR, (payload) => payload);
+
+// const showModal = createAction(actions.SHOW_MODAL);
+// const hideModal = createAction(actions.HIDE_MODAL);
+
+export function loadFriends(userId) {
+  return function(dispatch) {
+    dispatch(loading());
+    axios.get(`${API_URL}/api/friends/${userId}`)
+      .then((res) => {
+        console.log('Friends:', res.data);
+        dispatch(setFriends(res.data));
+        dispatch(loaded());
+      })
+      .catch((err) => {
+        console.log('Error loading friends:', err);
+        dispatch(error('Error loading friends.'));
+      });
+  }
+}
+
+
+//////////////////
+
+
 
 export function openAddFriendModal() {
   return function(dispatch) {
@@ -49,22 +73,6 @@ export function sendFriendRequest(username) {
       }
     }).catch((err) => {
       dispatch(error('Username does not exist.'));
-    });
-  }
-}
-
-export function loadFriends(username) {
-  return function(dispatch) {
-    dispatch(loading());
-    axios.get(`${API_URL}/api/friends/${username}`).then((res) => {
-
-      // SORT FRIENDS BY ONLINE STATUS
-      // UPDATE ONLINE FRIENDS COUNT IN STATE
-
-      dispatch(setFriends(res.data));
-      dispatch(loaded());
-    }).catch((err) => {
-      dispatch(error('Error loading friends.'));
     });
   }
 }

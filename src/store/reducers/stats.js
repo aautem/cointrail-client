@@ -1,7 +1,7 @@
 import getInitialState from '../initial-state';
 import { actions } from '../actions/stats';
 
-const initialState = getInitialState().stats;
+const initialState = getInitialState().user.stats;
 
 export default function reducer(state = initialState, action) {
 

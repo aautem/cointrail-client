@@ -26,18 +26,6 @@ const setTimer = createAction(actions.SET_TIMER, (payload) => payload);
 const setColor = createAction(actions.SET_COLOR, (payload) => payload);
 const setAltColor = createAction(actions.SET_ALT_COLOR, (payload) => payload);
 
-export function loadSettings(username) {
-  return function(dispatch) {
-    dispatch(loading());
-    axios.get(`${API_URL}/api/settings/${username}`).then((res) => {
-      dispatch(setSettings(res.data));
-      dispatch(loaded());
-    }).catch((err) => {
-      dispatch(error('Error loading settings.'));
-    });
-  }
-}
-
 export function saveSettings(username, settings) {
   return function(dispatch) {
     dispatch(loading());

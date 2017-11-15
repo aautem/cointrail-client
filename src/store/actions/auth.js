@@ -1,91 +1,94 @@
+import axios from 'axios';
 import { createAction } from 'redux-actions';
 import Auth0 from 'react-native-auth0';
 import * as appActions from './app';
 import * as userActions from './user';
-import * as statsActions from './stats';
-import * as settingsActions from './settings';
-import * as friendsActions from './friends';
-import * as messagesActions from './messages';
-import { API_URL } from '../../utilities/const';
+import { APP_PAGES, API_URL } from '../../utilities/const';
 import socketUtility from '../../utilities/socket';
 
 export const actions = {
+  SET_TOKEN: 'auth/SET_TOKEN',
   LOADING: 'auth/LOADING',
   LOADED: 'auth/LOADED',
   ERROR: 'auth/ERROR',
+  RESET: 'auth/RESET',
 };
 
+const setToken = createAction(actions.SET_TOKEN, (payload) => payload);
 const loading = createAction(actions.LOADING);
 const loaded = createAction(actions.LOADED);
 const error = createAction(actions.ERROR, (payload) => payload);
+const reset = createAction(actions.RESET, (payload) => payload);
 
+// Launch the Auth0 login modal
 export function launchAuth0(config) {
   return function(dispatch) {
     dispatch(loading());
-
     if (!config) {
-      dispatch(error('Missing app config.'));
+      dispatch(error('Config file not found.'));
     } else {
       const auth0 = new Auth0({
         domain: config.auth0Domain,
         clientId: config.auth0Id,
       });
-      
       auth0.webAuth.authorize({
         scope: 'openid profile email',
         audience: 'https://app77626749.auth0.com/userinfo'
       }).then((res) => {
-        console.log('*** TOKEN ***', res);
-  
         if (res.accessToken) {
+          dispatch(setToken(res.accessToken));
           auth0.auth.userInfo({ token: res.accessToken }).then((user) => {
-            console.log('*** USER ***', user);
-  
-            if (user.nickname) {
-              dispatch(login(user));
+            console.log('Auth0 user:', user);
+
+            if (user.nickname && user.sub) {
+              // start socket connection
+              socketUtility.createSocketConnection();
+              const socket = socketUtility.socket;
+              // Listen for players coming online
+              socket.on('online-players-update', (onlinePlayers) => {
+                // CHECK IF THAT PLAYER IS/WAS A FRIEND!
+                dispatch(appActions.upsertOnlinePlayers(onlinePlayers));
+              });
+              // Listen for successful connection
+              socket.on('user-request', (socketId, respond) => {
+                const player = {
+                  username: user.nickname,
+                  auth0Id: user.sub,
+                  socketId: socketId,
+                  avatarUrl: user.picture,
+                  online: true,
+                };
+                // Send user data back to socket server
+                respond(player);
+
+                // upsert user to database
+                axios.put(`${API_URL}/api/users/${player.auth0Id}`, player)
+                  .then((res) => {
+                    console.log('Database user:', res.data);
+
+                    dispatch(userActions.initializeUser(res.data));
+                    dispatch(appActions.changePage(APP_PAGES.MENU));
+                    dispatch(loaded());
+                  })
+                  .catch((err) => {
+                    // TODO: Close socket connection
+                    console.error('Error loading user from database:', err);
+                    dispatch(reset());
+                    dispatch(error('Error loading user from database.'));
+                  });
+              });
             } else {
-              dispatch(error('No username.'));
+              dispatch(reset());
+              dispatch(error('User data not found.'));
             }
           });
         } else {
-          dispatch(error('No auth token.'));
+          dispatch(error('Authentication token not found.'));
         }
       }).catch((err) => {
-        console.log('AuthError:', err);
+        console.log('Authentication error:', err);
         dispatch(error(err.error_description));
       });
     }
-  }
-}
-
-function login(user) {
-  return function(dispatch) {
-    dispatch(settingsActions.loadSettings(user.nickname));
-    dispatch(statsActions.loadStats(user.nickname));
-    dispatch(friendsActions.loadFriends(user.nickname));
-    dispatch(messagesActions.loadMessages(user.nickname));
-
-    // start socket connection
-    socketUtility.createSocketConnection();
-
-    socketUtility.socket.on('online-players-update', (onlinePlayers) => {
-      // check if that player is a friend!
-      dispatch(appActions.upsertOnlinePlayers(onlinePlayers));
-    });
-
-    socketUtility.socket.on('user-request', (socketId, respond) => {
-      const player = {
-        id: socketId,
-        username: user.nickname,
-        avatarUrl: user.picture,
-        inGame: false,
-      };
-      dispatch(userActions.saveUser(player));
-      dispatch(userActions.setUser(player));
-      respond(player);
-    });
-
-    dispatch(appActions.changePage('menu'));
-    dispatch(loaded());
   }
 }

@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Auth0 from 'react-native-auth0';
 import * as authActions from '../../store/actions/auth';
-import * as constants from '../../utilities/const';
 import { Text, ActivityIndicator } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Button } from 'react-native-elements';
+
 const appSS = require('../../styles/app');
 
 function mapStateToProps(state) {
@@ -39,6 +39,14 @@ class AuthContainer extends React.Component {
         <Col size={14/14} style={[appSS.center, { backgroundColor: '#aaa' }]}>
           <ActivityIndicator animating={true} color='#fff' size='large' />
           <Text style={{ color: '#fff' }}>Loading</Text>
+        </Col>
+      );
+    }
+
+    if (this.props.error) {
+      return (
+        <Col size={14/14} style={[appSS.center, { backgroundColor: '#aaa' }]}>
+          <Text style={{ color: 'red' }}>{this.props.error}</Text>
         </Col>
       );
     }

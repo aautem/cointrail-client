@@ -46,6 +46,16 @@ class AppContainer extends React.Component {
       );
     }
 
+    if (this.props.error) {
+      return (
+        <Grid>
+          <Col size={14/14} style={[appSS.center, { backgroundColor: '#aaa' }]}>
+            <Text style={{ color: 'red' }}>{this.props.error}</Text>
+          </Col>
+        </Grid>
+      );
+    }
+
     return (
       <Grid>
         <Col size={14/14}>

@@ -14,18 +14,6 @@ const loading = createAction(actions.LOADING);
 const loaded = createAction(actions.LOADED);
 const error = createAction(actions.ERROR, (payload) => payload);
 
-export function loadStats(username) {
-  return function(dispatch) {
-    dispatch(loading());
-    axios.get(`${API_URL}/api/stats/${username}`).then((res) => {
-      dispatch(setStats(res.data));
-      dispatch(loaded());
-    }).catch((err) => {
-      dispatch(error('Error loading stats.'));
-    });
-  }
-}
-
 export function saveStats(game) {
   return function(dispatch, getState) {
     dispatch(loading());
