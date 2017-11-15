@@ -29,9 +29,5 @@ export default function reducer(state = initialState, action) {
     return Object.assign({}, state, { loading: false, loaded: false, error: action.payload });
   }
 
-  if (action.type === actions.RESET) {
-    return initialState;
-  }
-
   return state;
 };

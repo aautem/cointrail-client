@@ -2,35 +2,32 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import * as settingsActions from '../../../store/actions/settings';
 import { Dimensions, Modal, View, Text, Slider, Switch, ActivityIndicator, TouchableOpacity, TouchableHighlight, Picker } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Button, Avatar } from 'react-native-elements';
 import { ColorPicker } from 'react-native-color-picker'
+import * as userActions from '../../../store/actions/user';
+import { pick } from 'lodash';
+
 const modalSS = require('../../../styles/modals');
 const appSS = require('../../../styles/app');
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
 function mapStateToProps(state) {
   return {
+    showModal: state.user.showSettingsModal,
     user: state.user,
-    settings: state.settings,
-    loading: state.settings.loading,
-    loaded: state.settings.loaded,
-    error: state.settings.error,
+    settings: state.user.settings,
+    loading: state.user.loading,
+    loaded: state.user.loaded,
+    error: state.user.error,
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    changeSize: settingsActions.changeSize,
-    changeLength: settingsActions.changeLength,
-    toggleTimer: settingsActions.toggleTimer,
-    changeColor: settingsActions.changeColor,
-    changeAltColor: settingsActions.changeAltColor,
-    loadSettings: settingsActions.loadSettings,
-    saveSettings: settingsActions.saveSettings,
-    closeModal: settingsActions.closeModal,
+    saveSettings: userActions.saveSettings,
+    closeModal: userActions.closeSettingsModal,
   }, dispatch);
 };
 
@@ -38,38 +35,41 @@ class SettingsModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      boardSize: this.props.settings.boardSize,
+      timeLimit: this.props.settings.timeLimit,
+      color: this.props.settings.color,
+      altColor: this.props.settings.altColor,
       selectingColor: false,
       selectingAltColor: false,
-    }
+    };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!this.props.showModal && nextProps.showModal && !nextProps.loaded) {
-      this.props.loadSettings(this.props.username);
-    }
+  saveSettings() {
+    const settings = pick(this.state, ['boardSize', 'timeLimit', 'color', 'altColor']);
+    this.props.saveSettings(this.props.user.auth0Id, settings);
+    this.props.closeModal();
   }
 
   selectColor(color) {
     if (this.state.selectingColor) {
-      this.props.changeColor(color);
+      this.setState({ color: color, selectingColor: false });
     } else if (this.state.selectingAltColor) {
-      this.props.changeAltColor(color);
+      this.setState({ altColor: color, selectingAltColor: false });
     }
-    this.setState({ selectingColor: false, selectingAltColor: false });
   }
 
   render() {
     return (
       <Modal
         animationType='fade'
-        visible={this.props.settings.showModal}
+        visible={this.props.showModal}
         onRequestClose={this.props.closeModal}
       >
-        {(!this.state.selectingColor && !this.state.selectingAltColor) &&
+        {!this.state.selectingColor && !this.state.selectingAltColor &&
         <Col size={14/14} style={[appSS.center, { backgroundColor: '#fff' }]}>
 
           {/* PICTURE / STATS */}
-          <Row size={8/24} style={{ backgroundColor: this.props.settings.color }}>
+          <Row size={8/24} style={{ backgroundColor: this.state.color }}>
             <Col size={6/14} style={{ justifyContent: 'center', alignItems: 'center' }}>
               <Avatar
                 height={viewportHeight / 5}
@@ -78,7 +78,7 @@ class SettingsModal extends React.Component {
                 activeOpacity={0.8}
               />
               <Text style={{ textAlign: 'center', paddingTop: 10, color: '#fff', fontWeight: 'bold' }}>
-                {this.props.user.username}
+                {this.props.user.username.toUpperCase()}
               </Text>
             </Col>
             <Col size={8/14} style={{ justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 20, paddingRight: 20 }}>
@@ -95,14 +95,14 @@ class SettingsModal extends React.Component {
               <Row size={4/14}>
                 <Col size={14/14} style={{ justifyContent: 'center' }}>
                   <Text style={[{ textAlign: 'center', color: 'black', fontWeight: 'bold' }]}>
-                    Gameboard Size: {this.props.settings.boardSize} x {this.props.settings.boardSize}
+                    Gameboard Size: {this.state.boardSize} x {this.state.boardSize}
                   </Text>
                   <Slider
                     minimumValue={4}
                     maximumValue={6}
-                    value={this.props.settings.boardSize}
+                    value={this.state.boardSize}
                     step={1}
-                    onSlidingComplete={(boardSize) => { this.props.changeSize(boardSize) }}
+                    onSlidingComplete={(boardSize) => { this.setState({ boardSize: boardSize }) }}
                     style={{ marginLeft: 30, marginRight: 30 }}
                   />
                 </Col>
@@ -113,8 +113,8 @@ class SettingsModal extends React.Component {
                 <Col size={14/14} style={{ alignItems: 'center', paddingTop: 5 }}>
                   <Text style={{ color: 'black', fontWeight: 'bold', paddingBottom: 5 }}>15 Second Limit</Text>
                   <Switch
-                    value={this.props.settings.timeLimit}
-                    onValueChange={() => { this.props.toggleTimer() }}
+                    value={this.state.timeLimit}
+                    onValueChange={(value) => { this.setState({ timeLimit: value }) }}
                   />
                 </Col>
               </Row>
@@ -129,7 +129,7 @@ class SettingsModal extends React.Component {
                     <View style={{
                       height: viewportHeight / 6,
                       width: viewportHeight / 6,
-                      backgroundColor: this.props.settings.color,
+                      backgroundColor: this.state.color,
                       borderRadius: 100,
                       borderWidth: 1,
                       borderColor: 'black',
@@ -145,7 +145,7 @@ class SettingsModal extends React.Component {
                     <View style={{
                       height: viewportHeight / 6,
                       width: viewportHeight / 6,
-                      backgroundColor: this.props.settings.altColor,
+                      backgroundColor: this.state.altColor,
                       borderRadius: 100,
                       borderWidth: 1,
                       borderColor: 'black',
@@ -158,13 +158,13 @@ class SettingsModal extends React.Component {
             </Col>
           </Row>
 
-          {/* SAVE BUTTON */}
+          {/* SAVE BUTTON (TODO: ADD CANCEL BUTTON) */}
           <Row size={2/24}>
             <TouchableHighlight
               style={{ alignItems: 'center', flex: 1, backgroundColor: '#eee' }}
               underlayColor='#ddd'
               activeOpacity={0.9}
-              onPress={() => { this.props.saveSettings(this.props.user.username, this.props.settings) }}
+              onPress={this.saveSettings.bind(this)}
             >
               <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
                 {this.props.loading &&
@@ -184,7 +184,7 @@ class SettingsModal extends React.Component {
               onColorSelected={this.selectColor.bind(this)}
               style={{ flex: 1 }}
               hideSliders={true}
-              defaultColor={this.state.selectingAltColor ? this.props.settings.altColor : this.props.settings.color}
+              defaultColor={this.state.selectingAltColor ? this.state.altColor : this.state.color}
             />
           </Row>
           <Row size={2/24}>
@@ -205,14 +205,12 @@ class SettingsModal extends React.Component {
 SettingsModal.propTypes = {
   user: PropTypes.object,
   settings: PropTypes.object,
-  changeSize: PropTypes.func,
-  changeLength: PropTypes.func,
-  toggleTimer: PropTypes.func,
-  changeColor: PropTypes.func,
-  changeAltColor: PropTypes.func,
-  closeModal: PropTypes.func,
-  loadSettings: PropTypes.func,
+  showModal: PropTypes.bool,
+  loading: PropTypes.bool,
+  loaded: PropTypes.bool,
+  error: PropTypes.string,
   saveSettings: PropTypes.func,
+  closeModal: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsModal);

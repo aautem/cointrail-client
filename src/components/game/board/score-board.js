@@ -9,10 +9,6 @@ const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window'
 
 export default class ScoreBoard extends React.Component {
   render() {
-    if (!this.props.game.roomName) {
-      return null;
-    }
-
     const players = this.props.game.players;
     const usernames = Object.keys(players);
 

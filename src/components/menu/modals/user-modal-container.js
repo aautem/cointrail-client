@@ -7,7 +7,6 @@ import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Button, Avatar } from 'react-native-elements';
 import HorizontalGraph from '../../common/horizontal-graph';
 import * as userActions from '../../../store/actions/user';
-import * as statsActions from '../../../store/actions/stats';
 const styles = require('../../../styles/modals');
 const appSS = require('../../../styles/app');
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
@@ -29,7 +28,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     closeModal: userActions.closeModal,
-    loadStats: statsActions.loadStats,
+    // loadStats: statsActions.loadStats,
   }, dispatch);
 };
 

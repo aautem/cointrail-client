@@ -6,21 +6,24 @@ import * as messagesActions from './messages';
 
 export const actions = {
   SET_USER: 'user/SET_USER',
-
-  // OPEN_MODAL: 'user/OPEN_MODAL',
-  // CLOSE_MODAL: 'user/CLOSE_MODAL',
-
+  OPEN_SETTINGS_MODAL: 'user/OPEN_SETTINGS_MODAL',
+  CLOSE_SETTINGS_MODAL: 'user/CLOSE_SETTINGS_MODAL',
+  OPEN_STATS_MODAL: 'user/OPEN_STATS_MODAL',
+  CLOSE_STATS_MODAL: 'user/CLOSE_STATS_MODAL',
   LOADING: 'user/LOADING',
   LOADED: 'user/LOADED',
   ERROR: 'user/ERROR',
-  RESET: 'user/RESET',
 };
 
 const setUser = createAction(actions.SET_USER, (payload) => payload);
 const loading = createAction(actions.LOADING);
 const loaded = createAction(actions.LOADED);
 const error = createAction(actions.ERROR, (payload) => payload);
-const reset = createAction(actions.RESET);
+
+export const openSettingsModal = createAction(actions.OPEN_SETTINGS_MODAL);
+export const closeSettingsModal = createAction(actions.CLOSE_SETTINGS_MODAL);
+export const openStatsModal = createAction(actions.OPEN_STATS_MODAL);
+export const closeStatsModal = createAction(actions.CLOSE_STATS_MODAL);
 
 export function initializeUser(user) {
   return function(dispatch) {
@@ -36,6 +39,24 @@ export function initializeUser(user) {
   }
 }
 
+export function saveSettings(auth0Id, settings) {
+  return function(dispatch) {
+    dispatch(loading());
+
+    axios.put(`${API_URL}/api/users/${auth0Id}`, { settings: settings })
+      .then((res) => {
+        console.log('User updated:', res.data);
+
+        dispatch(setUser(res.data));
+        dispatch(loaded());
+      })
+      .catch((err) => {
+        console.error('Error saving user settings:', err);
+        dispatch(error('Error saving user settings.'));
+      });
+  }
+}
+
 
 
 
@@ -44,7 +65,7 @@ export function initializeUser(user) {
 export function saveUser(user) {
   return function(dispatch) {
     dispatch(loading());
-    axios.put(`${API_URL}/api/user/${user.username}`, { user: user })
+    axios.put(`${API_URL}/api/users/${user.username}`, { user: user })
     .then((res) => {
       console.log('*** SAVE USER RES ***', res);
       dispatch(loaded());

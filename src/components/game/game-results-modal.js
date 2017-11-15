@@ -15,6 +15,7 @@ const appSS = require('../../styles/app');
 function mapStateToProps(state) {
   return {
     game: state.game,
+    showModal: state.game.showResultsModal,
     loading: state.game.loading,
     loaded: state.game.loaded,
     error: state.game.error,
@@ -35,10 +36,6 @@ class GameResultsModal extends React.Component {
   }
 
   render() {
-    if (!this.props.game.gameOver) {
-      return null;
-    }
-
     const usernames = Object.keys(this.props.game.players);
     const winner = this.props.game.winner;
     const loser = winner === usernames[0] ? usernames[1] : usernames[0];
@@ -48,8 +45,8 @@ class GameResultsModal extends React.Component {
     return (
       <Modal
         animationType='fade'
-        visible={this.props.game.gameOver}
-        onRequestClose={() => { }}
+        visible={this.props.showModal}
+        onRequestClose={() => {}}
       >
         <Col size={14/14}>
           
@@ -168,9 +165,12 @@ class GameResultsModal extends React.Component {
 
 GameResultsModal.propTypes = {
   game: PropTypes.object,
+  showModal: PropTypes.bool,
+
   startSoloGame: PropTypes.func,
   playOnlineAgain: PropTypes.func,
   endGame: PropTypes.func,
+
   loading: PropTypes.bool,
   loaded: PropTypes.bool,
   error: PropTypes.string,

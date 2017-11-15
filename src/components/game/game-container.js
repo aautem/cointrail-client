@@ -12,6 +12,7 @@ import GameBoard from './board/game-board';
 import GameResultsModal from './game-results-modal';
 import * as appActions from '../../store/actions/app';
 import * as gameActions from '../../store/actions/game';
+import { APP_PAGES } from '../../utilities/const';
 
 const appSS = require('../../styles/app');
 
@@ -58,15 +59,11 @@ class GameContainer extends React.Component {
 
   quitGame() {
     // confirm forfeit
-    // game in state
-    this.props.changePage('menu');
+    // reset game in state
+    this.props.changePage(APP_PAGES.MENU);
   }
 
   render () {
-    if (!this.props.game.roomName) {
-      return null;
-    }
-
     return (
       <Drawer
         ref={(ref) => { this._drawer = ref }}

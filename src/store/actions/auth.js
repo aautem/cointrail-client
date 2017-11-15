@@ -18,7 +18,7 @@ const setToken = createAction(actions.SET_TOKEN, (payload) => payload);
 const loading = createAction(actions.LOADING);
 const loaded = createAction(actions.LOADED);
 const error = createAction(actions.ERROR, (payload) => payload);
-const reset = createAction(actions.RESET, (payload) => payload);
+const reset = createAction(actions.RESET);
 
 // Launch the Auth0 login modal
 export function launchAuth0(config) {

@@ -2,7 +2,6 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import * as settingsActions from '../../store/actions/settings';
 import * as userActions from '../../store/actions/user';
 import * as appActions from '../../store/actions/app';
 import * as gameActions from '../../store/actions/game';
@@ -17,7 +16,7 @@ import { Header, Button, Icon } from 'react-native-elements';
 import CointrailIcon from '../common/cointrail_icon';
 import HeaderIcon from './header-icon';
 import SettingsModal from './modals/settings';
-import ProfileModal from './modals/profile';
+import StatsModal from './modals/stats';
 import AddFriendModal from './modals/add-friend';
 import MessagesModal from './modals/messages';
 import FriendsContainer from './friends/friends-container';
@@ -31,9 +30,11 @@ const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window'
 function mapStateToProps(state) {
   return {
     user: state.user,
+    
     onlineCount: state.app.onlineCount,
     friends: state.friends.data,
     friendsOnline: state.friends.onlineCount,
+
     showRequestModal: state.game.showRequestModal,
 
     userLoading: state.user.loading,
@@ -50,8 +51,10 @@ function mapDispatchToProps(dispatch) {
     startSoloGame: gameActions.startSoloGame,
     joinGame: gameActions.joinGame,
     cancelGameRequest: gameActions.cancelGameRequest,
-    openSettingsModal: settingsActions.openModal,
-    openProfileModal: userActions.openModal,
+
+    openSettingsModal: userActions.openSettingsModal,
+    openStatsModal: userActions.openStatsModal,
+
     openAddFriendModal: friendsActions.openAddFriendModal,
     openMessagesModal: messagesActions.openMessagesModal,
   }, dispatch);
@@ -60,6 +63,10 @@ function mapDispatchToProps(dispatch) {
 class MenuContainer extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  startSoloGame() {
+    this.props.startSoloGame(this.props.user);
   }
 
   renderItem({item, index}) {
@@ -119,7 +126,7 @@ class MenuContainer extends React.Component {
                     type='material'
                     color='black'
                     style={{ paddingRight: 5 }}
-                    onPress={this.props.openProfileModal}
+                    onPress={this.props.openStatsModal}
                   />
                   <Icon
                     size={24}
@@ -235,7 +242,7 @@ class MenuContainer extends React.Component {
                   color='black'
                   iconRight={{ type: 'material-community', name: 'account', color: 'black' }}
                   title='SOLO'
-                  onPress={this.props.startSoloGame}
+                  onPress={this.startSoloGame.bind(this)}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
                   containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, paddingBottom: 5 }}
                   buttonStyle={{ width: '100%', height: 60, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
@@ -268,13 +275,13 @@ class MenuContainer extends React.Component {
 
         {/* MODALS */}
         <SettingsModal />
-        <ProfileModal />
-        <AddFriendModal />
+        <StatsModal />
+        {/* <AddFriendModal />
         <MessagesModal />
         <GameRequestModal
           showModal={this.props.showRequestModal}
           cancel={this.props.cancelGameRequest}
-        />
+        /> */}
       </Col>
     );
   }
@@ -286,7 +293,7 @@ MenuContainer.propTypes = {
   joinGame: PropTypes.func,
   cancelGameRequest: PropTypes.func,
   openSettingsModal: PropTypes.func,
-  openProfileModal: PropTypes.func,
+  openStatsModal: PropTypes.func,
   showRequestModal: PropTypes.bool,
   gameLoading: PropTypes.bool,
   gameLoaded: PropTypes.bool,

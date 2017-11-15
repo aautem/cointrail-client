@@ -1,54 +1,98 @@
 import { createAction } from 'redux-actions';
-import { APP_PAGES } from '../../utilities/const';
+import { APP_PAGES, GAME_MODES } from '../../utilities/const';
 import Game from '../../utilities/game';
 import socketUtility from '../../utilities/socket';
 import * as appActions from './app';
-import * as statsActions from './stats';
 
-// timeout when waiting to 'join-game' response
+// timeout when waiting for 'join-game' response
 let joinGameTimeout = null;
 
 export const actions = {
-  UPSERT_GAME: 'game/UPSERT_GAME',
-  RESET: 'game/RESET',
-  SHOW_MODAL: 'game/SHOW_MODAL',
-  HIDE_MODAL: 'game/HIDE_MODAL',
+  SET_GAME: 'game/SET_GAME',
+  OPEN_RESULTS_MODAL: 'game/OPEN_RESULTS_MODAL',
+  CLOSE_RESULTS_MODAL: 'game/CLOSE_RESULTS_MODAL',
   LOADING: 'game/LOADING',
   LOADED: 'game/LOADED',
   ERROR: 'game/ERROR',
+  RESET: 'game/RESET',
 };
 
-const reset = createAction(actions.RESET);
-const showRequestModal = createAction(actions.SHOW_MODAL);
-const hideRequestModal = createAction(actions.HIDE_MODAL);
+const setGame = createAction(actions.SET_GAME, (payload) => payload);
+const openResultsModal = createAction(actions.OPEN_RESULTS_MODAL);
+const closeResultsModal = createAction(actions.CLOSE_RESULTS_MODAL);
 const loading = createAction(actions.LOADING);
 const loaded = createAction(actions.LOADED);
 const error = createAction(actions.ERROR, (payload) => payload);
+const reset = createAction(actions.RESET);
 
-export const upsertGame = createAction(actions.UPSERT_GAME, (payload) => payload);
 
-export function startSoloGame() {
-  return function (dispatch, getState) {
+// vvvvvvvvvvvvvvvvvvvvv
+
+// const showRequestModal = createAction(actions.SHOW_MODAL);
+// const hideRequestModal = createAction(actions.HIDE_MODAL);
+
+// ^^^^^^^^^^^^^^^^^^^
+
+
+export function startSoloGame(user) {
+  return function (dispatch) {
     dispatch(loading());
     const settings = {
       mode: 'solo',
       roomName: 'solo',
-      boardSize: getState().settings.boardSize,
-      timeLimit: getState().settings.timeLimit,
+      boardSize: user.settings.boardSize,
+      timeLimit: user.settings.timeLimit,
     };
     const game = new Game(settings);
     const player = {
-      id: getState().user.id,
-      username: getState().user.username,
-      avatarUrl: getState().user.avatarUrl,
-      color: getState().settings.color,
+      id: user.socketId,
+      username: user.username,
+      avatarUrl: user.avatarUrl,
+      color: user.settings.color,
     };
     game.initializeGame(player);
-    dispatch(upsertGame(game));
+    dispatch(setGame(game));
     dispatch(appActions.changePage(APP_PAGES.GAME));
     dispatch(loaded());
   }
 }
+
+export function dropCoin(colId) {
+  return function(dispatch, getState) {
+    dispatch(loading());
+
+    const game = Object.assign({}, getState().game);
+    const gameInstance = new Game(game);
+    gameInstance.dropCoin(colId);
+
+    console.log('Coin dropped:', gameInstance);
+
+    if (gameInstance.mode === GAME_MODES.SOLO) {
+      dispatch(setGame(gameInstance));
+      dispatch(loaded());
+      if (!gameInstance.gameOver && gameInstance.turn !== getState().user.username) {
+        // cpu drop coin
+        setTimeout(() => {
+          const colId = gameInstance.getOpenColumn();
+          dispatch(dropCoin(colId));
+        }, 1500);
+      } else if (gameInstance.gameOver) {
+        // show gameResultsModal
+        setTimeout(() => {
+          dispatch(openResultsModal());
+        }, 1500);
+      }
+    } else if (gameInstance.mode === GAME_MODES.ONLINE) {
+      // emit dropcoin event to room
+      const socket = socketUtility.socket;
+      socket.emit('drop-coin', gameInstance);
+      dispatch(loaded());
+    }
+  }
+}
+
+
+// vvvvvvvvvvvvvvvvvvvvv
 
 export function joinGame() {
   return function(dispatch, getState) {
@@ -109,7 +153,7 @@ export function joinGame() {
       dispatch(loading());
       dispatch(upsertGame(updatedGame));
       if (updatedGame.gameOver) {
-        dispatch(statsActions.saveStats(updatedGame));
+        // dispatch(statsActions.saveStats(updatedGame));
       }
       dispatch(loaded());
     });
@@ -158,35 +202,6 @@ export function endGame() {
 export function resetGame() {
   return function(dispatch) {
     dispatch(reset());
-  }
-}
-
-export function dropCoin(colId) {
-  return function(dispatch, getState) {
-    dispatch(loading());
-    const game = Object.assign({}, getState().game);
-    const gameInstance = new Game(game);
-    gameInstance.dropCoin(colId);
-
-    if (gameInstance.mode === 'solo') {
-      dispatch(upsertGame(gameInstance));
-      if (!gameInstance.gameOver) {
-        // cpu drop coin
-        if (gameInstance.turn !== getState().user.username) {
-          setTimeout(() => {
-            const colId = gameInstance.getOpenColumn();
-            console.log('*** CPU DROPPING COIN ***', colId);
-            dispatch(dropCoin(colId));
-          }, 1500);
-        }
-      }
-      dispatch(loaded());
-    } else {
-      // emit dropcoin event to room
-      const socket = socketUtility.socket;
-      socket.emit('drop-coin', gameInstance);
-      dispatch(loaded());
-    }
   }
 }
 

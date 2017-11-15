@@ -9,7 +9,6 @@ export const actions = {
   LOADING: 'app/LOADING',
   LOADED: 'app/LOADED',
   ERROR: 'app/ERROR',
-  RESET: 'app/RESET',
 };
 
 const route = createAction(actions.ROUTE, (payload) => payload);
@@ -18,7 +17,6 @@ const setConfig = createAction(actions.SET_CONFIG, (payload) => payload);
 const loading = createAction(actions.LOADING);
 const loaded = createAction(actions.LOADED);
 const error = createAction(actions.ERROR, (payload) => payload);
-const reset = createAction(actions.RESET);
 
 export function changePage(page) {
   return function(dispatch) {

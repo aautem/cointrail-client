@@ -43,9 +43,8 @@ export default function getInitialState() {
       loading: false,
       loaded: false,
       error: null,
-      showModal: false,
-      // showStatsModal: false,
-      // showSettingsModal: false,
+      showStatsModal: false,
+      showSettingsModal: false,
     },
     game: {
       mode: null, // online | solo

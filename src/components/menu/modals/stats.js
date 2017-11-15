@@ -7,18 +7,16 @@ import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Button, Avatar } from 'react-native-elements';
 import HorizontalGraph from '../../common/horizontal-graph';
 import * as userActions from '../../../store/actions/user';
-import * as statsActions from '../../../store/actions/stats';
 
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
 function mapStateToProps(state) {
   return {
-    color: state.settings.color,
-    showModal: state.user.showModal,
-    id: state.user.id,
+    showModal: state.user.showStatsModal,
     username: state.user.username,
     avatarUrl: state.user.avatarUrl,
-    stats: state.stats,
+    stats: state.user.stats,
+    color: state.user.settings.color,
     loading: state.user.loading,
     loaded: state.user.loaded,
     error: state.user.error,
@@ -27,20 +25,13 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    closeModal: userActions.closeModal,
-    loadStats: statsActions.loadStats,
+    closeModal: userActions.closeStatsModal,
   }, dispatch);
 };
 
-class ProfileModal extends React.Component {
+class StatsModal extends React.Component {
   constructor(props) {
     super(props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!this.props.showModal && nextProps.showModal) {
-      this.props.loadStats(this.props.username);
-    }
   }
 
   render() {
@@ -62,7 +53,7 @@ class ProfileModal extends React.Component {
                 activeOpacity={0.8}
               />
               <Text style={{ textAlign: 'center', paddingTop: 10, color: '#fff', fontWeight: 'bold' }}>
-                {this.props.username ? this.props.username.toUpperCase() : null}
+                {this.props.username.toUpperCase()}
               </Text>
             </Col>
             <Col size={8/14} style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -173,17 +164,18 @@ class ProfileModal extends React.Component {
   }
 }
 
-ProfileModal.propTypes = {
+StatsModal.propTypes = {
   showModal: PropTypes.bool,
-  id: PropTypes.string,
   username: PropTypes.string,
   avatarUrl: PropTypes.string,
   stats: PropTypes.object,
+  color: PropTypes.string,
   loading: PropTypes.bool,
   loaded: PropTypes.bool,
   error: PropTypes.string,
+
+
   closeModal: PropTypes.func,
-  loadStats: PropTypes.func,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileModal);
+export default connect(mapStateToProps, mapDispatchToProps)(StatsModal);

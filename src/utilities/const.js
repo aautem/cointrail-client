@@ -14,3 +14,8 @@ export const APP_PAGES = {
   GAME: 'game',
   TEST: 'test',
 };
+
+export const GAME_MODES = {
+  SOLO: 'solo',
+  ONLINE: 'online',
+};
