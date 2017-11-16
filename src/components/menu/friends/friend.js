@@ -38,7 +38,7 @@ class FriendComponent extends React.Component {
       <View style={{
         height: '100%',
         width: 150,
-        backgroundColor: '#ddd',
+        backgroundColor: '#eee',
         borderTopRightRadius: 80,
         borderBottomRightRadius: 20,
         borderWidth: 3,

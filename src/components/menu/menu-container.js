@@ -210,7 +210,7 @@ class MenuContainer extends React.Component {
                     type='material-community'
                     color='black'
                     style={{ paddingLeft: 5 }}
-                    onPress={() => { alert('Developed by Alex Autem\n\nhttps://aautem.github.io') }}
+                    onPress={() => { alert('Developed by Alex Autem\nhttps://aautem.github.io') }}
                   />
                 </Row>
               

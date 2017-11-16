@@ -106,10 +106,10 @@ class LeaderboardModal extends React.Component {
           {/* BUTTONS */}
           <Row size={3/24} style={{ justifyContent: 'center', alignItems: 'center', width: '100%', backgroundColor: '#eee', borderTopWidth: 2, borderColor: '#aaa' }}>
             <Button
-              title='Menu'
+              title='Main Menu'
               backgroundColor='#ccc'
               borderRadius={5}
-              buttonStyle={{ width: '100%', borderWidth: 1, borderColor: '#aaa' }}
+              buttonStyle={{ width: '100%', borderWidth: 1, borderColor: '#aaa', width: 150 }}
               textStyle={{ color: 'black', fontWeight: 'bold' }}
               onPress={this.props.closeLeaderboardModal}
             />
