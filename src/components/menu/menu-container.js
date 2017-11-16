@@ -68,10 +68,11 @@ class MenuContainer extends React.Component {
       return (
         <Button
           title='Add Friend'
-          icon={{ name: 'add-circle', type: 'material', color: '#fff' }}
+          iconRight={{ name: 'add-circle', type: 'material', color: 'black' }}
           onPress={this.props.openAddFriendModal}
+          color='black'
           containerViewStyle={{ borderRadius: 5, paddingTop: viewportHeight / 8 }}
-          buttonStyle={{ borderRadius: 5 }}
+          buttonStyle={{ borderRadius: 5, backgroundColor: '#ccc', borderColor: '#aaa', borderWidth: 1 }}
         />
       );
     }
@@ -101,22 +102,22 @@ class MenuContainer extends React.Component {
     return (
       <Col size={14/14}>
 
-        <Row size={10/24} style={[appSS.center, { backgroundColor: '#eee' }]}>
+        <Row size={10/24} style={[appSS.center]}>
           <Col size={14/14}>
 
             {/* NAV BAR CONTAINER */}
             <Row size={2/10}>
               <Col size={7/14}>
-                <Row size={2/2} style={{ paddingLeft: 10, paddingRight: 10, backgroundColor: '#ddd' }}>
-                  <Text style={{ textAlign: 'left', textAlignVertical: 'center', fontWeight: 'bold', color: 'black', fontSize: 16 }}>
+                <Row size={2/2} style={{ paddingLeft: 10, paddingRight: 10, backgroundColor: '#eee' }}>
+                  <Text style={{ textAlign: 'left', textAlignVertical: 'center', fontWeight: 'bold', color: 'black', fontSize: 18 }}>
                     {this.props.user.username.toUpperCase()}
                   </Text>
                 </Row>
               </Col>
               <Col size={7/14}>
-                <Row size={2/2} style={{ paddingLeft: 10, paddingRight: 10, backgroundColor: '#ddd', justifyContent: 'flex-end', alignItems: 'center' }}>
+                <Row size={2/2} style={{ paddingLeft: 10, paddingRight: 10, backgroundColor: '#eee', justifyContent: 'flex-end', alignItems: 'center' }}>
                   <Icon
-                    size={24}
+                    size={28}
                     name='account-circle'
                     type='material'
                     color='black'
@@ -124,7 +125,7 @@ class MenuContainer extends React.Component {
                     onPress={this.props.openStatsModal}
                   />
                   <Icon
-                    size={24}
+                    size={28}
                     name='settings'
                     type='material'
                     color='black'
@@ -134,7 +135,7 @@ class MenuContainer extends React.Component {
               </Col>
             </Row>
 
-            <Row size={8/10} style={{ paddingBottom: 3, paddingTop: 5, borderColor: 'black', borderTopWidth: 3, borderBottomWidth: 5, borderLeftWidth: 0, borderRightWidth: 0 }}>
+            <Row size={8/10} style={{ paddingBottom: 3, paddingTop: 5, borderColor: '#aaa', borderTopWidth: 2, borderBottomWidth: 2, borderLeftWidth: 0, borderRightWidth: 0, backgroundColor: '#fff' }}>
 
               {/* FRIENDS ARE LOADING */}
               {this.props.friends.loading &&
@@ -177,7 +178,7 @@ class MenuContainer extends React.Component {
           <Col size={8/14}>
 
             <Row size={14/14}>
-              <Col size={8/8} style={{ backgroundColor: '#fff' }}>
+              <Col size={8/8} style={{ backgroundColor: '#eee' }}>
 
                 {/* ONLINE INFO */}
                 <Row size={12/14} style={{ justifyContent: 'center', alignItems: 'center', paddingLeft: 20, paddingTop: 20 }}>
@@ -195,19 +196,19 @@ class MenuContainer extends React.Component {
                 </Row>
 
                 {/* HELP AND INFO ICONS */}
-                <Row size={2/14} style={{ justifyContent: 'flex-start', alignItems: 'flex-end', backgroundColor: '#fff', paddingLeft: 10, paddingBottom: 10 }}>
+                <Row size={2/14} style={{ justifyContent: 'flex-start', alignItems: 'flex-end', paddingLeft: 10, paddingBottom: 10 }}>
                   <Icon
-                    size={32}
+                    size={28}
                     name='help-circle'
                     type='material-community'
-                    color='#ddd'
+                    color='black'
                     onPress={() => { alert('Stratigically drop your game pieces to form a horizontal, vertical, or diagonal Cointrail.\n\nIf neither player acheives a Cointrail, the player with the most points wins.') }}
                   />
                   <Icon
-                    size={32}
+                    size={28}
                     name='information'
                     type='material-community'
-                    color='#ddd'
+                    color='black'
                     style={{ paddingLeft: 5 }}
                     onPress={() => { alert('Developed by Alex Autem\n\nhttps://aautem.github.io') }}
                   />
@@ -220,40 +221,40 @@ class MenuContainer extends React.Component {
           <Col size={6/14}>
 
             {/* BUTTONS CONTAINER */}
-            <Row size={14/14} style={[{ backgroundColor: '#fff' }]}>
+            <Row size={14/14}>
               <Col size={6/6} style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
                 <Button
-                  backgroundColor='#ddd'
+                  backgroundColor='#ccc'
                   color='black'
                   iconRight={{ type: 'material-community', name: 'account-multiple', color: 'black' }}
                   title='JOIN'
                   onPress={this.props.joinGame}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
                   containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 100, borderBottomLeftRadius: 5, paddingBottom: 5 }}
-                  buttonStyle={{ width: '100%', height: 60, borderTopLeftRadius: 100, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
+                  buttonStyle={{ width: '100%', height: 60, borderTopLeftRadius: 100, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20, borderColor: '#aaa', borderWidth: 1 }}
                 />
                 <Button
-                  backgroundColor='#ddd'
+                  backgroundColor='#ccc'
                   color='black'
                   iconRight={{ type: 'material-community', name: 'account', color: 'black' }}
                   title='SOLO'
                   onPress={this.props.startSoloGame}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
                   containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, paddingBottom: 5 }}
-                  buttonStyle={{ width: '100%', height: 60, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
+                  buttonStyle={{ width: '100%', height: 60, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20, borderColor: '#aaa', borderWidth: 1 }}
                 />
                 <Button
-                  backgroundColor='#ddd'
+                  backgroundColor='#ccc'
                   color='black'
                   iconRight={{ type: 'ionicon', name: 'md-stats', color: 'black' }}
                   title='LEADERS'
                   onPress={this.props.openLeaderboardModal}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
                   containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, paddingBottom: 5 }}
-                  buttonStyle={{ width: '100%', height: 60, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
+                  buttonStyle={{ width: '100%', height: 60, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20, borderColor: '#aaa', borderWidth: 1 }}
                 /> 
                 <Button
-                  backgroundColor='#ddd'
+                  backgroundColor='#ccc'
                   color='black'
                   iconRight={{ type: 'material-community', name: 'message-text-outline', color: 'black' }}
                   title='INBOX'
@@ -261,7 +262,7 @@ class MenuContainer extends React.Component {
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
                   containerOverlayStyle={{ paddingBottom: 20 }}
                   containerViewStyle={{ marginRight: 0, borderBottomLeftRadius: 100, borderTopLeftRadius: 5 }}
-                  buttonStyle={{ width: '100%', height: 60, borderBottomLeftRadius: 100, borderTopLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
+                  buttonStyle={{ width: '100%', height: 60, borderBottomLeftRadius: 100, borderTopLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20, borderColor: '#aaa', borderWidth: 1 }}
                 />
               </Col>
             </Row>

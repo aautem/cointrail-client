@@ -38,7 +38,7 @@ class FriendComponent extends React.Component {
       <View style={{
         height: '100%',
         width: 150,
-        backgroundColor: '#fff',
+        backgroundColor: '#ddd',
         borderTopRightRadius: 80,
         borderBottomRightRadius: 20,
         borderWidth: 3,
@@ -59,14 +59,14 @@ class FriendComponent extends React.Component {
             size={24}
             name='message-text'
             type='material-community'
-            color={this.props.friend.settings.color}
+            color='black'
             style={{ flex: 1, alignItems: 'center', paddingLeft: 5 }}
           />
           <Icon
             size={50}
             name='control-point-duplicate'
             type='material'
-            color={this.props.friend.settings.color}
+            color='black'
             style={{ flex: 1, alignItems: 'center', paddingRight: 10, paddingBottom: 20 }}
           />
         </Row>
