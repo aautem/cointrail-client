@@ -63,6 +63,7 @@ export default function getInitialState() {
       disconnection: false,
       showRequestModal: false,
       showResultsModal: false,
+      requestingGame: false,
       loading: false,
       loaded: false,
       error: null,

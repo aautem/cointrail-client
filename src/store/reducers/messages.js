@@ -9,11 +9,11 @@ export default function reducer(state = initialState, action) {
     return Object.assign({}, state, { data: action.payload });
   }
 
-  if (action.type === actions.SHOW_MODAL) {
+  if (action.type === actions.OPEN_MODAL) {
     return Object.assign({}, state, { showMessagesModal: true });
   }
 
-  if (action.type === actions.HIDE_MODAL) {
+  if (action.type === actions.CLOSE_MODAL) {
     return Object.assign({}, state, { showMessagesModal: false });
   }
 

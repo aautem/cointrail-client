@@ -16,6 +16,22 @@ export default function reducer(state = initialState, action) {
     return Object.assign({}, state, { showResultsModal: false });
   }
 
+  if (action.type === actions.OPEN_REQUEST_MODAL) {
+    return Object.assign({}, state, { showRequestModal: true });
+  }
+
+  if (action.type === actions.CLOSE_REQUEST_MODAL) {
+    return Object.assign({}, state, { showRequestModal: false });
+  }
+
+  if (action.type === actions.START_GAME_REQUEST) {
+    return Object.assign({}, state, { requestingGame: true });
+  }
+
+  if (action.type === actions.END_GAME_REQUEST) {
+    return Object.assign({}, state, { requestingGame: false });
+  }
+
   if (action.type === actions.LOADING) {
     return Object.assign({}, state, { loading: true, loaded: false, error: null });
   }
@@ -31,14 +47,6 @@ export default function reducer(state = initialState, action) {
   if (action.type === actions.RESET) {
     return initialState;
   }
-
-  // if (action.type === actions.SHOW_MODAL) {
-  //   return Object.assign({}, state, { showRequestModal: true });
-  // }
-
-  // if (action.type === actions.HIDE_MODAL) {
-  //   return Object.assign({}, state, { showRequestModal: false });
-  // }
 
   return state;
 };

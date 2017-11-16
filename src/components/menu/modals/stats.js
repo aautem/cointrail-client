@@ -64,7 +64,7 @@ class StatsModal extends React.Component {
               <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>{this.props.stats.gamesPlayed}</Text>
 
               <Text style={{ color: '#fff', paddingTop: 10 }}>Points per Game</Text>
-              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>{this.props.stats.gamesPlayed ? (this.props.stats.totalPoints / this.props.stats.gamesPlayed) : 'N/A'}</Text>
+              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>{this.props.stats.gamesPlayed ? (this.props.stats.totalPoints / this.props.stats.gamesPlayed).toFixed(1) : 'N/A'}</Text>
 
               <Text style={{ color: '#fff', paddingTop: 10 }}>Total Points</Text>
               <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>{this.props.stats.totalPoints}</Text>
@@ -105,7 +105,7 @@ class StatsModal extends React.Component {
                   leftColor={this.props.color}
                   rightText={`${100}%`}
                   rightValue={100 - ((this.props.stats.wins / this.props.stats.gamesPlayed) * 100)}
-                  rightColor={'#aaa'}
+                  rightColor={(this.props.stats.wins / this.props.stats.gamesPlayed) * 100 === 100 ? this.props.color : '#aaa'}
                 />
               </Row>
               <Row size={4/12} style={{ backgroundColor: '#fff' }}>

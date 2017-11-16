@@ -45,8 +45,8 @@ class GameContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-      // trigger animation to highlight winning pieces
-      // setTimeout(this.props.showWinningConnection, 2000);
+    // trigger animation to highlight winning pieces
+    // setTimeout(this.props.showWinningConnection, 2000);
   }
 
   openDrawer() {
@@ -69,7 +69,7 @@ class GameContainer extends React.Component {
         ref={(ref) => { this._drawer = ref }}
         side='bottom'
         type='overlay'
-        initializeOpen={true}
+        initializeOpen={false}
         closedDrawerOffset={3.5/14}
         openDrawerOffset={(viewport) => (viewport.height / 10 )}
         onOpen={() => { this.setState({ drawerClosed: false }) }}

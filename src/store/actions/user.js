@@ -3,6 +3,7 @@ import { createAction } from 'redux-actions';
 import { API_URL } from '../../utilities/const';
 import * as friendsActions from './friends';
 import * as messagesActions from './messages';
+import { pick } from 'lodash';
 
 export const actions = {
   SET_USER: 'user/SET_USER',
@@ -45,7 +46,7 @@ export function saveSettings(auth0Id, settings) {
 
     axios.put(`${API_URL}/api/users/${auth0Id}`, { settings: settings })
       .then((res) => {
-        console.log('User updated:', res.data);
+        console.log('Settings updated:', res.data.settings);
 
         dispatch(setUser(res.data));
         dispatch(loaded());
@@ -53,6 +54,53 @@ export function saveSettings(auth0Id, settings) {
       .catch((err) => {
         console.error('Error saving user settings:', err);
         dispatch(error('Error saving user settings.'));
+      });
+  }
+}
+
+export function saveStats() {
+  return function(dispatch, getState) {
+    dispatch(loading());
+
+    const auth0Id = getState().user.auth0Id;
+    const username = getState().user.username;
+    const stats = Object.assign({}, getState().user.stats);
+    const game = getState().game;
+
+    console.log('Updating stats:', stats);
+
+    stats.gamesPlayed += 1;
+    stats.totalPoints += game.players[username].points;
+
+    if (game.winner) {
+      if (username === game.winner) {
+        stats.wins += 1;
+        if (game.winByConnect) {
+          stats.winsByConnect += 1;
+        } else if (game.winByPoints) {
+          stats.winsByPoints += 1;
+        } else if (game.disconnection) {
+          stats.winsByDefault += 1;
+        }
+      } else {
+        stats.losses += 1;
+      }
+    } else if (game.draw) {
+      stats.draws += 1;
+    }
+
+    console.log('Sending stats to server:', stats);
+
+    axios.put(`${API_URL}/api/users/${auth0Id}`, { stats: stats })
+      .then((res) => {
+        console.log('Stats updated:', res.data.stats);
+
+        dispatch(setUser(res.data));
+        dispatch(loaded());
+      })
+      .catch((err) => {
+        console.error('Error saving user stats:', err);
+        dispatch(error('Error saving user stats.'));
       });
   }
 }

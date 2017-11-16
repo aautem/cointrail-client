@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as friendsActions from '../../../store/actions/friends';
+import * as messagesActions from '../../../store/actions/messages';
 import { Dimensions, Modal, View, Text, Slider, Switch, ActivityIndicator, TouchableOpacity, TouchableHighlight, Picker } from 'react-native';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Button, Avatar, SearchBar } from 'react-native-elements';
@@ -23,7 +24,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    sendFriendRequest: friendsActions.sendFriendRequest,
+    sendFriendRequest: messagesActions.sendFriendRequest,
     closeAddFriendModal: friendsActions.closeAddFriendModal,
   }, dispatch);
 };
@@ -38,7 +39,7 @@ class AddFriendModal extends React.Component {
 
   componentWillUnmount() {
     this.setState({ username: '' });
-    // CLEAR ERRORS FROM FRIENDS STATE
+    // TODO: Clear any error messages from friends state
   }
 
   sendFriendRequest() {
@@ -68,7 +69,7 @@ class AddFriendModal extends React.Component {
             title='Send Request'
             loading={this.props.loading}
             onPress={this.sendFriendRequest.bind(this)}
-            containerViewStyle={{ borderRadius: 5, width: '100%', paddingTop: 50 }}
+            containerViewStyle={{ borderRadius: 5, width: '100%', paddingTop: 5 }}
             buttonStyle={{ borderRadius: 5 }}
           />
           <Button

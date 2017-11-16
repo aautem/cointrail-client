@@ -24,8 +24,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    endGame: gameActions.endGame,
     startSoloGame: gameActions.startSoloGame,
+    endGame: gameActions.endGame,
     playOnlineAgain: gameActions.playOnlineAgain,
   }, dispatch);
 };

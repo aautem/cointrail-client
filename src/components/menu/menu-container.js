@@ -7,6 +7,7 @@ import * as appActions from '../../store/actions/app';
 import * as gameActions from '../../store/actions/game';
 import * as friendsActions from '../../store/actions/friends';
 import * as messagesActions from '../../store/actions/messages';
+import * as leaderboardActions from '../../store/actions/leaderboard';
 import * as constants from '../../utilities/const';
 import * as Animatable from 'react-native-animatable';
 import Carousel from 'react-native-snap-carousel';
@@ -23,6 +24,7 @@ import FriendsContainer from './friends/friends-container';
 import MenuButton from './menu-button';
 import GameRequestModal from './modals/game-request';
 import FriendComponent from './friends/friend';
+import LeaderboardModal from './modals/leaderboard';
 
 const appSS = require('../../styles/app');
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
@@ -30,13 +32,10 @@ const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window'
 function mapStateToProps(state) {
   return {
     user: state.user,
-    
     onlineCount: state.app.onlineCount,
     friends: state.friends.data,
     friendsOnline: state.friends.onlineCount,
-
     showRequestModal: state.game.showRequestModal,
-
     userLoading: state.user.loading,
     userLoaded: state.user.loaded,
     userError: state.user.error,
@@ -51,10 +50,9 @@ function mapDispatchToProps(dispatch) {
     startSoloGame: gameActions.startSoloGame,
     joinGame: gameActions.joinGame,
     cancelGameRequest: gameActions.cancelGameRequest,
-
     openSettingsModal: userActions.openSettingsModal,
     openStatsModal: userActions.openStatsModal,
-
+    openLeaderboardModal: leaderboardActions.openLeaderboardModal,
     openAddFriendModal: friendsActions.openAddFriendModal,
     openMessagesModal: messagesActions.openMessagesModal,
   }, dispatch);
@@ -63,10 +61,6 @@ function mapDispatchToProps(dispatch) {
 class MenuContainer extends React.Component {
   constructor(props) {
     super(props);
-  }
-
-  startSoloGame() {
-    this.props.startSoloGame(this.props.user);
   }
 
   renderItem({item, index}) {
@@ -82,7 +76,7 @@ class MenuContainer extends React.Component {
       );
     }
     return (
-      <FriendComponent username={item.username} image={item.avatar} color={item.color} />
+      <FriendComponent friend={item} />
     );
   }
 
@@ -107,9 +101,10 @@ class MenuContainer extends React.Component {
     return (
       <Col size={14/14}>
 
-        {/* FRIENDS CONTAINER */}
         <Row size={10/24} style={[appSS.center, { backgroundColor: '#eee' }]}>
           <Col size={14/14}>
+
+            {/* NAV BAR CONTAINER */}
             <Row size={2/10}>
               <Col size={7/14}>
                 <Row size={2/2} style={{ paddingLeft: 10, paddingRight: 10, backgroundColor: '#ddd' }}>
@@ -206,7 +201,7 @@ class MenuContainer extends React.Component {
                     name='help-circle'
                     type='material-community'
                     color='#ddd'
-                    onPress={() => { alert('Help') }}
+                    onPress={() => { alert('Stratigically drop your game pieces to form a horizontal, vertical, or diagonal Cointrail.\n\nIf neither player acheives a Cointrail, the player with the most points wins.') }}
                   />
                   <Icon
                     size={32}
@@ -214,7 +209,7 @@ class MenuContainer extends React.Component {
                     type='material-community'
                     color='#ddd'
                     style={{ paddingLeft: 5 }}
-                    onPress={() => { alert('(c) 2017 Alex Autem') }}
+                    onPress={() => { alert('Developed by Alex Autem\n\nhttps://aautem.github.io') }}
                   />
                 </Row>
               
@@ -242,7 +237,7 @@ class MenuContainer extends React.Component {
                   color='black'
                   iconRight={{ type: 'material-community', name: 'account', color: 'black' }}
                   title='SOLO'
-                  onPress={this.startSoloGame.bind(this)}
+                  onPress={this.props.startSoloGame}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
                   containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, paddingBottom: 5 }}
                   buttonStyle={{ width: '100%', height: 60, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
@@ -252,7 +247,7 @@ class MenuContainer extends React.Component {
                   color='black'
                   iconRight={{ type: 'ionicon', name: 'md-stats', color: 'black' }}
                   title='LEADERS'
-                  onPress={() => { alert('Leaderboard') }}
+                  onPress={this.props.openLeaderboardModal}
                   textStyle={{ fontWeight: 'bold', fontSize: 16 }}
                   containerViewStyle={{ marginRight: 0, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, paddingBottom: 5 }}
                   buttonStyle={{ width: '100%', height: 60, borderTopLeftRadius: 5, borderBottomLeftRadius: 5, justifyContent: 'flex-end', paddingRight: 20 }}
@@ -276,12 +271,13 @@ class MenuContainer extends React.Component {
         {/* MODALS */}
         <SettingsModal />
         <StatsModal />
-        {/* <AddFriendModal />
+        <AddFriendModal />
         <MessagesModal />
+        <LeaderboardModal />
         <GameRequestModal
           showModal={this.props.showRequestModal}
           cancel={this.props.cancelGameRequest}
-        /> */}
+        />
       </Col>
     );
   }
@@ -294,6 +290,8 @@ MenuContainer.propTypes = {
   cancelGameRequest: PropTypes.func,
   openSettingsModal: PropTypes.func,
   openStatsModal: PropTypes.func,
+  openMessagesModal: PropTypes.func,
+  openLeaderboardModal: PropTypes.func,
   showRequestModal: PropTypes.bool,
   gameLoading: PropTypes.bool,
   gameLoaded: PropTypes.bool,

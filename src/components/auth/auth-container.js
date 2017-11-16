@@ -43,14 +43,6 @@ class AuthContainer extends React.Component {
       );
     }
 
-    if (this.props.error) {
-      return (
-        <Col size={14/14} style={[appSS.center, { backgroundColor: '#aaa' }]}>
-          <Text style={{ color: 'red' }}>{this.props.error}</Text>
-        </Col>
-      );
-    }
-
     return (
       <Col size={14/14} style={[appSS.center, { backgroundColor: '#aaa' }]}>
         <Text style={{ color: '#fff', paddingBottom: 20 }}>{this.props.error}</Text>

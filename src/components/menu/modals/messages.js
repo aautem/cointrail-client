@@ -25,6 +25,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
+    acceptFriendRequest: friendsActions.acceptFriendRequest,
+    declineFriendRequest: friendsActions.declineFriendRequest,
     closeMessagesModal: messagesActions.closeMessagesModal,
   }, dispatch);
 };
@@ -34,26 +36,22 @@ class MessagesModal extends React.Component {
     super(props);
   }
 
-  acceptFriendRequest() {
-    // add to friends for both users
-    // delete the message
-  }
-
-  declineFriendRequest() {
-    // delete the message
-  }
-
   render() {
-    if (this.props.loading) {
-      return null;
-    }
-
     return (
       <Modal
         animationType='fade'
         visible={this.props.showModal}
         onRequestClose={this.props.closeMessagesModal}
       >
+
+        {this.props.loading &&
+        <Col size={14/14} style={[appSS.center, { backgroundColor: '#aaa' }]}>
+          <ActivityIndicator animating={true} color='#fff' size='large' />
+          <Text style={{ color: '#fff' }}>Loading</Text>
+        </Col>}
+
+
+        {!this.props.loading &&
         <Col size={14/14} style={[appSS.center, { backgroundColor: '#fff', paddingLeft: 20, paddingRight: 20 }]}>
 
           {/* HEADER */}
@@ -68,10 +66,10 @@ class MessagesModal extends React.Component {
               {this.props.messages.length > 0 &&
               this.props.messages.map((message, index) => {
                 return (
-                  <Row key={`msg-${index}-from-${message.from}`} style={{ backgroundColor: '#eee', padding: 10, marginBottom: 20, borderRadius: 5 }}>
+                  <Row key={`msg-${index}-from-${message.fromUserId}`} style={{ backgroundColor: '#eee', padding: 10, marginBottom: 20, borderRadius: 5 }}>
                     <Col size={1}>
-                      <Text style={{ fontWeight: 'bold', fontSize: 14, color: 'black' }}>{message.from.toUpperCase()}</Text>
-                      <Text>{message.msg}</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 14, color: 'black' }}>{message.fromUsername.toUpperCase()}</Text>
+                      <Text>{message.message}</Text>
 
                       {message.type === 'friend' &&
                       <Row style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 5 }}>
@@ -79,13 +77,13 @@ class MessagesModal extends React.Component {
                           title='Accept'
                           backgroundColor='green'
                           borderRadius={5}
-                          onPress={this.acceptFriendRequest.bind(this)}
+                          onPress={() => { this.props.acceptFriendRequest(message) }}
                         />
                         <Button
                           title='Decline'
                           backgroundColor='red'
                           borderRadius={5}
-                          onPress={this.declineFriendRequest.bind(this)}
+                          onPress={() => { this.props.declineFriendRequest(message) }}
                         />
                       </Row>}
                     </Col>
@@ -112,7 +110,7 @@ class MessagesModal extends React.Component {
             />
           </Row>
 
-        </Col>
+        </Col>}
       </Modal>
     );
   }
@@ -120,7 +118,12 @@ class MessagesModal extends React.Component {
 
 MessagesModal.propTypes = {
   showModal: PropTypes.bool,
+  acceptFriendRequest: PropTypes.func,
+  declineFriendRequest: PropTypes.func,
   closeMessagesModal: PropTypes.func,
+  loading: PropTypes.bool,
+  loaded: PropTypes.bool,
+  error: PropTypes.string,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MessagesModal);

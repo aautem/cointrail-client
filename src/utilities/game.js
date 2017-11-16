@@ -39,7 +39,7 @@ export default class Game {
     }
   }
 
-  // solo games only require p1 arg
+  // Solo games only require p1 arg
   initializeGame(p1, p2) {
     this._initializeBoard();
     this._initializeBoardPoints();
@@ -92,6 +92,7 @@ export default class Game {
   }
 
   _initializePlayers(p1, p2) {
+    console.log('Initializing players:', p1, p2);
     const players = {};
 
     if (!p2) {
