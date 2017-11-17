@@ -92,3 +92,12 @@ export function launchAuth0(config) {
     }
   }
 }
+
+// TODO: implement the Auth0 logout method
+export function logout() {
+  return function(dispatch) {
+    dispatch(userActions.resetUser());
+    dispatch(reset());
+    dispatch(appActions.resetApp());
+  }
+}

@@ -14,12 +14,14 @@ export const actions = {
   LOADING: 'user/LOADING',
   LOADED: 'user/LOADED',
   ERROR: 'user/ERROR',
+  RESET: 'user/RESET',
 };
 
 const setUser = createAction(actions.SET_USER, (payload) => payload);
 const loading = createAction(actions.LOADING);
 const loaded = createAction(actions.LOADED);
 const error = createAction(actions.ERROR, (payload) => payload);
+const reset = createAction(actions.RESET);
 
 export const openSettingsModal = createAction(actions.OPEN_SETTINGS_MODAL);
 export const closeSettingsModal = createAction(actions.CLOSE_SETTINGS_MODAL);
@@ -105,38 +107,8 @@ export function saveStats() {
   }
 }
 
-
-
-
-//////////
-
-export function saveUser(user) {
+export function resetUser() {
   return function(dispatch) {
-    dispatch(loading());
-    axios.put(`${API_URL}/api/users/${user.username}`, { user: user })
-    .then((res) => {
-      console.log('*** SAVE USER RES ***', res);
-      dispatch(loaded());
-    })
-    .catch((err) => {
-      console.log(err);
-      dispatch(error('Error saving user.'));
-    });
-  }
-}
-
-export function openModal() {
-  return function(dispatch) {
-    dispatch({
-      type: actions.OPEN_MODAL,
-    });
-  }
-}
-
-export function closeModal() {
-  return function(dispatch) {
-    dispatch({
-      type: actions.CLOSE_MODAL,
-    });
+    dispatch(reset());
   }
 }

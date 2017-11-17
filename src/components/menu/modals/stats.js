@@ -7,6 +7,7 @@ import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Button, Avatar } from 'react-native-elements';
 import HorizontalGraph from '../../common/horizontal-graph';
 import * as userActions from '../../../store/actions/user';
+import * as authActions from '../../../store/actions/auth';
 
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
@@ -26,6 +27,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     closeModal: userActions.closeStatsModal,
+    logout: authActions.logout,
   }, dispatch);
 };
 
@@ -152,7 +154,7 @@ class StatsModal extends React.Component {
               underlayColor='#ddd'
               activeOpacity={0.9}
               style={{ justifyContent: 'center', alignItems: 'center', flex: 1, borderLeftWidth: 1, borderColor: '#aaa' }}
-              onPress={() => { alert('Logging out...') }}
+              onPress={this.props.logout}
             >
               <Text style={{ color: '#aaa', fontWeight: 'bold' }}>Logout</Text>
             </TouchableHighlight>

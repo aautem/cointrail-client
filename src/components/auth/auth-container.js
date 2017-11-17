@@ -28,6 +28,9 @@ function mapDispatchToProps(dispatch) {
 class AuthContainer extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  componentWillMount() {
     if (this.props.config) {
       this.props.launchAuth0(this.props.config);
     }

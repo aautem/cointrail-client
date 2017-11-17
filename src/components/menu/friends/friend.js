@@ -71,7 +71,7 @@ class FriendComponent extends React.Component {
             type='material'
             color='black'
             style={{ flex: 1, alignItems: 'center', paddingRight: 10, paddingBottom: 20 }}
-            onPress={() => { console.log('Requesting game...') }}
+            onPress={() => { alert('direct game feature in the works :)') }}
           />
         </Row>
         <Row size={1} style={{ backgroundColor: this.props.friend.settings.color, borderBottomRightRadius: 18, justifyContent: 'center', alignItems: 'center' }}>
