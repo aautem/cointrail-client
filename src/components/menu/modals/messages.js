@@ -13,37 +13,10 @@ const modalSS = require('../../../styles/modals');
 const appSS = require('../../../styles/app');
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
-const messages = [
-  {fromUsername: 'aautem', message: 'testing the message system for the efficiency of message displayment on small vertical screens that light up in the night.', type: 'message'},
-  {fromUsername: 'aautem', message: 'testing the message system.', type: 'friend'},
-  {fromUsername: 'aautem', message: 'testing the message system.', type: 'friend'},
-  {fromUsername: 'aautem', message: 'testing the message system.', type: 'message'},
-  {fromUsername: 'aautem', message: 'testing the message system.', type: 'message'},
-  {fromUsername: 'aautem', message: 'testing the message system for the efficiency of message displayment on small vertical screens that light up in the night.', type: 'message'},
-  {fromUsername: 'aautem', message: 'testing the message system for the efficiency of message displayment on small vertical screens that light up in the night.', type: 'message'},
-  {fromUsername: 'aautem', message: 'testing the message system for the efficiency of message displayment on small vertical screens that light up in the night.', type: 'message'},
-  {fromUsername: 'aautem', message: 'testing the message system for the efficiency of message displayment on small vertical screens that light up in the night.', type: 'message'},
-  {fromUsername: 'aautem', message: 'testing the message system for the efficiency of message displayment on small vertical screens that light up in the night.', type: 'message'},
-  {fromUsername: 'aautem', message: 'testing the message system for the efficiency of message displayment on small vertical screens that light up in the night.', type: 'message'},
-  {fromUsername: 'aautem', message: 'testing the message system for the efficiency of message displayment.', type: 'message'},
-  {fromUsername: 'aautem', message: 'testing the message system for the efficiency of message displayment on small vertical screens that light up in the night.', type: 'message'},
-];
-
-const friends = [
-  {username: 'aautem'},
-  {username: 'cdturner'},
-  {username: 'kaitheguy'},
-  {username: 'hazyhank'},
-  {username: 'lindylou'},
-  {username: 'howdyhey'},
-  {username: 'geronimo'},
-  {username: 'holaworld'},
-  {username: 'coolkeith'},
-];
-
 function mapStateToProps(state) {
   return {
     messages: state.messages.data,
+    friends: state.friends.data,
     showModal: state.messages.showMessagesModal,
     loading: state.messages.loading,
     loaded: state.messages.loaded,
@@ -96,8 +69,8 @@ class MessagesModal extends React.Component {
             <ScrollView>
 
               {/* MAP OVER MESSAGES */}
-              {messages.length > 0 &&
-              messages.map((message, index) => {
+              {this.props.messages.length > 0 &&
+              this.props.messages.map((message, index) => {
                 return (
                   <Card key={`msg-${index}`} title={`${message.fromUsername.toUpperCase()}  |  10:31pm`} titleStyle={{ textAlign: 'left' }} containerStyle={{ marginBottom: 20 }}>
                     <Text style={{ marginBottom: 5 }}>
@@ -122,7 +95,7 @@ class MessagesModal extends React.Component {
               })}
 
               {/* NO MESSAGES */}
-              {!messages.length &&
+              {!this.props.messages.length &&
               <Text style={{ textAlign: 'center', textAlignVertical: 'center'}}>You have no messages.</Text>}
 
             </ScrollView>
@@ -169,11 +142,11 @@ class MessagesModal extends React.Component {
                 selectedValue={this.state.toUsername}
                 onValueChange={(username) => { this.setState({ toUsername: username }) }}
               >
-                {[{ username: null }].concat(friends).map((friend) => {
+                {[{ username: null }].concat(this.props.friends).map((friend) => {
                   if (!friend.username) {
-                    return <Picker.Item label='Select a Friend...' value={null} />;
+                    return <Picker.Item key={`friend-select`} label='Select a Friend...' value={null} />;
                   }
-                  return <Picker.Item label={friend.username} value={friend.username} />;
+                  return <Picker.Item key={friend.username} label={friend.username} value={friend.username} />;
                 })}
               </Picker>
             </Col>
