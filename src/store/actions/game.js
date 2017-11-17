@@ -80,10 +80,14 @@ export function joinGame() {
       socket.emit('join-room', roomName);
 
       socket.on('game-over', (username) => {
+        dispatch(loading());
+
         alert(`${username} has left the game.`);
         socket.emit('end-game', roomName);
+
         dispatch(appActions.changePage(APP_PAGES.MENU));
         dispatch(reset());
+        dispatch(loaded());
       });
 
       // set player colors

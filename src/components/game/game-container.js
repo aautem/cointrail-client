@@ -10,6 +10,7 @@ import ScoreBoard from './board/score-board';
 import DropZone from './board/drop-zone';
 import GameBoard from './board/game-board';
 import GameResultsModal from './game-results-modal';
+import MessagesModal from '../menu/modals/messages';
 import * as appActions from '../../store/actions/app';
 import * as gameActions from '../../store/actions/game';
 import { APP_PAGES } from '../../utilities/const';
@@ -106,6 +107,9 @@ class GameContainer extends React.Component {
 
           {/* MODAL OVERLAYS */}
           <GameResultsModal />
+          
+          {/* REDUNDANT MODAL -- ALREADY IN MENU CONTAINER */}
+          <MessagesModal />
           
         </Col>
       </Drawer>

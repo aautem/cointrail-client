@@ -1,5 +1,8 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import * as messagesActions from '../../../store/actions/messages';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { Text, View, Dimensions, TouchableHighlight } from 'react-native';
 import { Header, Button, Icon } from 'react-native-elements';
@@ -8,9 +11,39 @@ import CointrailIcon from '../../common/cointrail_icon';
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 const appSS = require('../../../styles/app');
 
-export default class BottomDrawer extends React.Component {
+function mapStateToProps(state) {
+  return {
+    username: state.user.username,
+    players: Object.keys(state.game.players),
+  };
+};
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    sendFriendRequest: messagesActions.sendFriendRequest,
+    setRecipient: messagesActions.setRecipient,
+    setReplying: messagesActions.setReplying,
+    setSending: messagesActions.setSending,
+    openMessagesModal: messagesActions.openMessagesModal,
+  }, dispatch);
+};
+
+class BottomDrawer extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  sendMessage() {
+    const opponent = this.props.players.filter((player) => player !== this.props.username)[0];
+    this.props.setRecipient(opponent);
+    this.props.setReplying(true);
+    this.props.setSending(true);
+    this.props.openMessagesModal();
+  }
+
+  addFriend() {
+    const opponent = this.props.players.filter((player) => player !== this.props.username)[0];
+    this.props.sendFriendRequest(opponent);
   }
   
   render () {
@@ -116,7 +149,7 @@ export default class BottomDrawer extends React.Component {
               icon={{ type: 'material-community', name: 'pause-circle-outline', color: 'black' }}
               title='PAUSE'
               loading={false}
-              onPress={() => { console.log('Pausing game...') }}
+              onPress={() => { alert('Time limit is currently disabled.') }}
               textStyle={{ fontWeight: 'bold', fontSize: 16 }}
               containerViewStyle={{
                 marginLeft: 0,
@@ -139,7 +172,7 @@ export default class BottomDrawer extends React.Component {
               icon={{ type: 'material-community', name: 'message-text-outline', color: 'black' }}
               title='MESSAGE'
               loading={false}
-              onPress={() => { console.log('Loading input...') }}
+              onPress={this.sendMessage.bind(this)}
               textStyle={{ fontWeight: 'bold', fontSize: 16 }}
               containerViewStyle={{
                 marginLeft: 0,
@@ -162,7 +195,7 @@ export default class BottomDrawer extends React.Component {
               icon={{ type: 'material', name: 'person-add', color: 'black' }}
               title='FRIEND'
               loading={false}
-              onPress={() => { console.log('Adding friend...') }}
+              onPress={this.addFriend.bind(this)}
               textStyle={{ fontWeight: 'bold', fontSize: 16 }}
               containerOverlayStyle={{ paddingBottom: 20 }}
               containerViewStyle={{ marginLeft: 0, borderBottomRightRadius: 100, borderTopRightRadius: 5 }}
@@ -184,3 +217,5 @@ BottomDrawer.propTypes = {
   closeDrawer: PropTypes.func,
   quitGame: PropTypes.func,
 };
+
+export default connect(mapStateToProps, mapDispatchToProps)(BottomDrawer);
