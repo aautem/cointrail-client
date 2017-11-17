@@ -63,7 +63,7 @@ class MenuContainer extends React.Component {
     super(props);
   }
 
-  renderItem({item, index}) {
+  renderFriend({item, index}) {
     if (item.btn) {
       return (
         <Button
@@ -148,7 +148,7 @@ class MenuContainer extends React.Component {
               <Carousel
                 ref={(c) => { this._carousel = c }}
                 data={this.props.friends.concat([{ btn: true }])}
-                renderItem={this.renderItem.bind(this)}
+                renderItem={this.renderFriend.bind(this)}
                 sliderWidth={viewportWidth}
                 itemWidth={150}
                 activeSlideAlignment='start'

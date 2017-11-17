@@ -82,6 +82,11 @@ export default function getInitialState() {
       loading: false,
       loaded: false,
       error: null,
+
+      sendingMessage: false,
+      replying: false,
+      message: '',
+      toUsername: null,
     },
     friends: {
       data: [], // Array of user objects

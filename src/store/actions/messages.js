@@ -10,6 +10,12 @@ export const actions = {
   LOADING: 'messages/LOADING',
   LOADED: 'messages/LOADED',
   ERROR: 'messages/ERROR',
+  RESET: 'messages/RESET',
+
+  SET_MESSAGE: 'messages/SET_MESSAGE',
+  SET_RECIPIENT: 'messages/SET_RECIPIENT',
+  SET_SENDING: 'messages/SET_SENDING',
+  SET_REPLYING: 'messages/SET_REPLYING',
 };
 
 const setMessages = createAction(actions.SET_MESSAGES, (payload) => payload);
@@ -18,6 +24,12 @@ const closeModal = createAction(actions.CLOSE_MODAL);
 const loading = createAction(actions.LOADING);
 const loaded = createAction(actions.LOADED);
 const error = createAction(actions.ERROR, (payload) => payload);
+const reset = createAction(actions.RESET);
+
+export const setMessage = createAction(actions.SET_MESSAGE, (payload) => payload);
+export const setRecipient = createAction(actions.SET_RECIPIENT, (payload) => payload);
+export const setSending = createAction(actions.SET_SENDING, (payload) => payload);
+export const setReplying = createAction(actions.SET_REPLYING, (payload) => payload);
 
 export function loadMessages(userId) {
   return function(dispatch) {
@@ -32,6 +44,23 @@ export function loadMessages(userId) {
         console.log('Error loading messages:', err);
         dispatch(error('Error loading messages.'));
       });
+  }
+}
+
+export function sendMessage(message) {
+  return function(dispatch) {
+    dispatch(loading());
+    axios.post(`${API_URL}/api/messages`, message)
+    .then((res) => {
+      console.log('Message sent:', res.data);
+
+      dispatch(loaded());
+      alert(`Message sent to ${message.toUsername}.`);
+    })
+    .catch((err) => {
+      console.log('Error sending message:', err);
+      dispatch(error('Error sending message'));
+    });
   }
 }
 
@@ -77,6 +106,12 @@ export function deleteMessage(messageId) {
         console.log('Error deleting message:', err);
         dispatch(error('Error deleting message.'));
       });
+  }
+}
+
+export function resetMessage() {
+  return function(dispatch) {
+    dispatch(reset());
   }
 }
 

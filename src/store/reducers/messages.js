@@ -29,5 +29,25 @@ export default function reducer(state = initialState, action) {
     return Object.assign({}, state, { loading: false, loaded: false, error: action.payload });
   }
 
+  if (action.type === actions.RESET) {
+    return Object.assign({}, state, { sendingMessage: false, replying: false, message: '', toUsername: null });
+  }
+
+  if (action.type === actions.SET_MESSAGE) {
+    return Object.assign({}, state, { message: action.payload });
+  }
+
+  if (action.type === actions.SET_RECIPIENT) {
+    return Object.assign({}, state, { toUsername: action.payload });
+  }
+
+  if (action.type === actions.SET_SENDING) {
+    return Object.assign({}, state, { sendingMessage: action.payload });
+  }
+
+  if (action.type === actions.SET_REPLYING) {
+    return Object.assign({}, state, { replying: action.payload });
+  }
+
   return state;
 };

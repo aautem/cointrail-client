@@ -2,9 +2,11 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import * as messagesActions from '../../../store/actions/messages';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { View, Text, Image, Dimensions } from 'react-native';
 import { Card, ListItem, Button, Avatar, Icon } from 'react-native-elements';
+
 const styles = require('../../../styles/app');
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
@@ -16,22 +18,17 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    //
+    openMessagesModal: messagesActions.openMessagesModal,
+    setSending: messagesActions.setSending,
+    setReplying: messagesActions.setReplying,
+    setRecipient: messagesActions.setRecipient,
   }, dispatch);
 };
 
 class FriendComponent extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      //
-    };
   }
-
-  componentWillMount() {}
-
-  componentWillUnmount() {}
 
   render() {
     return (
@@ -61,6 +58,12 @@ class FriendComponent extends React.Component {
             type='material-community'
             color='black'
             style={{ flex: 1, alignItems: 'center', paddingLeft: 5 }}
+            onPress={() => {
+              this.props.setRecipient(this.props.friend.username);
+              this.props.setReplying(true);
+              this.props.setSending(true);
+              this.props.openMessagesModal();
+            }}
           />
           <Icon
             size={50}
@@ -68,6 +71,7 @@ class FriendComponent extends React.Component {
             type='material'
             color='black'
             style={{ flex: 1, alignItems: 'center', paddingRight: 10, paddingBottom: 20 }}
+            onPress={() => { console.log('Requesting game...') }}
           />
         </Row>
         <Row size={1} style={{ backgroundColor: this.props.friend.settings.color, borderBottomRightRadius: 18, justifyContent: 'center', alignItems: 'center' }}>

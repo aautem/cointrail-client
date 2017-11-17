@@ -15,19 +15,31 @@ const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window'
 
 function mapStateToProps(state) {
   return {
+    user: state.user,
     messages: state.messages.data,
     friends: state.friends.data,
     showModal: state.messages.showMessagesModal,
     loading: state.messages.loading,
     loaded: state.messages.loaded,
     error: state.messages.error,
+
+    sendingMessage: state.messages.sendingMessage,
+    replying: state.messages.replying,
+    message: state.messages.message,
+    toUsername: state.messages.toUsername,
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     acceptFriendRequest: friendsActions.acceptFriendRequest,
-    declineFriendRequest: friendsActions.declineFriendRequest,
+    sendMessage: messagesActions.sendMessage,
+    deleteMessage: messagesActions.deleteMessage,
+    setRecipient: messagesActions.setRecipient,
+    setMessage: messagesActions.setMessage,
+    setSending: messagesActions.setSending,
+    setReplying: messagesActions.setReplying,
+    resetMessage: messagesActions.resetMessage,
     closeMessagesModal: messagesActions.closeMessagesModal,
   }, dispatch);
 };
@@ -36,13 +48,30 @@ class MessagesModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sendingMessage: false,
-      message: '',
-      toUsername: null,
+      //
     };
   }
 
+  sendMessage() {
+    if (this.props.sendingMessage && this.props.message && this.props.toUsername) {
+      const message = {
+        toUsername: this.props.toUsername,
+        fromUserId: this.props.user._id,
+        fromUsername: this.props.user.username,
+        type: 'message',
+        message: this.props.message,
+      };
+      this.props.sendMessage(message);
+      this.props.resetMessage();
+    } else {
+      alert('Must have a recipient and body.');
+    }
+  }
+
   render() {
+    const friends = this.props.friends.slice();
+    const recipientOptions = [{ username: null }].concat(friends);
+
     return (
       <Modal
         animationType='fade'
@@ -57,7 +86,7 @@ class MessagesModal extends React.Component {
         </Col>}
 
 
-        {!this.props.loading && !this.state.sendingMessage &&
+        {!this.props.loading && !this.props.sendingMessage &&
         <Col size={14/14} style={[appSS.center]}>
 
           {/* HEADER */}
@@ -72,23 +101,45 @@ class MessagesModal extends React.Component {
               {this.props.messages.length > 0 &&
               this.props.messages.map((message, index) => {
                 return (
-                  <Card key={`msg-${index}`} title={`${message.fromUsername.toUpperCase()}  |  10:31pm`} titleStyle={{ textAlign: 'left' }} containerStyle={{ marginBottom: 20 }}>
+                  <Card key={`msg-${index}`} title={`${message.fromUsername.toUpperCase()}  |  ${new Date(message.timestamp).toDateString()}`} titleStyle={{ textAlign: 'left' }} containerStyle={{ marginBottom: 20 }}>
                     <Text style={{ marginBottom: 5 }}>
                       {message.message}
                     </Text>
 
-                    {/* MESSAGE HANDLER BUTTONS */}
+                    {/* REPLY/DELETE BUTTONS */}
                     {message.type === 'message' &&
                     <Row style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 5 }}>
-                      <Button title='Reply' borderRadius={5} />
-                      <Button title='Delete' borderRadius={5} />
+                      <Button
+                        title='Reply'
+                        borderRadius={5}
+                        onPress={() => {
+                          this.props.setRecipient(message.fromUsername);
+                          this.props.setReplying(true);
+                          this.props.setSending(true);
+                        }}
+                      />
+                      <Button
+                        title='Delete'
+                        borderRadius={5}
+                        onPress={() => { this.props.deleteMessage(message._id) }}
+                      />
                     </Row>}
 
                     {/* FRIEND REQUEST BUTTONS */}
                     {message.type === 'friend' &&
                     <Row style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 5 }}>
-                      <Button title='Accept' backgroundColor='green' borderRadius={5} />
-                      <Button title='Decline' backgroundColor='red' borderRadius={5} />
+                      <Button
+                        title='Accept'
+                        backgroundColor='green'
+                        borderRadius={5}
+                        onPress={() => { this.props.acceptFriendRequest(message) }}
+                      />
+                      <Button
+                        title='Decline'
+                        backgroundColor='red'
+                        borderRadius={5}
+                        onPress={() => { this.props.deleteMessage(message._id) }}
+                      />
                     </Row>}
                   </Card>
                 );
@@ -96,7 +147,7 @@ class MessagesModal extends React.Component {
 
               {/* NO MESSAGES */}
               {!this.props.messages.length &&
-              <Text style={{ textAlign: 'center', textAlignVertical: 'center'}}>You have no messages.</Text>}
+              <Text style={{ textAlign: 'center', paddingTop: 10 }}>You have no messages.</Text>}
 
             </ScrollView>
           </Row>
@@ -109,7 +160,7 @@ class MessagesModal extends React.Component {
               borderRadius={5}
               buttonStyle={{ borderWidth: 1, borderColor: '#aaa', width: 150 }}
               textStyle={{ color: 'black', fontWeight: 'bold' }}
-              onPress={() => { this.setState({ sendingMessage: true }) }}
+              onPress={() => { this.props.setSending(true) }}
             />
             <Button
               title='Main Menu'
@@ -123,7 +174,7 @@ class MessagesModal extends React.Component {
 
         </Col>}
 
-        {!this.props.loading && this.state.sendingMessage &&
+        {!this.props.loading && this.props.sendingMessage &&
         <Col size={14/14}>
 
           {/* HEADER */}
@@ -137,18 +188,29 @@ class MessagesModal extends React.Component {
               <Text style={{ marginTop: 20 }}>Send to</Text>
 
               {/* LOOP OVER ALL FRIENDS */}
+              {!this.props.replying &&
               <Picker
                 style={{ backgroundColor: '#eee', marginTop: 5 }}
-                selectedValue={this.state.toUsername}
-                onValueChange={(username) => { this.setState({ toUsername: username }) }}
+                selectedValue={this.props.toUsername}
+                onValueChange={(username) => { this.props.setRecipient(username) }}
               >
-                {[{ username: null }].concat(this.props.friends).map((friend) => {
+                {recipientOptions.map((friend) => {
                   if (!friend.username) {
                     return <Picker.Item key={`friend-select`} label='Select a Friend...' value={null} />;
                   }
                   return <Picker.Item key={friend.username} label={friend.username} value={friend.username} />;
                 })}
-              </Picker>
+              </Picker>}
+
+              {/* REPLYING TO FRIEND */}
+              {this.props.replying &&
+              <Picker
+                style={{ backgroundColor: '#eee', marginTop: 5 }}
+                selectedValue={this.props.toUsername}
+              >
+                <Picker.Item label={this.props.toUsername} value={this.props.toUsername} />
+              </Picker>}
+
             </Col>
           </Row>
 
@@ -171,7 +233,9 @@ class MessagesModal extends React.Component {
                   multiline={true}
                   placeholder={`Message body...`}
                   autoGrow={true}
+                  autoCorrect={false}
                   style={{ textAlign: 'left', textAlignVertical: 'top' }}
+                  onChangeText={(text) => { this.props.setMessage(text) }}
                 />
               </View>
             </Col>
@@ -186,7 +250,7 @@ class MessagesModal extends React.Component {
               borderRadius={5}
               buttonStyle={{ borderWidth: 1, borderColor: '#aaa', width: 150 }}
               textStyle={{ color: 'black', fontWeight: 'bold' }}
-              onPress={() => { alert('Sending message...') }}
+              onPress={this.sendMessage.bind(this)}
             />
             <Button
               title='Back'
@@ -194,7 +258,7 @@ class MessagesModal extends React.Component {
               borderRadius={5}
               buttonStyle={{ borderWidth: 1, borderColor: '#aaa', width: 150 }}
               textStyle={{ color: 'black', fontWeight: 'bold' }}
-              onPress={() => { this.setState({ sendingMessage: false }) }}
+              onPress={() => { this.props.resetMessage() }}
             />
           </Row>
 
@@ -207,8 +271,8 @@ class MessagesModal extends React.Component {
 
 MessagesModal.propTypes = {
   showModal: PropTypes.bool,
+  sendMessage: PropTypes.func,
   acceptFriendRequest: PropTypes.func,
-  declineFriendRequest: PropTypes.func,
   closeMessagesModal: PropTypes.func,
   loading: PropTypes.bool,
   loaded: PropTypes.bool,

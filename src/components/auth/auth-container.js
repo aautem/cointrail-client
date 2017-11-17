@@ -49,12 +49,12 @@ class AuthContainer extends React.Component {
         <Button
           raised
           large
-          buttonStyle={{ borderRadius: 5, width: 250 }}
+          buttonStyle={{ borderRadius: 5 }}
           containerViewStyle={{ borderRadius: 5 }}
           backgroundColor='#eee'
           color='#aaa'
           icon={{ type: 'material', name: 'lock-open', color: '#aaa' }}
-          title='Login to Cointrail'
+          title='Login to Play'
           onPress={() => { this.props.launchAuth0(this.props.config) }}
         />
       </Col>

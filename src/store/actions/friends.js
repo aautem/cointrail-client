@@ -58,14 +58,6 @@ export function acceptFriendRequest(message) {
   }
 }
 
-export function declineFriendRequest(message) {
-  return function(dispatch) {
-    dispatch(loading());
-    dispatch(messagesActions.deleteMessage(message._id));
-    dispatch(loaded());
-  }
-}
-
 export function openAddFriendModal() {
   return function(dispatch) {
     dispatch(openModal());
