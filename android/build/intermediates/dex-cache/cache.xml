@@ -3,30 +3,12 @@
 
     <item
         is-multidex="false"
-        jar="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-okhttp3/1.3.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="c03c08c9934b23c8c09c803345ec51a74119127b">
-        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-okhttp3-1.3.0_4c1b36f1f4df9128a4481f3a8d6fb169d872d1c0.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fresco/1.3.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
         sha1="fe85b87215e405f5917d40ae4960488ac9224b74">
         <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-fresco-1.3.0_0d9b952a0451b9610567cd19e8eaa4f13e7f25e7.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/aautem/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/69edde9fc4b01c9fd51d25b83428837478c27254/okhttp-3.6.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="69edde9fc4b01c9fd51d25b83428837478c27254">
-        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/okhttp-3.6.0_bde5657d5717c280194c70759442aa7c3252a984.jar" />
     </item>
     <item
         is-multidex="false"
@@ -39,15 +21,6 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
-        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-23.0.1_f7066862c228abe63ce45110954c2e60db796f6b.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="/Users/aautem/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.0/5871fb60dc68d67da54a663c3fd636a10a532948/jsr305-3.0.0.jar"
         jumboMode="false"
         optimize="true"
@@ -57,39 +30,12 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
-        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-23.0.1_31beac03b95b640cc9d414038f9075a4317ebb75.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-base/1.3.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="72128af126ddd7d6252da9357fe560d3abcdfb0c">
-        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-base-1.3.0_9f542d91e9695be5162f96aa7c1a948a6b86ce4a.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="/Users/aautem/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
         sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
         <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.1_5806a9e3515bb3a1e0a4202d850549a9718e80c4.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/aautem/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-tasks/1.4.0/d85884acf6810a3bbbecb587f239005cbc846dc4/bolts-tasks-1.4.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
-        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/bolts-tasks-1.4.0_7bebe0025a43e8ef0afa71f0772690c88eff0a49.jar" />
     </item>
     <item
         is-multidex="false"
@@ -120,21 +66,93 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/exploded-aar/com.facebook.soloader/soloader/0.1.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="8f615bca00639150c9eb6175d4b5471193f70794">
-        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/com.facebook.soloader-soloader-0.1.0_305073d7a94187ae189c691a7aa072243e7272d1.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fbcore/1.3.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
         sha1="37345de2ed2772f385eaeec37a9c2ff0fea99ad7">
         <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-fbcore-1.3.0_e5e3c542991f22baf9787b7e1cd7e4d6deef80dd.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/exploded-aar/com.facebook.fresco/drawee/1.3.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="c65a2e39d54023bac3aef64a2f0cff89289c7ff6">
+        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-drawee-1.3.0_a23a8ebc2d1cea6f33e9f5fbc289febe92b9b8e3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/aautem/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="6975da39a7040257bd51d21a231b76c915872d38">
+        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/javax.inject-1_3de1e0df16538a13062ca1cd4c56218a65355fd2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-okhttp3/1.3.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="c03c08c9934b23c8c09c803345ec51a74119127b">
+        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-okhttp3-1.3.0_4c1b36f1f4df9128a4481f3a8d6fb169d872d1c0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/aautem/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/69edde9fc4b01c9fd51d25b83428837478c27254/okhttp-3.6.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="69edde9fc4b01c9fd51d25b83428837478c27254">
+        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/okhttp-3.6.0_bde5657d5717c280194c70759442aa7c3252a984.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-23.0.1_f7066862c228abe63ce45110954c2e60db796f6b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-23.0.1_31beac03b95b640cc9d414038f9075a4317ebb75.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-base/1.3.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="72128af126ddd7d6252da9357fe560d3abcdfb0c">
+        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-base-1.3.0_9f542d91e9695be5162f96aa7c1a948a6b86ce4a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/aautem/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-tasks/1.4.0/d85884acf6810a3bbbecb587f239005cbc846dc4/bolts-tasks-1.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
+        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/bolts-tasks-1.4.0_7bebe0025a43e8ef0afa71f0772690c88eff0a49.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/exploded-aar/com.facebook.soloader/soloader/0.1.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="8f615bca00639150c9eb6175d4b5471193f70794">
+        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/com.facebook.soloader-soloader-0.1.0_305073d7a94187ae189c691a7aa072243e7272d1.jar" />
     </item>
     <item
         is-multidex="false"
@@ -207,24 +225,6 @@
         revision="23.0.1"
         sha1="8baa9f0cf3d1ba024f32f6562e7e087ad4cda46d">
         <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/ContrailConnect4-react-native-svg-unspecified_7c8fe9169f04f794f10489204e3b441d04a14aae.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/exploded-aar/com.facebook.fresco/drawee/1.3.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="c65a2e39d54023bac3aef64a2f0cff89289c7ff6">
-        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-drawee-1.3.0_a23a8ebc2d1cea6f33e9f5fbc289febe92b9b8e3.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/aautem/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="6975da39a7040257bd51d21a231b76c915872d38">
-        <dex dex="/Users/aautem/Documents/my-projects/contrail-client/android/app/build/intermediates/pre-dexed/debug/javax.inject-1_3de1e0df16538a13062ca1cd4c56218a65355fd2.jar" />
     </item>
 
 </items>
