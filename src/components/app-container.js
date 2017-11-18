@@ -2,6 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import SplashScreen from 'react-native-splash-screen';
 import * as appActions from '../store/actions/app';
 import * as constants from '../utilities/const';
 import { Grid, Col, Row } from 'react-native-easy-grid';
@@ -32,6 +33,12 @@ class AppContainer extends React.Component {
   constructor(props) {
     super(props);
     this.props.loadConfig();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.loaded) {
+      SplashScreen.hide();
+    }
   }
 
   render() {
