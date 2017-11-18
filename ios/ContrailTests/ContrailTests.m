@@ -16,11 +16,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React Native!"
 
-@interface ContrailConnect4Tests : XCTestCase
+@interface CointrailTests : XCTestCase
 
 @end
 
-@implementation ContrailConnect4Tests
+@implementation CointrailTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL(^)(UIView *view))test
 {

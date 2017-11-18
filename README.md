@@ -1,4 +1,16 @@
-# Contrail
+# Cointrail
+* Sandbox API
+
+```
+'https://cointrail-sandbox.herokuapp.com'
+```
+
+* Production API
+
+```
+'https://cointrail-production.herokuapp.com'
+```
+
 * android/local.properties
 
 ```
@@ -41,7 +53,7 @@ apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 * android/settings.gradle
 
 ```
-rootProject.name = 'Contrail'
+rootProject.name = 'Cointrail'
 include ':react-native-auth0'
 project(':react-native-auth0').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-auth0/android')
 
