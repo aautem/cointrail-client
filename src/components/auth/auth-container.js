@@ -32,6 +32,7 @@ class AuthContainer extends React.Component {
 
   componentWillMount() {
     if (this.props.config) {
+      console.log('Sandbox Config:', this.props.config);
       this.props.launchAuth0(this.props.config);
     }
   }
