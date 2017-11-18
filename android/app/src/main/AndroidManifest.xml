@@ -32,7 +32,7 @@
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
             <data
-                android:host="app81226070.auth0.com"
+                android:host="app77626749.auth0.com"
                 android:pathPrefix="/android/${applicationId}/callback"
                 android:scheme="${applicationId}" />
         </intent-filter>

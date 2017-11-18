@@ -33,7 +33,7 @@ export function launchAuth0(config) {
       });
       auth0.webAuth.authorize({
         scope: 'openid profile email',
-        audience: 'https://app77626749.auth0.com/userinfo'
+        audience: `https://${config.auth0Domain}/userinfo`
       }).then((res) => {
         if (res.accessToken) {
           dispatch(setToken(res.accessToken));
