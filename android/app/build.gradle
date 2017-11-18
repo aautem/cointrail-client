@@ -97,7 +97,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.contrailconnect4"
+        applicationId "com.cointrail"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
