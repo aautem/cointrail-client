@@ -1,5 +1,6 @@
 export const APP_TITLE = '.~::  C O I N T R A I L  ::~.';
 export const API_URL = 'https://cointrail-sandbox.herokuapp.com';
+export const PRIMARY_COLOR = '#322893';
 export const POINTS = [5, 10, 25, 50, 100, 150];
 
 export const POINT_COUNTS = {
