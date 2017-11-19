@@ -1,10 +1,13 @@
 import axios from 'axios';
 import { createAction } from 'redux-actions';
 import Auth0 from 'react-native-auth0';
+import { Alert } from 'react-native';
 import * as appActions from './app';
 import * as userActions from './user';
-import { APP_PAGES, API_URL } from '../../utilities/const';
+import * as gameActions from './game';
+import { APP_PAGES, API_URL, GAME_MODES } from '../../utilities/const';
 import socketUtility from '../../utilities/socket';
+import Game from '../../utilities/game';
 
 export const actions = {
   SET_TOKEN: 'auth/SET_TOKEN',
@@ -44,11 +47,13 @@ export function launchAuth0(config) {
               // start socket connection
               socketUtility.createSocketConnection();
               const socket = socketUtility.socket;
+
               // Listen for players coming online
               socket.on('online-players-update', (onlinePlayers) => {
                 // CHECK IF THAT PLAYER IS/WAS A FRIEND!
                 dispatch(appActions.upsertOnlinePlayers(onlinePlayers));
               });
+
               // Listen for successful connection
               socket.on('user-request', (socketId, respond) => {
                 const player = {
@@ -76,6 +81,21 @@ export function launchAuth0(config) {
                     dispatch(reset());
                     dispatch(error('Error loading user from database.'));
                   });
+
+                // Listen for game requests from friends
+                socket.on('friend-game-request', (username) => {
+                  console.log('Game request recieved from', username);
+
+                  // set up listener for 'game-joined' event
+                  socket.on('game-joined', (players) => {
+                    dispatch(gameActions.handleJoinedGame(players));
+                  });
+
+                  Alert.alert('Game Request', `${username} wants to play!`,
+                    [{ text: 'Decline', onPress: () => console.log('Game request declined.') },
+                    { text: 'Accept', onPress: () => socket.emit('accept-game-request', username) }],
+                    { cancelable: false });
+                });
               });
             } else {
               dispatch(reset());

@@ -168,7 +168,7 @@ class SettingsModal extends React.Component {
             >
               <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
                 {this.props.loading &&
-                <ActivityIndicator animating={true} color='#aaa' size='small' />}
+                <ActivityIndicator animating={true} color='#322893' size='small' />}
                 <Text style={{ color: '#aaa', fontWeight: 'bold' }}>Save</Text>
               </Row>
             </TouchableHighlight>

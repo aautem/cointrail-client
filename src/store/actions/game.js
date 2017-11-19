@@ -115,13 +115,98 @@ export function joinGame() {
       socket.emit('cancel-game-request', player.username);
       dispatch(closeRequestModal());
       dispatch(endGameRequest());
-      // TODO: Toast notification that game request timed out
+      alert('Game request timeout.');
     }, 15000);
 
     console.log('\x1b[33m', 'Game request timeout set.');
 
     // emit the game request
     socket.emit('join-game', player);
+
+    // update the game object in state and save stats if game over
+    socket.on('game-update', (updatedGame) => {
+      dispatch(loading());
+      dispatch(setGame(updatedGame));
+      if (updatedGame.gameOver) {
+        // show gameResultsModal
+        setTimeout(() => {
+          dispatch(openResultsModal());
+        }, 1500);
+        // save stats
+        dispatch(userActions.saveStats());
+      }
+      dispatch(loaded());
+    });
+  }
+}
+
+export function requestGameWithFriend(friend) {
+  return function(dispatch, getState) {
+    // check if friend is online
+    const socket = socketUtility.socket;
+    socket.emit('online-request', getState().user.username, (playersOnline) => {
+      dispatch(appActions.upsertOnlinePlayers(playersOnline));
+      if (playersOnline.indexOf(friend.username) === -1) {
+        alert(`${friend.username} is offline. Please try again later.`);
+      } else {
+        dispatch(startGameRequest());
+        dispatch(openRequestModal());
+
+        const player1 = pick(getState().user, ['username', 'socketId', 'avatarUrl', 'settings']);
+        const player2 = pick(friend, ['username', 'socketId', 'avatarUrl', 'settings']);
+
+        // set up listener for 'game-joined' event
+        socket.on('game-joined', (players) => {
+          clearTimeout(joinGameTimeout);
+
+          console.log('Game joined:', players);
+
+          // join the game room to subscribe to its events: [P1_USERNAME]-vs-[P2_USERNAME]
+          const roomName = `${players.p1.username}-vs-${players.p2.username}`;
+          socket.emit('join-room', roomName);
+
+          socket.on('game-over', (username) => {
+            dispatch(loading());
+
+            alert(`${username} has left the game.`);
+            socket.emit('end-game', roomName);
+
+            dispatch(appActions.changePage(APP_PAGES.MENU));
+            dispatch(reset());
+            dispatch(loaded());
+          });
+
+          // set player colors
+          players.p1.color = players.p1.settings.color;
+          players.p2.color = players.p2.settings.color === players.p1.color ? players.p2.settings.altColor : players.p2.settings.color;
+
+          // initialize the game
+          const settings = {
+            mode: GAME_MODES.ONLINE,
+            roomName: roomName,
+            boardSize: players.p1.settings.boardSize,
+            timeLimit: players.p1.settings.timeLimit,
+          };
+          const game = new Game(settings);
+          game.initializeGame(players.p1, players.p2);
+          dispatch(setGame(game));
+          dispatch(appActions.changePage(APP_PAGES.GAME));
+
+          dispatch(closeRequestModal());
+          dispatch(endGameRequest());
+        });
+
+        // wait up to 20 seconds for opponent
+        joinGameTimeout = window.setTimeout(() => {
+          dispatch(closeRequestModal());
+          dispatch(endGameRequest());
+          alert('Game request timeout.');
+        }, 15000);
+
+        // emit the game request
+        socket.emit('setup-game', { p1: player1, p2: player2 });
+      }
+    });
 
     // update the game object in state and save stats if game over
     socket.on('game-update', (updatedGame) => {
@@ -219,6 +304,60 @@ export function endGame() {
       const socket = socketUtility.socket;
       socket.emit('end-game', roomName);
     }
+  }
+}
+
+export function handleJoinedGame(players) {
+  return function(dispatch) {
+    const socket = socketUtility.socket;
+
+    console.log('Game joined:', players);
+
+    // join the game room to subscribe to its events: [P1_USERNAME]-vs-[P2_USERNAME]
+    const roomName = `${players.p1.username}-vs-${players.p2.username}`;
+    socket.emit('join-room', roomName);
+
+    // update the game object in state and save stats if game over
+    socket.on('game-update', (updatedGame) => {
+      dispatch(loading());
+      dispatch(setGame(updatedGame));
+      if (updatedGame.gameOver) {
+        // show gameResultsModal
+        setTimeout(() => {
+          dispatch(openResultsModal());
+        }, 1500);
+        // save stats
+        dispatch(userActions.saveStats());
+      }
+      dispatch(loaded());
+    });
+
+    socket.on('game-over', (username) => {
+      dispatch(loading());
+
+      alert(`${username} has left the game.`);
+      socket.emit('end-game', roomName);
+
+      dispatch(appActions.changePage(APP_PAGES.MENU));
+      dispatch(reset());
+      dispatch(loaded());
+    });
+
+    // set player colors
+    players.p1.color = players.p1.settings.color;
+    players.p2.color = players.p2.settings.color === players.p1.color ? players.p2.settings.altColor : players.p2.settings.color;
+
+    // initialize the game
+    const settings = {
+      mode: GAME_MODES.ONLINE,
+      roomName: roomName,
+      boardSize: players.p1.settings.boardSize,
+      timeLimit: players.p1.settings.timeLimit,
+    };
+    const game = new Game(settings);
+    game.initializeGame(players.p1, players.p2);
+    dispatch(setGame(game));
+    dispatch(appActions.changePage(APP_PAGES.GAME));
   }
 }
 

@@ -81,7 +81,7 @@ class MessagesModal extends React.Component {
 
         {this.props.loading &&
         <Col size={14/14} style={[appSS.center, { backgroundColor: '#aaa' }]}>
-          <ActivityIndicator animating={true} color='#fff' size='large' />
+          <ActivityIndicator animating={true} color='#322893' size='large' />
           <Text style={{ color: '#fff' }}>Loading</Text>
         </Col>}
 

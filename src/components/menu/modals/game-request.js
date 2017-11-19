@@ -17,7 +17,7 @@ export default class GameRequestModal extends React.Component {
           <ActivityIndicator
             animating={this.props.showModal}
             size='large'
-            color='steelblue'
+            color='#322893'
           />
           <Text style={{ paddingTop: 10, paddingBottom: 10 }}>Finding Game</Text>
           <Button

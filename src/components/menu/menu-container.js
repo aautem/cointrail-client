@@ -84,7 +84,7 @@ class MenuContainer extends React.Component {
   render() {
     if (this.props.userLoading || this.props.gameLoading) {
       return (
-        <Col size={14/14} style={[appSS.center, { backgroundColor: '#aaa' }]}>
+        <Col size={14/14} style={[appSS.center, { backgroundColor: '#322893' }]}>
           <ActivityIndicator animating={true} color='#fff' size='large' />
           <Text style={{ color: '#fff' }}>Loading</Text>
         </Col>

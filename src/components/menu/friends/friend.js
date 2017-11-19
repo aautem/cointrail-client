@@ -2,6 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import * as gameActions from '../../../store/actions/game';
 import * as messagesActions from '../../../store/actions/messages';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { View, Text, Image, Dimensions } from 'react-native';
@@ -18,6 +19,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
+    requestGameWithFriend: gameActions.requestGameWithFriend,
     openMessagesModal: messagesActions.openMessagesModal,
     setSending: messagesActions.setSending,
     setReplying: messagesActions.setReplying,
@@ -71,7 +73,7 @@ class FriendComponent extends React.Component {
             type='material'
             color='black'
             style={{ flex: 1, alignItems: 'center', paddingRight: 10, paddingBottom: 20 }}
-            onPress={() => { alert('direct game feature in the works :)') }}
+            onPress={() => { this.props.requestGameWithFriend(this.props.friend) }}
           />
         </Row>
         <Row size={1} style={{ backgroundColor: this.props.friend.settings.color, borderBottomRightRadius: 18, justifyContent: 'center', alignItems: 'center' }}>
