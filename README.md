@@ -20,7 +20,7 @@
 
 ## Google Play
 
-The alpha version of Contrail is currently available in the [Google Play Store](https://play.google.com/store/apps/details?id=com.cointrail&hl=en) for testing and feedback. Thank you in advance to anyone taking the time to download and play the game.
+The alpha version of Cointrail is currently available in the [Google Play Store](https://play.google.com/store/apps/details?id=com.cointrail&hl=en) for testing and feedback. Thank you in advance to anyone taking the time to download and play the game.
 
 ## Development
 
