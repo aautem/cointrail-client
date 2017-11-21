@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "axios": "^0.17.0",
-    "jest-expo": "^22.0.1-SNAPSHOT.2017.11.1",
     "lodash": "^4.17.4",
     "prop-types": "^15.6.0",
     "react": "16.0.0-alpha.12",
