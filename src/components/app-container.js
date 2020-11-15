@@ -42,43 +42,47 @@ class AppContainer extends React.Component {
   }
 
   render() {
-    if (this.props.loading) {
+    // if (this.props.loading) {
       return (
         <Grid>
           <Col size={14/14} style={[appSS.center, { backgroundColor: '#322893' }]}>
             <ActivityIndicator animating={true} color='#fff' size='large' />
-            <Text style={{ color: '#fff' }}>Loading</Text>
+            {/* <Text style={{ color: '#fff' }}>Loading</Text> */}
+            <Text style={{ color: '#fff' }}>
+              Sorry, Cointrail is no longer working due to the recent removal of the mLab MongoDB add-on for Heroku.
+              We are currently in the process of updating the app and migrating to a new database provider.
+            </Text>
           </Col>
         </Grid>
       );
-    }
+    // }
 
-    if (this.props.error) {
-      return (
-        <Grid>
-          <Col size={14/14} style={[appSS.center, { backgroundColor: '#aaa' }]}>
-            <Text style={{ color: 'red' }}>{this.props.error}</Text>
-          </Col>
-        </Grid>
-      );
-    }
+    // if (this.props.error) {
+    //   return (
+    //     <Grid>
+    //       <Col size={14/14} style={[appSS.center, { backgroundColor: '#aaa' }]}>
+    //         <Text style={{ color: 'red' }}>{this.props.error}</Text>
+    //       </Col>
+    //     </Grid>
+    //   );
+    // }
 
-    return (
-      <Grid>
-        <Col size={14/14}>
+    // return (
+    //   <Grid>
+    //     <Col size={14/14}>
 
-          {/* APP PAGES */}
-          <Row size={24/24}>
-            {this.props.page === constants.APP_PAGES.AUTH && <AuthContainer />}
-            {this.props.page === constants.APP_PAGES.MENU && <MenuContainer />}
-            {this.props.page === constants.APP_PAGES.GAME && <GameContainer />}
+    //       {/* APP PAGES */}
+    //       <Row size={24/24}>
+    //         {this.props.page === constants.APP_PAGES.AUTH && <AuthContainer />}
+    //         {this.props.page === constants.APP_PAGES.MENU && <MenuContainer />}
+    //         {this.props.page === constants.APP_PAGES.GAME && <GameContainer />}
 
-            {this.props.page === constants.APP_PAGES.TEST && <TestContainer />}
-          </Row>
+    //         {this.props.page === constants.APP_PAGES.TEST && <TestContainer />}
+    //       </Row>
 
-        </Col>
-      </Grid>
-    );
+    //     </Col>
+    //   </Grid>
+    // );
   }
 }
 
